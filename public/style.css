@@ -1,0 +1,293 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600&display=swap");
+
+:root {
+  --warna: #3c5b6f;
+  --hitam: #222;
+  --putih: #fff;
+  --krem: #f3d7ca;
+  --kremMud: #f5eee6;
+  --putihdikit: #fff8e3;
+  --light-black: #777;
+  --light-white: #fff9;
+  --dark-bg: rgba(0, 0, 0, 0.7);
+  --light-bg: #eee;
+  --border: 0.1rem solid var(--hitam);
+  --box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+  --text-shadow: 0 1.5rem 3rem rgba(0, 0, 0, 0.3);
+}
+
+* {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+}
+
+html::-webkit-scrollbar {
+  width: 1rem;
+}
+
+html::-webkit-scrollbar-track {
+  background-color: var(--putih);
+}
+
+html::-webkit-scrollbar-thumb {
+  background-color: var(--warna);
+}
+
+section {
+  padding: 2rem 5%;
+}
+
+@keyframes fadeIn {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+}
+
+.btn {
+  display: inline-block;
+  background: var(--hitam);
+  margin-top: 1rem;
+  color: var(--putih);
+  font-size: 1rem;
+  padding: 1rem 3rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+}
+
+.btn:hover {
+  background: var(--warna);
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: var(--warna);
+  display: flex;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  box-shadow: var(--box-shadow);
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header .logo {
+  font-size: 1.8rem;
+  color: var(--hitam);
+}
+
+.header .navbar a {
+  font-size: 1.3rem;
+  margin-left: 1.3rem;
+  color: var(--hitam);
+}
+
+.header .navbar a:hover {
+  color: var(--putihdikit);
+}
+
+.header .add {
+  font-size: 1.8rem;
+  color: var(--hitam);
+  display: flex;
+  align-items: center;
+}
+
+.header .add .chat {
+  text-decoration: none;
+  color: var(--hitam);
+  margin: 0.5rem;
+}
+
+.header .add .profil {
+  font-size: 2rem;
+  color: var(--hitam);
+  justify-content: right;
+  text-decoration: none;
+  color: var(--hitam);
+  margin: 1rem;
+}
+
+.header .add .user-pic {
+  width: 40px;
+  border-radius: 60%;
+  cursor: pointer;
+  margin-left: 30px;
+  border: var(--border);
+}
+
+.header .add .sub-menu-wrap {
+  position: absolute;
+  top: 75%;
+  right: 4%;
+  width: 320px;
+  max-height: 0px;
+  overflow: hidden;
+  transition: max-height 0.5s;
+}
+
+.header .add .sub-menu-wrap.open-menu {
+  max-height: 400px;
+}
+
+.header .add .sub-menu {
+  background: var(--putih);
+  box-shadow: var(--box-shadow);
+  border-radius: 10px;
+  padding: 20px;
+  margin: 10px;
+}
+
+.header .add .sub-menu hr {
+  border: 0;
+  height: 1px;
+  width: 100%;
+  background: var(--warna);
+  margin: 15px 0 10px;
+}
+
+.header .add .user-info {
+  display: flex;
+  align-items: center;
+}
+
+.header .add .user-info h3 {
+  font-weight: 500;
+  font-size: 1.3rem;
+}
+
+.header .add .user-info img {
+  width: 60px;
+  border-radius: 80%;
+  margin-right: 10px;
+}
+
+.sub-menu-links {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: var(--warna);
+  margin: 12px 0;
+}
+
+.sub-menu-links p {
+  width: 100%;
+  font-size: 1.2rem;
+  text-decoration: none;
+  color: var(--hitam);
+}
+
+.sub-menu-links:hover p {
+  color: var(--warna);
+  font-weight: 600;
+}
+
+.sub-menu-links span {
+  font-size: 22px;
+  transition: transform 0.5s;
+}
+
+.sub-menu-links:hover span {
+  color: var(--warna);
+  transform: translateX(5px);
+}
+
+.header .add .sub-menu-wrap .sub-menu form {
+  margin-left: auto;
+}
+
+.header .add .sub-menu-wrap .sub-menu .logut i,
+.logut span {
+  display: inline-block;
+}
+
+.header .add .sub-menu-wrap .sub-menu .logut {
+  font-size: 1.3rem;
+  background: none;
+  border: none;
+  color: var(--hitam);
+  justify-content: right;
+  text-decoration: none;
+  color: var(--hitam);
+  margin-top: 1rem;
+  cursor: pointer;
+}
+
+.header .add .sub-menu-wrap .sub-menu .logut:hover {
+  color: var(--warna);
+}
+
+.home {
+  padding: 0;
+}
+
+.home .slide {
+  text-align: center;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-size: cover !important;
+  background-position: center !important;
+  min-height: 30rem;
+}
+
+.home .slide .content {
+  width: 50rem;
+  display: none;
+}
+
+.home .swiper-slide-active .content {
+  display: inline-block;
+}
+
+.home .slide .content span {
+  display: block;
+  font-size: 2rem;
+  color: var(--light-white);
+  padding-bottom: 1rem;
+  animation: fadeIn 0.3s linear backwards 0.2s;
+}
+
+.home .slide .content h3 {
+  font-size: 4vw;
+  color: var(--putih);
+  text-transform: uppercase;
+  line-height: 1;
+  text-shadow: var(--text-shadow);
+  padding: 1rem 0;
+  animation: fadeIn 0.3s linear backwards 0.4s;
+}
+
+.home .slide .content .btn {
+  animation: fadeIn 0.3s linear backwards 0.6s;
+}
+
+.home .swiper-button-next,
+.home .swiper-button-prev {
+  bottom: 0;
+  right: 2;
+  height: 4rem;
+  width: 4rem;
+  background: var(--putih);
+  color: var(--hitam);
+  border-radius: 10px;
+}
+
+.home .swiper-button-next:hover,
+.home .swiper-button-prev:hover {
+  background: var(--warna);
+  color: var(--putih);
+}
+
+.home .swiper-button-next::after,
+.home .swiper-button-prev::after {
+  font-size: 2rem;
+}
