@@ -20,11 +20,7 @@ app.use(express.static("public"));
 app.use("/assets", express.static("public"));
 app.use(cookieParser());
 app.use(express.json());
-//app.use(router);
-
-app.get("/profil", (req, res) => {
-  res.render("profil");
-});
+app.use(router);
 
 app.listen(port, () => {
   console.log(`Aplikasi jalan pada port ${port}`);
