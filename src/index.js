@@ -21,9 +21,6 @@ app.use("/assets", express.static("public"));
 app.use(cookieParser());
 app.use(express.json());
 app.use(router);
-app.get('/changepassword', (req, res) => {
-  res.render('changepassword'); // Render the EJS template
-});
 
 app.listen(port, () => {
   console.log(`Aplikasi jalan pada port ${port}`);
