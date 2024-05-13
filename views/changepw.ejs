@@ -2,24 +2,34 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="assets/pw.css" />
     <title>Change Password</title>
-</head>
-<body>
-    <h1>Change Password</h1>
-    <form action="/changepassword" method="POST">
-        <label for="oldPassword">Old Password:</label>
-        <input type="password" id="oldPassword" name="oldPassword" required><br>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Change Password</h1>
+      <form action="/ubahpw" method="POST" class="booking-form">
+        <label for="oldPassword">Password Lama</label>
+        <input type="password" id="oldPassword" name="oldPassword" required />
 
-        <label for="newPassword">New Password:</label>
-        <input type="password" id="newPassword" name="newPassword" required><br>
+        <label for="newPassword">Password Baru</label>
+        <input type="password" id="newPassword" name="newPassword" required />
 
-        <label for="confirmPassword">Confirm New Password:</label>
-        <input type="password" id="confirmPassword" name="confirmPassword" required><br>
-
-        <input type="submit" value="Change Password">
-    </form>
-</body>
+        <label for="confirmPassword">Konfirmasi Password Baru</label>
+        <input
+          type="password"
+          id="confirmPassword"
+          name="confirmPassword"
+          required
+        />
+        <div class="btn">
+          <button type="submit" value="Change Password">Submit</button>
+          <button><a href="profil">Kembali</a></button>
+        </div>
+      </form>
+    </div>
+  </body>
 </html>
