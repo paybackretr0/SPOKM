@@ -49,7 +49,7 @@ exports.chat = async (req, res) => {
 exports.profil = async (req, res) => {
   try {
     const user = await users.findByPk(req.userId);
-    res.render("mhs/profil", { accessToken: req.cookies.accessToken, user });
+    res.render("profil", { accessToken: req.cookies.accessToken, user });
   } catch (error) {
     console.error(error);
     res.redirect("/login");

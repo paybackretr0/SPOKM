@@ -1,15 +1,13 @@
-<!-- changepassword.ejs -->
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="assets/pw.css" />
+    <link rel="stylesheet" href="assets/style.css" />
     <title>Change Password</title>
   </head>
-  <body>
-    <div class="container">
+  <body class="edit-pw">
+    <div class="ubah-pw">
       <h1>Change Password</h1>
       <form action="/ubahpw" method="POST" class="booking-form">
         <label for="oldPassword">Password Lama</label>
@@ -25,7 +23,7 @@
           name="confirmPassword"
           required
         />
-        <div class="btn">
+        <div class="bt">
           <a href="profil" class="back">Kembali</a>
           <button type="submit" value="Change Password">Submit</button>
         </div>

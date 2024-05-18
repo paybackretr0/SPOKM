@@ -4,7 +4,22 @@
     <a href="/">Home</a>
     <a href="berita">Berita</a>
     <a href="org">Organisasi</a>
-    <a href="daftar">Pendaftaran</a>
+    <a class="daftar" onclick="toggleMenuDaftar()">Pendaftaran</a>
+    <div class="sub-daftar-wrap" id="subDaftar">
+      <div class="sub-daftar">
+        <div class="pendaftaran">
+          <a href="daforg" class="sub-daftar-links"
+            ><p>Pendaftaran Organisasi</p>
+            <span>></span></a
+          >
+          <hr />
+          <a href="dafkgt" class="sub-daftar-links"
+            ><p>Pendaftaran Kegiatan</p>
+            <span>></span></a
+          >
+        </div>
+      </div>
+    </div>
   </nav>
   <nav class="add">
     <% if(accessToken){%>
@@ -38,6 +53,10 @@
     let subMenu = document.getElementById("subMenu");
     function toggleMenu() {
       subMenu.classList.toggle("open-menu");
+    }
+    let subDaftar = document.getElementById("subDaftar");
+    function toggleMenuDaftar() {
+      subDaftar.classList.toggle("open-daftar");
     }
   </script>
 </section>
