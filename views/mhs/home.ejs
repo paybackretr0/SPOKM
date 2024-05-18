@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="assets/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <title>Home</title>
+  </head>
+
+  <body>
+    <!-- Header -->
+    <%- include('../komponen/nav');%>
+    <!-- End Header -->
+
+    <!-- Awal Home -->
+    <section class="home">
+      <div class="swiper home-slider">
+        <div class="swiper-wrapper">
+          <div
+            class="swiper-slide slide"
+            style="background: url(/img/warna.jpg) no-repeat"
+          >
+            <div class="content">
+              <span>Mewujudkan Potensi Mahasiswa FTI</span>
+              <h3>Beragam Organisasi, Peluang Tak Terbatas</h3>
+              <a href="" class="btn">discover more</a>
+            </div>
+          </div>
+          <div
+            class="swiper-slide slide"
+            style="background: url(/img/rommm.jpg) no-repeat"
+          >
+            <div class="content">
+              <span>Pusat Kreativitas dan Kolaborasi Mahasiswa FTI</span>
+              <h3>Organisasi yang Membangun, Kegiatan yang Menginspirasi</h3>
+              <a href="" class="btn">discover more</a>
+            </div>
+          </div>
+          <div
+            class="swiper-slide slide"
+            style="background: url(/img/rommm.jpg) no-repeat"
+          >
+            <div class="content">
+              <span>Inspirasi, Inovasi, Integrasi</span>
+              <h3>Ayo Berkarya, Ayo Beraksi!</h3>
+              <a href="" class="btn">discover more</a>
+            </div>
+          </div>
+        </div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+      </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="/js/script.js"></script>
+
+    <!-- Akhir Home -->
+  </body>
+</html>

@@ -10,12 +10,11 @@
     <% if(accessToken){%>
     <i class="bx bx-bell"></i>
     <a href="chat" class="chat"><i class="bx bx-chat"></i></a>
-    <img src="/img/foto.png" class="user-pic" onclick="toggleMenu()" />
+    <img src="/img/fti.jpg" class="user-pic" onclick="toggleMenu()" />
     <div class="sub-menu-wrap" id="subMenu">
       <div class="sub-menu">
         <div class="user-info">
-          <img src="/img/foto.png" />
-          <h3>Nama</h3>
+          <h3>Halo, <%= user.nama%></h3>
         </div>
         <hr />
         <a href="profil" class="sub-menu-links"

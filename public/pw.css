@@ -1,12 +1,51 @@
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
-  text-decoration: none;
-  list-style: none;
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600&display=swap");
+
+:root {
+  --warna: #3c5b6f;
+  --hitam: #222;
+  --putih: #fff;
+  --krem: #f3d7ca;
+  --kremMud: #f5eee6;
+  --putihdikit: #fff8e3;
+  --light-black: #777;
+  --light-white: #fff9;
+  --dark-bg: rgba(0, 0, 0, 0.7);
+  --light-bg: #eee;
+  --border: 0.1rem solid var(--hitam);
+  --box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+  --text-shadow: 0 1.5rem 3rem rgba(0, 0, 0, 0.3);
 }
 
+* {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+}
+
+html::-webkit-scrollbar {
+  width: 1rem;
+}
+
+html::-webkit-scrollbar-track {
+  background-color: var(--putih);
+}
+
+html::-webkit-scrollbar-thumb {
+  background-color: var(--warna);
+}
+
+section {
+  padding: 2rem 5%;
+}
+
+@keyframes fadeIn {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+}
 body {
   background: url("/img/warna.jpg");
   background-size: cover;
@@ -57,7 +96,20 @@ input {
   display: flex;
 }
 
-button {
+.btn a {
+  background-color: #a91d3a;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 1rem;
+  width: 100%;
+  text-align: center;
+  font-size: 0.8rem;
+}
+
+.btn button {
   background-color: #4caf50;
   color: white;
   border: none;
@@ -65,13 +117,19 @@ button {
   border-radius: 5px;
   cursor: pointer;
   margin: 1rem;
+  width: 100%;
+  font-size: 0.8rem;
 }
 
-button a {
+.btn button {
   text-decoration: none;
   color: white;
 }
 
-button:hover {
+.btn button:hover {
   background-color: #45a049;
+}
+
+.btn a:hover {
+  background-color: #c73659;
 }

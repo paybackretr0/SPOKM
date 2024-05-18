@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/profile.css" />
+    <title>Profile</title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div class="brandLogo">
+          <a href="/home" class="home"><</a>
+          <figure>
+            <img src="../img/unand.png" alt="logo" width="40px" height="40px" />
+          </figure>
+          <span>FTIOrganizerhub</span>
+        </div>
+      </header>
+      <section class="userProfile card">
+        <div class="profile">
+          <figure>
+            <img
+              src="../img/fti.jpg"
+              alt="profile"
+              width="200px"
+              height="200px"
+            />
+          </figure>
+          <a href="editProfile" class="btn"
+            ><i class="bx bxs-edit-alt"></i> Edit Profile</a
+          >
+        </div>
+      </section>
+      <section class="userDetails card">
+        <div class="userName">
+          <div class="info-box">
+            <span>Nama</span>
+            <h1 class="name"><%= user.nama %></h1>
+          </div>
+          <div class="info-box">
+            <span>NIM</span>
+            <h1 class="NIM"><%= user.nim %></h1>
+          </div>
+          <div class="info-box">
+            <span>Jurusan</span>
+            <h1 class="jurusan"><%= user.jurusan %></h1>
+          </div>
+          <div class="info-box">
+            <span>Email</span>
+            <h1 class="name"><%= user.email %></h1>
+          </div>
+          <div class="pw">
+            <a href="changepassword" class="btn"
+              ><i class="bx bxs-key"></i> Ubah Password</a
+            >
+          </div>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>

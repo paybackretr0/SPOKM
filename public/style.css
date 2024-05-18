@@ -116,7 +116,8 @@ section {
 }
 
 .header .add .user-pic {
-  width: 40px;
+  width: 50px;
+  height: 50px;
   border-radius: 60%;
   cursor: pointer;
   margin-left: 30px;
@@ -159,14 +160,8 @@ section {
 }
 
 .header .add .user-info h3 {
-  font-weight: 500;
+  font-weight: 800;
   font-size: 1.3rem;
-}
-
-.header .add .user-info img {
-  width: 60px;
-  border-radius: 80%;
-  margin-right: 10px;
 }
 
 .sub-menu-links {
