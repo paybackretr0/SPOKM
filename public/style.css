@@ -63,6 +63,99 @@ section {
   background: var(--warna);
 }
 
+/* Login */
+.login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: url("./img/warna.jpg") no-repeat;
+  backdrop-filter: blur(3px);
+  background-size: cover;
+  background-position: center;
+}
+
+.wrapper {
+  width: 420px;
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  color: black;
+  border-radius: 10px;
+  padding: 30px 40px;
+}
+
+.wrapper h1 {
+  font-size: 36px;
+  text-align: center;
+}
+
+.wrapper h2 {
+  font-size: 30px;
+  text-align: center;
+  margin-bottom: 10px;
+  color: var(--putihdikit);
+}
+
+.wrapper .input-box {
+  position: relative;
+  width: 100%;
+  height: 50px;
+  margin: 30px 0;
+}
+
+.input-box input {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  border-radius: 40px;
+  font-size: 16px;
+  color: var(--putih);
+  padding: 20px 45px 20px 20px;
+}
+
+.input-box input::placeholder {
+  color: var(--putih);
+}
+
+.input-box i {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+  color: var(--putih);
+}
+
+.wrapper .log {
+  width: 100%;
+  height: 45px;
+  background: white;
+  border: none;
+  outline: none;
+  border-radius: 40px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  font-size: 16px;
+  color: #333;
+  font-weight: 600;
+  transition: 0.3s ease-in-out;
+}
+
+.log:hover {
+  background: var(--warna);
+}
+
+.log a {
+  text-decoration: none;
+  color: black;
+}
+
+/* Home Mhs*/
 .header {
   position: sticky;
   top: 0;
@@ -87,6 +180,8 @@ section {
   font-size: 1.3rem;
   margin-left: 1.3rem;
   color: var(--hitam);
+  cursor: pointer;
+  user-select: none;
 }
 
 .header .navbar a:hover {
@@ -124,6 +219,16 @@ section {
   border: var(--border);
 }
 
+.header .navbar .sub-daftar-wrap {
+  position: absolute;
+  top: 75%;
+  right: 38%;
+  width: 30%;
+  max-height: 0px;
+  overflow: hidden;
+  transition: max-height 0.5s;
+}
+
 .header .add .sub-menu-wrap {
   position: absolute;
   top: 75%;
@@ -134,10 +239,15 @@ section {
   transition: max-height 0.5s;
 }
 
+.header .navbar .sub-daftar-wrap.open-daftar {
+  max-height: 200px;
+}
+
 .header .add .sub-menu-wrap.open-menu {
   max-height: 400px;
 }
 
+.header .navbar .sub-daftar,
 .header .add .sub-menu {
   background: var(--putih);
   box-shadow: var(--box-shadow);
@@ -146,12 +256,18 @@ section {
   margin: 10px;
 }
 
+.header .navbar .sub-daftar hr,
 .header .add .sub-menu hr {
   border: 0;
   height: 1px;
   width: 100%;
   background: var(--warna);
   margin: 15px 0 10px;
+}
+
+.header .navbar .pendaftaran {
+  display: flex;
+  flex-direction: column;
 }
 
 .header .add .user-info {
@@ -164,12 +280,20 @@ section {
   font-size: 1.3rem;
 }
 
+.sub-daftar-links,
 .sub-menu-links {
   display: flex;
   align-items: center;
   text-decoration: none;
   color: var(--warna);
   margin: 12px 0;
+}
+
+.sub-daftar-links p {
+  width: 100%;
+  font-size: 1.2rem;
+  text-decoration: none;
+  color: var(--hitam);
 }
 
 .sub-menu-links p {
@@ -179,16 +303,19 @@ section {
   color: var(--hitam);
 }
 
+.sub-daftar-links:hover p,
 .sub-menu-links:hover p {
   color: var(--warna);
   font-weight: 600;
 }
 
+.sub-daftar-links span,
 .sub-menu-links span {
   font-size: 22px;
   transition: transform 0.5s;
 }
 
+.sub-daftar-links:hover span,
 .sub-menu-links:hover span {
   color: var(--warna);
   transform: translateX(5px);
@@ -285,4 +412,283 @@ section {
 .home .swiper-button-next::after,
 .home .swiper-button-prev::after {
   font-size: 2rem;
+}
+
+/* Profile */
+
+.body-profile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  /* background: url("./img/warna.jpg") no-repeat; */
+  backdrop-filter: blur(3px);
+  background-size: cover;
+  background-position: center;
+}
+
+.btn:hover {
+  background: var(--warna);
+}
+
+.isi-profile {
+  border-radius: 10px;
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-template-areas:
+    "header header"
+    "userProfile userDetails"
+    "work_skills about"
+    "work_skills about";
+  width: 85%;
+  height: 95vh;
+  background: var(--light-white);
+  padding: 0.5rem;
+  box-shadow: var(--box-shadow);
+}
+
+.userProfile {
+  grid-area: userProfile;
+}
+
+.userDetails {
+  grid-area: userDetails;
+}
+
+.isi-profile .card {
+  border-radius: 0.5rem;
+  box-shadow: var(--box-shadow);
+  padding: 1rem;
+}
+
+.isi-profile header {
+  padding: 0.5rem;
+}
+
+.isi-profile header .brandLogo {
+  display: flex;
+  align-items: center;
+}
+
+.isi-profile header .brandLogo .home {
+  font-size: 3rem;
+  color: var(--warna);
+}
+
+.isi-profile header .brandLogo span {
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.isi-profile .userProfile {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: none;
+  backdrop-filter: none;
+  box-shadow: none;
+}
+
+.isi-profile .userProfile .profile figure img {
+  width: 20rem;
+  height: 20rem;
+  border-radius: 50%;
+}
+
+.userDetails {
+  position: relative;
+  padding: 1rem;
+}
+
+.userDetails .userName {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.userDetails .info-box {
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.userDetails .userName h1 {
+  font-size: 1rem;
+  text-align: justify;
+}
+
+/* Edit Profile */
+
+.editprofil {
+  /* background: url("/img/warna.jpg"); */
+  background: var(--warna);
+  backdrop-filter: blur(40px);
+}
+
+.editProfile {
+  border-radius: 20px;
+  max-width: 600px;
+  box-shadow: var(--box-shadow);
+  color: white;
+  padding: 2rem;
+  margin: 4rem auto;
+  background-color: var(--light-black);
+}
+
+h1 {
+  text-align: center;
+}
+
+.edit-form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-top: 10px;
+}
+
+input {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  outline: none;
+  font-size: 16px;
+  color: #fff;
+  border-radius: 6px;
+  padding: 15px 15px 15px 15px;
+}
+
+.tombol {
+  display: flex;
+}
+
+.tombol a {
+  background-color: #a91d3a;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 1rem;
+  width: 100%;
+  text-align: center;
+  font-size: 0.8rem;
+}
+
+.tombol button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 1rem;
+  width: 100%;
+  font-size: 0.8rem;
+}
+
+.tombol button {
+  text-decoration: none;
+  color: white;
+}
+
+.tombol button:hover {
+  background-color: #45a049;
+}
+
+.tombol a:hover {
+  background-color: #c73659;
+}
+
+/* Ubah Password */
+.edit-pw {
+  background: url("/img/warna.jpg");
+  background-size: cover;
+  background-position: center;
+  margin: 0;
+  padding: 0;
+}
+
+.ubah-pw {
+  border-radius: 20px;
+  max-width: 600px;
+  margin: 100px auto;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(50px);
+  color: white;
+  padding: 50px;
+}
+
+h1 {
+  text-align: center;
+}
+
+.booking-form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-top: 10px;
+}
+
+input {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  outline: none;
+  font-size: 16px;
+  color: #fff;
+  border-radius: 6px;
+  padding: 15px 15px 15px 15px;
+}
+
+.bt {
+  display: flex;
+}
+
+.bt a {
+  background-color: #a91d3a;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 1rem;
+  width: 100%;
+  text-align: center;
+  font-size: 0.8rem;
+}
+
+.bt button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 1rem;
+  width: 100%;
+  font-size: 0.8rem;
+}
+
+.bt button {
+  text-decoration: none;
+  color: white;
+}
+
+.bt button:hover {
+  background-color: #45a049;
+}
+
+.bt a:hover {
+  background-color: #c73659;
 }
