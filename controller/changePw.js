@@ -12,13 +12,19 @@ exports.changepassword = async (req, res) => {
 
 exports.updatepassword = async (req, res, next) => {
   try {
-    const { oldPassword, newPassword } = req.body;
+    const { oldPassword, newPassword, confirmPassword } = req.body;
 
     // Cari pengguna berdasarkan userId
     const user = await users.findByPk(req.userId);
     console.log(user);
     if (!user) {
       return res.status(404).json({ message: "Pengguna tidak ditemukan" });
+    }
+
+    if (newPassword !== confirmPassword) {
+      return res
+        .status(400)
+        .json({ message: "New password and confirm password do not match" });
     }
 
     // Periksa apakah password saat ini cocok

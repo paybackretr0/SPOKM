@@ -15,6 +15,4 @@ exports.verifyToken = (req, res, next) => {
     req.userNim = decoded.nim;
     next();
   });
-
-  // req.id - decoded.id;
 };

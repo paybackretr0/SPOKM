@@ -14,10 +14,11 @@ const checkRole = require("../middleware/checkRole");
 
 //login
 router.get("/login", redirectIfLoggedIn, login.page);
+router.get("/", redirectIfLoggedIn, login.page);
 router.post("/", user.login);
 
 //page
-router.get("/", checkRole("mhs"), verif.verifyToken, mhs.home);
+router.get("/home", checkRole("mhs"), verif.verifyToken, mhs.home);
 router.get("/admorg", checkRole("adminorg"), verif.verifyToken, org.admorg);
 router.get("/dashboard", checkRole("adminfti"), verif.verifyToken, fti.admfti);
 router.get("/berita", verif.verifyToken, mhs.berita);
@@ -32,7 +33,7 @@ router.post("/ubahpw", verif.verifyToken, pw.updatepassword);
 router.post("/logout", user.logout);
 
 //tidak termasuk
-router.post("/user", user.regis);
+// router.post("/user", user.regis);
 router.get("/token", token.refreshToken);
 
 module.exports = router;

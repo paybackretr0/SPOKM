@@ -4,26 +4,6 @@ const jwt = require("jsonwebtoken");
 const { where } = require("sequelize");
 const dotenv = require("dotenv").config();
 
-exports.regis = async (req, res) => {
-  const { nim, password, passwordLagi } = req.body;
-
-  if (password !== passwordLagi) {
-    return res.status(400).json({ msg: "Konfirmasi password tidak sesuai" });
-  }
-
-  try {
-    const salt = await bcrypt.genSalt();
-    const hashPass = await bcrypt.hash(password, salt);
-
-    await users.create({ nim: nim, password: hashPass });
-
-    res.json({ msg: "Registrasi berhasil" });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ msg: "Registrasi gagal, coba lagi nanti" });
-  }
-};
-
 exports.login = async (req, res) => {
   try {
     const user = await users.findOne({ where: { nim: req.body.nim } });
@@ -60,13 +40,13 @@ exports.login = async (req, res) => {
       // Redirect based on role
       switch (role) {
         case "adminfti":
-          res.render("dashboard", { accessToken });
+          res.render("admfti/dashboard", { accessToken, user });
           break;
         case "adminorg":
-          res.render("admorg", { accessToken });
+          res.render("admorg/admorg", { accessToken, user });
           break;
         case "mhs":
-          res.render("home", { accessToken });
+          res.render("mhs/home", { accessToken, user });
           break;
         default:
           res.status(401).json({ msg: "Invalid role" });
