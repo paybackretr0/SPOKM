@@ -692,3 +692,68 @@ input {
 .bt a:hover {
   background-color: #c73659;
 }
+
+.home-about {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.home-about .image {
+  flex: 1 1 35rem;
+}
+
+.home-about .image img {
+  width: 100%;
+}
+
+.home-about .content {
+  flex: 1 1 35rem;
+  padding: 2rem;
+  background: var(--light-bg);
+  text-align: center;
+  border-radius: 1rem;
+}
+
+.home-about .content h3 {
+  font-size: 2rem;
+  color: var(--hitam);
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.home-about .content p {
+  font-size: 1rem;
+  padding: 1rem 0;
+  line-height: 2;
+  color: var(--hitam);
+  text-align: justify;
+  text-transform: none;
+}
+
+.home-latest {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.home-latest .content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: 2rem;
+}
+
+.home-latest .content .isian {
+  box-shadow: var(--box-shadow);
+  background: var(--putih);
+  border-radius: 10px;
+  padding: 2rem;
+}
+
+.home-latest .content .isian p {
+  font-size: 1rem;
+  padding: 1rem 0;
+  line-height: 2;
+  color: var(--hitam);
+  text-align: justify;
+  text-transform: none;
+}
