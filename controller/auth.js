@@ -3,24 +3,25 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { where } = require("sequelize");
 const dotenv = require("dotenv").config();
+const Swal = require("sweetalert2");
 
 exports.login = async (req, res) => {
   try {
     const user = await users.findOne({ where: { nim: req.body.nim } });
     if (!user) {
-      return res.status(404).json({ msg: "Login Gagal" });
+      res.status(404).json({ status: "error", msg: "Login failed" });
     }
     const match = await bcrypt.compare(req.body.password, user.password);
     if (match) {
       const id = user.id;
-      const role = user.role; // assuming 'role' is the field in your user model
+      const role = user.role;
       const accessToken = jwt.sign(
-        { id, nim: user.nim, role }, // include role in the JWT payload
+        { id, nim: user.nim, role },
         process.env.ACCESS_TOKEN_SECRET,
         { expiresIn: "1d" }
       );
       const refreshToken = jwt.sign(
-        { id, nim: user.nim, role }, // include role in the JWT payload
+        { id, nim: user.nim, role },
         process.env.REFRESH_TOKEN_SECRET,
         { expiresIn: "1d" }
       );
@@ -52,7 +53,7 @@ exports.login = async (req, res) => {
           res.status(401).json({ msg: "Invalid role" });
       }
     } else {
-      res.status(401).json({ msg: "Login gagal" });
+      res.status(401).json({ status: "error", msg: "Login failed" });
     }
   } catch (error) {
     console.log(error);
