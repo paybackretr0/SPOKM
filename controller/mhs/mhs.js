@@ -1,9 +1,9 @@
-const users = require("../../models/user");
+const { user } = require("../../models/index");
 
 exports.home = async (req, res) => {
   try {
-    const user = await users.findByPk(req.userId);
-    res.render("mhs/home", { accessToken: req.cookies.accessToken, user });
+    const pengguna = await user.findByPk(req.userId);
+    res.render("mhs/home", { accessToken: req.cookies.accessToken, pengguna });
   } catch (error) {
     console.error(error);
     res.redirect("/login");
@@ -48,8 +48,8 @@ exports.chat = async (req, res) => {
 
 exports.profil = async (req, res) => {
   try {
-    const user = await users.findByPk(req.userId);
-    res.render("profil", { accessToken: req.cookies.accessToken, user });
+    const pengguna = await user.findByPk(req.userId);
+    res.render("profil", { accessToken: req.cookies.accessToken, pengguna });
   } catch (error) {
     console.error(error);
     res.redirect("/login");

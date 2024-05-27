@@ -1,4 +1,4 @@
-const users = require("../models/user");
+const { user } = require("../models/index");
 const bcrypt = require("bcrypt");
 
 exports.changepassword = async (req, res) => {
@@ -15,9 +15,9 @@ exports.updatepassword = async (req, res, next) => {
     const { oldPassword, newPassword, confirmPassword } = req.body;
 
     // Cari pengguna berdasarkan userId
-    const user = await users.findByPk(req.userId);
-    console.log(user);
-    if (!user) {
+    const users = await user.findByPk(req.userId);
+    console.log(users);
+    if (!users) {
       return res.status(404).json({ message: "Pengguna tidak ditemukan" });
     }
 
@@ -28,7 +28,7 @@ exports.updatepassword = async (req, res, next) => {
     }
 
     // Periksa apakah password saat ini cocok
-    const isPasswordValid = await bcrypt.compare(oldPassword, user.password);
+    const isPasswordValid = await bcrypt.compare(oldPassword, users.password);
     if (!isPasswordValid) {
       return res.status(401).json({ message: "Password saat ini salah" });
     }
@@ -37,7 +37,7 @@ exports.updatepassword = async (req, res, next) => {
     const hashedNewPassword = await bcrypt.hash(newPassword, 10);
 
     // Perbarui password pengguna di database
-    await user.update({ password: hashedNewPassword });
+    await users.update({ password: hashedNewPassword });
 
     return res.status(200).json({ message: "Password berhasil diubah" });
   } catch (error) {

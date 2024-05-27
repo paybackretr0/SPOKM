@@ -1,11 +1,11 @@
-const users = require("../../models/user");
+const { user } = require("../../models/index");
 
 exports.admfti = async (req, res) => {
   try {
-    const user = await users.findByPk(req.userId);
+    const pengguna = await user.findByPk(req.userId);
     res.render("admfti/dashboard", {
       accessToken: req.cookies.accessToken,
-      user,
+      pengguna,
     });
   } catch (error) {
     console.error(error);

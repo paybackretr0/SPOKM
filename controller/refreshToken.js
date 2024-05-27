@@ -1,4 +1,4 @@
-const users = require("../models/user");
+const { user } = require("../models/index");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv").config();
 
@@ -7,10 +7,10 @@ exports.refreshToken = async (req, res) => {
     const refreshToken = req.cookies.refreshToken;
     if (!refreshToken)
       return res.status(401).json({ msg: "Token penyegar tidak ditemukan" });
-    const user = await users.findOne({
+    const pengguna = await user.findOne({
       where: { refresh_token: refreshToken },
     });
-    if (!user)
+    if (!pengguna)
       return res.status(403).json({ msg: "Token penyegar tidak valid" });
     jwt.verify(
       refreshToken,
@@ -18,10 +18,10 @@ exports.refreshToken = async (req, res) => {
       (err, decoded) => {
         if (err)
           return res.status(403).json({ msg: "Token penyegar tidak valid" });
-        const id = user.id;
-        const nama = user.nama;
-        const nim = user.nim;
-        const jurusan = user.jurusan;
+        const id = pengguna.id;
+        const nama = pengguna.nama;
+        const nim = pengguna.nim;
+        const jurusan = pengguna.jurusan;
         const accessToken = jwt.sign(
           { id, nama, nim, jurusan },
           process.env.ACCESS_TOKEN_SECRET,
