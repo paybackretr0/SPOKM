@@ -49,9 +49,9 @@ section {
 
 .btn {
   display: inline-block;
-  background: var(--hitam);
+  background: var(--putih);
   margin-top: 1rem;
-  color: var(--putih);
+  color: var(--hitam);
   font-size: 1rem;
   padding: 1rem 3rem;
   border-radius: 10px;
@@ -69,7 +69,7 @@ section {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: url("./img/warna.jpg") no-repeat;
+  background: url("./img/fti.jpg") no-repeat;
   backdrop-filter: blur(3px);
   background-size: cover;
   background-position: center;
@@ -78,9 +78,9 @@ section {
 .wrapper {
   width: 420px;
   background: transparent;
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  border: var(--border);
   backdrop-filter: blur(20px);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--box-shadow);
   color: black;
   border-radius: 10px;
   padding: 30px 40px;
@@ -89,13 +89,15 @@ section {
 .wrapper h1 {
   font-size: 36px;
   text-align: center;
+  user-select: none;
 }
 
 .wrapper h2 {
   font-size: 30px;
   text-align: center;
   margin-bottom: 10px;
-  color: var(--putihdikit);
+  color: var(--putih);
+  user-select: none;
 }
 
 .wrapper .input-box {
@@ -421,8 +423,8 @@ section {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  /* background: url("./img/warna.jpg") no-repeat; */
-  backdrop-filter: blur(3px);
+  background: url("./img/fti11.jpg") no-repeat;
+  backdrop-filter: blur(10px);
   background-size: cover;
   background-position: center;
 }
@@ -500,6 +502,8 @@ section {
 .userDetails {
   position: relative;
   padding: 1rem;
+  background-color: var(--light-white);
+  width: 95%;
 }
 
 .userDetails .userName {
@@ -509,11 +513,21 @@ section {
 }
 
 .userDetails .info-box {
-  margin-bottom: 10px;
   padding: 10px;
-  border: 1px solid #ccc;
   border-radius: 5px;
   width: 100%;
+}
+
+.userDetails .info-box h1,
+span {
+  margin: 0;
+}
+
+.userDetails .info-box hr {
+  border: 0;
+  height: 1px;
+  width: 100%;
+  background: var(--warna);
 }
 
 .userDetails .userName h1 {
@@ -524,19 +538,22 @@ section {
 /* Edit Profile */
 
 .editprofil {
-  /* background: url("/img/warna.jpg"); */
-  background: var(--warna);
-  backdrop-filter: blur(40px);
+  background: url("./img/fti7.jpg") no-repeat;
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+  backdrop-filter: blur(10px);
+  display: flex;
 }
 
 .editProfile {
   border-radius: 20px;
-  max-width: 600px;
+  width: 600px;
   box-shadow: var(--box-shadow);
   color: white;
   padding: 2rem;
   margin: 4rem auto;
-  background-color: var(--light-black);
+  background-color: var(--dark-bg);
 }
 
 h1 {
@@ -744,9 +761,10 @@ input {
 
 .home-latest .content .isian {
   box-shadow: var(--box-shadow);
-  background: var(--putih);
+  background: var(--light-bg);
   border-radius: 10px;
   padding: 2rem;
+  margin: 2rem;
 }
 
 .home-latest .content .isian p {
