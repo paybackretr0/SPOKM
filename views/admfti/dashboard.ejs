@@ -1,19 +1,81 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel="stylesheet" href="assets/style.css" />
+    <link rel="stylesheet" href="assets/admfti.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
+
     <link
       href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
       rel="stylesheet"
     />
-    <title>Admin FTI</title>
+    <title>Home</title>
   </head>
-  <body>
+<body class="dashboard">
+    <div class="container">
+        <aside class="sidebar">
+            <div class="brandLogo">
+                <a href="/" class="home"></a>
+                <figure>
+                    <img src="../img/unand.png" alt="logo" width="30px" height="30px" />
+                </figure>
+                <span>FTIOrganizerhub</span>
+              </div>
+            <ul>
+                <li><a href="/">Dashboard</a></li>
+                <li><a href="informasi">Informasi</a></li>
+                <li><a href="#organisasi">Organisasi</a></li>
+                <li><a href="#pengguna">Pengguna</a></li>
+                <li><a href="#pesan">Pesan</a></li>
+            </ul>
+        </aside>
+        <main class="main-content">
+            <header class="header">
+                
+                <div class="header-right">
+                    <div class="header-item" title="Notifikasi">
+                        <i class='bx bxs-bell'></i>
+                    </div>
+                    <div class="header-item" title="Pesan">
+                        <i class='bx bxs-message-dots'></i>
+                    </div>
+                    <div class="header-item">Profil</div>
+                </div>                
+            </header>
+            <div class="content">
+                <h1>Dashboard</h1>
+                    <div class="cards">
+                        <div class="card">
+                            <img src="../img/fti2.jpg" alt="Logo" class="card-logo" />
+                            <div class="card-content">
+                                <h2>Organisasi</h2>
+                                <p>15</p>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <img src="../img/fti2.jpg" alt="Logo" class="card-logo" />
+                            <div class="card-content">
+                                <h2>Organisasi</h2>
+                                <p>15</p>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <img src="../img/fti2.jpg" alt="Logo" class="card-logo" />
+                            <div class="card-content">
+                                <h2>Organisasi</h2>
+                                <p>15</p>
+                            </div>
+                        </div>
+            </div>
+        </main>
+    </div>
     <form action="/logout" method="post">
-      <button type="submit" class="logut">
-        <i class="bx bxs-log-out"></i> <span>Logout</span>
-      </button>
+        <button type="submit" class="logut">
+          <i class="bx bxs-log-out"></i> <span>Logout</span>
+        </button>
     </form>
-    <h1>Hello, <%= pengguna.nama%></h1>
-  </body>
+</body>
 </html>

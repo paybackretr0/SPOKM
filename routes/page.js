@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const router = express.Router();
 const user = require("../controller/auth");
 const mhs = require("../controller/mhs/mhs");
+const publish = require("../controller/mhs/ppi");
 const org = require("../controller/admorg/admorg");
 const fti = require("../controller/admfti/admfti");
 const pw = require("../controller/changePw");
@@ -30,6 +31,9 @@ router.get("/admorg", checkRole("adminorg"), verif.verifyToken, org.admorg);
 
 //page fti
 router.get("/dashboard", checkRole("adminfti"), verif.verifyToken, fti.admfti);
+router.get("/informasi", checkRole("adminfti"), verif.verifyToken, fti.informasi);
+router.get("/tambahinformasi", checkRole("adminfti"), verif.verifyToken, fti.tambahinformasi);
+
 
 //change password
 router.get("/changepassword", verif.verifyToken, pw.changepassword);
@@ -39,11 +43,16 @@ router.post("/ubahpw", verif.verifyToken, pw.updatepassword);
 router.get("/editprofile", verif.verifyToken, edit.editProfile);
 router.post("/editP", verif.verifyToken, edit.updateProfile);
 
+//publikasi informasi
+router.get("/publikasi", verif.verifyToken, publish.publikasi)
+router.post("/publish", verif.verifyToken, publish.publish)
+
 //logout
 router.post("/logout", user.logout);
 
 //tidak termasuk
 // router.post("/user", user.regis);
 router.get("/token", token.refreshToken);
+
 
 module.exports = router;
