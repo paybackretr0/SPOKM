@@ -1,36 +1,30 @@
-const Sequelize = require("sequelize");
-const conn = require("../src/koneksi");
-
-const { DataTypes } = Sequelize;
-
-const users = conn.define(
-  "user",
-  {
-    nama: {
-      type: DataTypes.STRING,
-    },
-    nim: {
-      type: DataTypes.STRING,
-    },
-    password: {
-      type: DataTypes.STRING,
-    },
-    email: {
-      type: DataTypes.STRING,
-    },
-    refresh_token: {
-      type: DataTypes.TEXT,
-    },
-    jurusan: {
-      type: DataTypes.STRING,
-    },
-    role: {
-      type: DataTypes.STRING,
-    },
-  },
-  {
-    freezeTableName: true,
+"use strict";
+const { Model } = require("sequelize");
+module.exports = (sequelize, DataTypes) => {
+  class user extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      // define association here
+    }
   }
-);
-
-module.exports = users;
+  user.init(
+    {
+      nama: DataTypes.STRING,
+      nim: DataTypes.STRING,
+      password: DataTypes.STRING,
+      email: DataTypes.STRING,
+      refresh_token: DataTypes.TEXT,
+      jurusan: DataTypes.STRING,
+      role: DataTypes.STRING,
+    },
+    {
+      sequelize,
+      modelName: "user",
+    }
+  );
+  return user;
+};
