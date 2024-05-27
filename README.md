@@ -24,11 +24,21 @@ npm install
 ```
 Jalankan server Apache dan database MySQL pada XAMPP, lalu buat database sesuai pada konfigurasi database:
 ```
-database: "spokm"
-username: "root"
-password: ""
-host: "localhost"
-dialect: "mysql"
+"development": {
+    "username": "root",
+    "password": null,
+    "database": "spokm",
+    "host": "localhost",
+    "dialect": "mysql"
+  },
+```
+Migrasi tabel dari Express ke Database dengan menjalankan syntax di bawah pada terminal:
+```
+npx sequelize-cli db:migrate
+```
+Jalankan seeder untuk mengirim data ke database dengan menjalankan syntax di bawah pada terminal:
+```
+npx sequelize-cli db:seed:all
 ```
 Jalankan server Node.js dengan syntax:
 ```
@@ -36,7 +46,7 @@ nodemon src/index
 ```
 Berikut langkah-langkah untuk push perubahan:
 ```
-git branch (namaBranch) //Untuk membuat branch baru
+git branch (namaBranch) //Untuk membuat branch baru (Selalu buat branch baru saat ingin melakukan modifikasi)
 git checkout namaBranch //Pindah ke branch yang dibuat tadi
 git add .
 git commit -m "pesan" //"pesan" diubah sesuai yang diinginkan
