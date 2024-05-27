@@ -31,6 +31,9 @@ router.get("/admorg", checkRole("adminorg"), verif.verifyToken, org.admorg);
 
 //page fti
 router.get("/dashboard", checkRole("adminfti"), verif.verifyToken, fti.admfti);
+router.get("/informasi", checkRole("adminfti"), verif.verifyToken, fti.informasi);
+router.get("/tambahinformasi", checkRole("adminfti"), verif.verifyToken, fti.tambahinformasi);
+
 
 //change password
 router.get("/changepassword", verif.verifyToken, pw.changepassword);
@@ -50,5 +53,6 @@ router.post("/logout", user.logout);
 //tidak termasuk
 // router.post("/user", user.regis);
 router.get("/token", token.refreshToken);
+
 
 module.exports = router;
