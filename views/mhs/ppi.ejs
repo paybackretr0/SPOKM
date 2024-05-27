@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/style.css" />
+    <title>Pengajuan Publikasi Informasi</title>
+</head>
+<body>
+    <div class="pengajuan">
+        <h1>Pengajuan Publikasi Informasi</h1>
+        <form action="/publish" method="post">
+            <div class="form-group">
+                <label for="nama">Nama:</label>
+                <input type="text" id="nama" name="nama" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="jenis-publikasi">Jenis Publikasi:</label>
+                <select id="jenis-publikasi" name="jenis-publikasi" required>
+                    <option value="berita">Berita</option>
+                    <option value="pengumuman">Pengumuman</option>
+                    <option value="aspirasi">Aspirasi (Pendapat, Saran, Kritik)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="judul">Judul</label>
+                <input type="text" id="judul" name="judul" required>
+            </div>
+            <div class="form-group">
+                <label for="isi">Isi Pengajuan</label>
+                <textarea id="isi" name="isi" rows="6" required></textarea>
+            </div>
+            <button type="submit">Ajukan Publikasi</button>
+        </form>
+    </div>
+</body>
+</html>
