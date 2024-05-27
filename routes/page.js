@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const router = express.Router();
 const user = require("../controller/auth");
 const mhs = require("../controller/mhs/mhs");
+const publish = require("../controller/mhs/ppi");
 const org = require("../controller/admorg/admorg");
 const fti = require("../controller/admfti/admfti");
 const pw = require("../controller/changePw");
@@ -38,6 +39,10 @@ router.post("/ubahpw", verif.verifyToken, pw.updatepassword);
 //edit profile
 router.get("/editprofile", verif.verifyToken, edit.editProfile);
 router.post("/editP", verif.verifyToken, edit.updateProfile);
+
+//publikasi informasi
+router.get("/publikasi", verif.verifyToken, publish.publikasi)
+router.post("/publish", verif.verifyToken, publish.publish)
 
 //logout
 router.post("/logout", user.logout);
