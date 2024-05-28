@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="assets/admfti.css" />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <title>Berita</title>
+  </head>
+  <body class="dashboard">
+    <%- include('../komponen/sidebar');%>
+    <section class="berita">
+      <div class="informasi">
+        <div class="text">Informasi</div>
+        <div class="controls">
+          <div class="button-container">
+            <a href="tambahNews" class="add-button-link">
+              <button class="add-button">
+                <i class="bx bx-plus"></i>Tambah
+              </button></a
+            >
+          </div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>NO</th>
+              <th>JUDUL</th>
+              <th>GAMBAR</th>
+              <th>KATEGORI</th>
+              <th>TANGGAL POSTING</th>
+              <th>PENULIS</th>
+              <th>PILIHAN</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td></td>
+              <td></td>
+              <td><div class="gambar"></div></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>
+                <div class="action-buttons">
+                  <button class="action-button">Edit</button>
+                  <button class="action-button">Hapus</button>
+                  <button class="action-button">Detail</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td><div class="gambar"></div></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>
+                <div class="action-buttons">
+                  <button class="action-button">Edit</button>
+                  <button class="action-button">Hapus</button>
+                  <button class="action-button">Detail</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </body>
+</html>

@@ -22,7 +22,6 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(router);
 
-
 app.listen(port, () => {
   console.log(`Aplikasi jalan pada port ${port}`);
 });
