@@ -15,8 +15,11 @@ exports.admfti = async (req, res) => {
 
 exports.informasi = async (req, res) => {
   try {
-    const user = await users.findByPk(req.userId);
-    res.render("admfti/informasi", { accessToken: req.cookies.accessToken, user});
+    const pengguna = await user.findByPk(req.userId);
+    res.render("admfti/news", {
+      accessToken: req.cookies.accessToken,
+      pengguna,
+    });
   } catch (error) {
     console.error(error);
     res.redirect("/login");
@@ -25,8 +28,11 @@ exports.informasi = async (req, res) => {
 
 exports.tambahinformasi = async (req, res) => {
   try {
-    const user = await users.findByPk(req.userId);
-    res.render("admfti/tambahinformasi", { accessToken: req.cookies.accessToken, user });
+    const pengguna = await user.findByPk(req.userId);
+    res.render("admfti/tambahNews", {
+      accessToken: req.cookies.accessToken,
+      pengguna,
+    });
   } catch (error) {
     console.error(error);
     res.redirect("/login");
