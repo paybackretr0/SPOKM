@@ -11,19 +11,14 @@
       <h1>Edit Profile</h1>
       <form action="/editP" method="POST" class="edit-form">
         <label for="nama">Nama</label>
-        <input
-          type="text"
-          id="nama"
-          name="nama"
-          placeholder="<%= users.nama%>"
-        />
+        <input type="text" id="nama" name="nama" placeholder="<%= mhs.nama%>" />
 
         <label for="nim">NIM</label>
         <input
           type="text"
           id="nim"
           name="nim"
-          placeholder="<%= users.nim%>"
+          placeholder="<%= mhs.nim%>"
           readonly
         />
 
@@ -32,7 +27,7 @@
           type="email"
           id="email"
           name="email"
-          placeholder="<%= users.email%>"
+          placeholder="<%= mhs.email%>"
         />
 
         <label for="jurusan">Jurusan</label>
@@ -40,7 +35,7 @@
           type="jurusan"
           id="jurusan"
           name="jurusan"
-          placeholder="<%= users.jurusan%>"
+          placeholder="<%= mhs.jurusan%>"
         />
         <div class="tombol">
           <a href="profil" class="back">Kembali</a>

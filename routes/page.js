@@ -2,7 +2,7 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const router = express.Router();
 const user = require("../controller/auth");
-const mhs = require("../controller/mhs/mhs");
+const mahasiswa = require("../controller/mhs/mhs");
 const publish = require("../controller/mhs/ppi");
 const org = require("../controller/admorg/admorg");
 const fti = require("../controller/admfti/admfti");
@@ -20,12 +20,12 @@ router.get("/", redirectIfLoggedIn, login.page);
 router.post("/", user.login);
 
 //page mhs
-router.get("/home", checkRole("mhs"), verif.verifyToken, mhs.home);
-router.get("/berita", verif.verifyToken, mhs.berita);
-router.get("/org", verif.verifyToken, mhs.org);
-router.get("/room", verif.verifyToken, mhs.room);
-router.get("/chat", verif.verifyToken, mhs.chat);
-router.get("/profil", verif.verifyToken, mhs.profil);
+router.get("/home", checkRole("mhs"), verif.verifyToken, mahasiswa.home);
+router.get("/berita", verif.verifyToken, mahasiswa.berita);
+router.get("/org", verif.verifyToken, mahasiswa.org);
+router.get("/room", verif.verifyToken, mahasiswa.room);
+router.get("/chat", verif.verifyToken, mahasiswa.chat);
+router.get("/profil", verif.verifyToken, mahasiswa.profil);
 
 //page org
 router.get("/admorg", checkRole("adminorg"), verif.verifyToken, org.admorg);
