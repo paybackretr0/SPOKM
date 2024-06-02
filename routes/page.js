@@ -23,6 +23,7 @@ router.post("/", user.login);
 router.get("/home", checkRole("mhs"), verif.verifyToken, mhs.home);
 router.get("/berita", verif.verifyToken, mhs.berita);
 router.get("/org", verif.verifyToken, mhs.org);
+router.get("/room", verif.verifyToken, mhs.room);
 router.get("/chat", verif.verifyToken, mhs.chat);
 router.get("/profil", verif.verifyToken, mhs.profil);
 

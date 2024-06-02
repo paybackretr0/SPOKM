@@ -37,6 +37,16 @@ exports.daftar = async (req, res) => {
   }
 };
 
+exports.room = async (req, res) => {
+  try {
+    const pengguna = await user.findByPk(req.userId);
+    res.render("mhs/room", { accessToken: req.cookies.accessToken, pengguna });
+  } catch (error) {
+    console.error(error);
+    res.redirect("/login");
+  }
+};
+
 exports.chat = async (req, res) => {
   try {
     res.render("mhs/chat", { accessToken: req.cookies.accessToken });
