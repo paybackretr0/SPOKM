@@ -18,12 +18,12 @@ exports.refreshToken = async (req, res) => {
       (err, decoded) => {
         if (err)
           return res.status(403).json({ msg: "Token penyegar tidak valid" });
-        const id = pengguna.id;
+        const userId = pengguna.userId;
         const nama = pengguna.nama;
         const nim = pengguna.nim;
         const jurusan = pengguna.jurusan;
         const accessToken = jwt.sign(
-          { id, nama, nim, jurusan },
+          { userId, nama, nim, jurusan },
           process.env.ACCESS_TOKEN_SECRET,
           { expiresIn: "30s" }
         );
