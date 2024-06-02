@@ -28,6 +28,13 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date(),
         },
+        {
+          nim: "2211523010",
+          password: await bcrypt.hash("12345", 10),
+          role: "mhs",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
       ],
       {}
     );
