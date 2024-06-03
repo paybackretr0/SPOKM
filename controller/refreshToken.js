@@ -1,4 +1,4 @@
-const { user } = require("../models/index");
+const { User } = require("../models/index");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv").config();
 
@@ -7,7 +7,7 @@ exports.refreshToken = async (req, res) => {
     const refreshToken = req.cookies.refreshToken;
     if (!refreshToken)
       return res.status(401).json({ msg: "Token penyegar tidak ditemukan" });
-    const pengguna = await user.findOne({
+    const pengguna = await User.findOne({
       where: { refresh_token: refreshToken },
     });
     if (!pengguna)

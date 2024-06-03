@@ -2,11 +2,11 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv").config();
 const Swal = require("sweetalert2");
-const { user, mahasiswa } = require("../models/index");
+const { User, Mahasiswa } = require("../models/index");
 
 exports.login = async (req, res) => {
   try {
-    const pengguna = await user.findOne({ where: { nim: req.body.nim } });
+    const pengguna = await User.findOne({ where: { nim: req.body.nim } });
     if (!pengguna) {
       res.status(404).json({ status: "error", msg: "Login failed" });
     }
@@ -24,7 +24,7 @@ exports.login = async (req, res) => {
         process.env.REFRESH_TOKEN_SECRET,
         { expiresIn: "1d" }
       );
-      await user.update(
+      await User.update(
         { refresh_token: refreshToken },
         { where: { userId: pengguna.userId } }
       );
@@ -37,7 +37,7 @@ exports.login = async (req, res) => {
         maxAge: 24 * 60 * 60 * 1000,
       });
 
-      const mhs = await mahasiswa.findOne({ where: { nim: pengguna.nim } });
+      const mhs = await Mahasiswa.findOne({ where: { nim: pengguna.nim } });
 
       // Redirect based on role
       switch (role) {
@@ -65,12 +65,12 @@ exports.login = async (req, res) => {
 exports.logout = async (req, res) => {
   const refreshToken = req.cookies.refreshToken;
   if (!refreshToken) return res.status(204).json({ msg: "NO CONTENT" });
-  const pengguna = await user.findOne({
+  const pengguna = await User.findOne({
     where: { refresh_token: refreshToken },
   });
   if (!pengguna) return res.status(204).json({ msg: "NO CONTENT 2" });
   const userId = pengguna.userId;
-  await user.update({ refresh_token: null }, { where: { userId: userId } });
+  await User.update({ refresh_token: null }, { where: { userId: userId } });
   res.clearCookie("refreshToken");
   res.clearCookie("accessToken");
   res.redirect("/login");
