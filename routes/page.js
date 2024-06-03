@@ -13,6 +13,7 @@ const login = require("../controller/login");
 const redirectIfLoggedIn = require("../middleware/loggedIn");
 const checkRole = require("../middleware/checkRole");
 const edit = require("../controller/editProfile");
+const upload = require("../middleware/uploadgambar");
 
 //login
 router.get("/login", redirectIfLoggedIn, login.page);
@@ -23,6 +24,7 @@ router.post("/", user.login);
 router.get("/home", checkRole("mhs"), verif.verifyToken, mhs.home);
 router.get("/berita", verif.verifyToken, mhs.berita);
 router.get("/org", verif.verifyToken, mhs.org);
+router.get("/daftarorg", checkRole("mhs"), verif.verifyToken, mhs.daftar);
 router.get("/chat", verif.verifyToken, mhs.chat);
 router.get("/profil", verif.verifyToken, mhs.profil);
 
@@ -32,12 +34,8 @@ router.get("/admorg", checkRole("adminorg"), verif.verifyToken, org.admorg);
 //page fti
 router.get("/dashboard", checkRole("adminfti"), verif.verifyToken, fti.admfti);
 router.get("/news", checkRole("adminfti"), verif.verifyToken, fti.informasi);
-router.get(
-  "/tambahNews",
-  checkRole("adminfti"),
-  verif.verifyToken,
-  fti.tambahinformasi
-);
+router.get("/tambahNews", checkRole("adminfti"), verif.verifyToken, fti.tambahinformasi);
+router.post("/addNews", checkRole("adminfti"), verif.verifyToken, upload.single('gambar'), fti.createNews); // Handle form submission
 
 //change password
 router.get("/changepassword", verif.verifyToken, pw.changepassword);

@@ -12,21 +12,21 @@ exports.login = async (req, res) => {
     }
     const match = await bcrypt.compare(req.body.password, pengguna.password);
     if (match) {
-      const id = pengguna.id;
+      const userId = pengguna.userId;
       const role = pengguna.role;
       const accessToken = jwt.sign(
-        { id, nim: pengguna.nim, role },
+        { userId, nim: pengguna.nim, role },
         process.env.ACCESS_TOKEN_SECRET,
         { expiresIn: "1d" }
       );
       const refreshToken = jwt.sign(
-        { id, nim: pengguna.nim, role },
+        { userId, nim: pengguna.nim, role },
         process.env.REFRESH_TOKEN_SECRET,
         { expiresIn: "1d" }
       );
       await user.update(
         { refresh_token: refreshToken },
-        { where: { id: pengguna.id } }
+        { where: { userId: pengguna.userId } }
       );
       res.cookie("accessToken", accessToken, {
         httpOnly: true,
@@ -49,7 +49,7 @@ exports.login = async (req, res) => {
           res.render("mhs/home", { accessToken, pengguna });
           break;
         default:
-          res.status(401).json({ msg: "Invalid role" });
+          res.status(401).json({ msg: "InvaluserId role" });
       }
     } else {
       res.status(401).json({ status: "error", msg: "Login failed" });
@@ -67,8 +67,8 @@ exports.logout = async (req, res) => {
     where: { refresh_token: refreshToken },
   });
   if (!pengguna) return res.status(204).json({ msg: "NO CONTENT 2" });
-  const id = pengguna.id;
-  await user.update({ refresh_token: null }, { where: { id: id } });
+  const userId = pengguna.userId;
+  await user.update({ refresh_token: null }, { where: { userId: userId } });
   res.clearCookie("refreshToken");
   res.clearCookie("accessToken");
   res.redirect("/login");

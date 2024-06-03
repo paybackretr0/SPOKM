@@ -10,7 +10,7 @@ exports.verifyToken = (req, res, next) => {
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
     if (err) return res.json({ msg: "Session telah Habis" });
 
-    req.userId = decoded.id;
+    req.userId = decoded.userId;
     req.userRole = decoded.role;
     req.userNim = decoded.nim;
     next();
