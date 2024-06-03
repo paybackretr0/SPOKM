@@ -1,8 +1,8 @@
-const { user } = require("../../models/index");
+const { User } = require("../../models/index");
 
 exports.admorg = async (req, res) => {
   try {
-    const users = await user.findByPk(req.userId);
+    const users = await User.findByPk(req.userId);
     res.render("admorg/admorg", {
       accessToken: req.cookies.accessToken,
       users,
