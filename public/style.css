@@ -625,7 +625,7 @@ input {
 
 /* Ubah Password */
 .edit-pw {
-  background: url("/img/warna.jpg");
+  background: url("/img/fti10.jpg");
   background-size: cover;
   background-position: center;
   margin: 0;
@@ -776,3 +776,244 @@ input {
   text-transform: none;
 }
 
+.chat-container {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background: var(--light-bg);
+}
+
+.chat-header {
+  background: var(--warna);
+  color: var(--putih);
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.chat-header .btn {
+  background: none;
+  color: var(--putih);
+  font-size: 1.5rem;
+}
+
+.chat-main {
+  display: flex;
+  justify-content: space-between;
+}
+
+.chat-sidebar {
+  background: var(--light-bg);
+  padding: 20px 20px 60px;
+  overflow-y: scroll;
+  border: var(--border);
+  border-radius: 10px;
+  margin: 2rem;
+  width: 30%;
+  height: 30%;
+}
+
+.chat-sidebar h2 {
+  font-size: 20px;
+  background: rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.chat-sidebar h3 {
+  margin-bottom: 15px;
+}
+
+.chat-sidebar ul li {
+  padding: 10px 0;
+  list-style: none;
+}
+
+.chat-content {
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--box-shadow);
+  margin: 2rem 0;
+  height: 74.5vh;
+}
+
+.chat-messages {
+  padding: 30px;
+  max-height: 500px;
+  overflow-y: scroll;
+  flex-grow: 1;
+}
+
+.chat-messages .message {
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background-color: var(--kremMud);
+  border-radius: 10px;
+}
+
+.chat-messages .message .meta {
+  font-size: 15px;
+  font-weight: bold;
+  color: var(--hitam);
+  opacity: 0.7;
+  margin-bottom: 7px;
+}
+
+.chat-messages .message .meta span {
+  color: var(--text-shadow);
+}
+
+.chat-messages hr {
+  border: 0;
+  height: 1px;
+  width: 100%;
+  background: var(--warna);
+  margin-bottom: 1rem;
+}
+
+.chat-form-container {
+  padding: 20px 30px;
+  color: var(--hitam);
+  position: sticky;
+  bottom: 0;
+}
+
+.chat-form-container form {
+  display: flex;
+}
+
+.chat-form-container input[type="text"] {
+  font-size: 16px;
+  padding: 5px;
+  height: 40px;
+  flex: 1;
+  color: var(--hitam);
+}
+
+.chat-form-container .form-inline input {
+  width: 50%;
+  padding: 10px;
+  border-radius: 5px;
+  border: var(--border);
+  margin: 1rem;
+}
+
+.chat-form-container .form-inline .kirim {
+  width: 10%;
+  padding: 5px;
+  font-size: 0.9rem;
+  border-radius: 5px;
+  border: none;
+  box-shadow: none;
+  background-color: var(--warna);
+  color: white;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+}
+
+.chat-form-container .form-inline .kirim:hover {
+  background-color: var(--warna);
+  font-weight: 600;
+}
+
+/* Join Page */
+
+.room-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.room-header .logo {
+  font-size: 50px;
+  color: var(--putih);
+}
+
+.waiting-room {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: url("./img/fti10.jpg") no-repeat;
+  backdrop-filter: blur(3px);
+  background-size: cover;
+  background-position: center;
+}
+
+.join-container h1 {
+  user-select: none;
+}
+
+.join-container {
+  width: 420px;
+  background: transparent;
+  border: var(--border);
+  backdrop-filter: blur(20px);
+  box-shadow: var(--box-shadow);
+  color: var(--putih);
+  border-radius: 10px;
+  padding: 30px 40px;
+}
+
+.join-container .form-control {
+  position: relative;
+  width: 100%;
+  height: 50px;
+  margin: 30px 0;
+}
+
+.join-container label {
+  display: block;
+  margin-bottom: 5px;
+  user-select: none;
+}
+
+.join-container input[type="text"] {
+  font-size: 16px;
+  padding: 5px;
+  height: 40px;
+  width: 100%;
+}
+
+.join-container select {
+  font-size: 16px;
+  padding: 5px;
+  height: 40px;
+  width: 100%;
+}
+
+.join-container .in {
+  width: 100%;
+  height: 45px;
+  background: white;
+  border: none;
+  outline: none;
+  border-radius: 40px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  font-size: 16px;
+  color: #333;
+  font-weight: 600;
+  transition: 0.3s ease-in-out;
+  margin: 1rem 0;
+}
+
+.in:hover {
+  background: var(--warna);
+}
+
+.in a {
+  text-decoration: none;
+  color: black;
+}
+
+@media (max-width: 700px) {
+  .chat-main {
+    display: block;
+  }
+
+  .chat-sidebar {
+    display: none;
+  }
+}

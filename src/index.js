@@ -1,12 +1,17 @@
 const express = require("express");
 const dotenv = require("dotenv").config();
+const http = require("http");
 const router = require("../routes/page");
 const cookieParser = require("cookie-parser");
+const socketio = require("socket.io");
+const chat = require("../controller/socket");
 const app = express();
 const fs = require('fs');
 const path = require('path');
 const port = 3000;
-const upload = require('../middleware/uploadgambar'); // Mengimpor konfigurasi multer
+const server = http.createServer(app);
+const io = socketio(server);
+const upload = require('../middleware/uploadgambar'); 
 
 app.set("view engine", "ejs");
 
@@ -22,6 +27,8 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(router);
 
-app.listen(port, () => {
+chat(io);
+
+server.listen(port, () => {
   console.log(`Aplikasi jalan pada port ${port}`);
 });

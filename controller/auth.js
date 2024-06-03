@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv").config();
 const Swal = require("sweetalert2");
-const { user } = require("../models/index");
+const { user, mahasiswa } = require("../models/index");
 
 exports.login = async (req, res) => {
   try {
@@ -37,16 +37,18 @@ exports.login = async (req, res) => {
         maxAge: 24 * 60 * 60 * 1000,
       });
 
+      const mhs = await mahasiswa.findOne({ where: { nim: pengguna.nim } });
+
       // Redirect based on role
       switch (role) {
         case "adminfti":
-          res.render("admfti/dashboard", { accessToken, pengguna });
+          res.render("admfti/dashboard", { accessToken, pengguna, mhs });
           break;
         case "adminorg":
-          res.render("admorg/admorg", { accessToken, pengguna });
+          res.render("admorg/admorg", { accessToken, pengguna, mhs });
           break;
         case "mhs":
-          res.render("mhs/home", { accessToken, pengguna });
+          res.render("mhs/home", { accessToken, pengguna, mhs });
           break;
         default:
           res.status(401).json({ msg: "InvaluserId role" });

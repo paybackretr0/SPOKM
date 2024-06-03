@@ -2,7 +2,7 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const router = express.Router();
 const user = require("../controller/auth");
-const mhs = require("../controller/mhs/mhs");
+const mahasiswa = require("../controller/mhs/mhs");
 const publish = require("../controller/mhs/ppi");
 const org = require("../controller/admorg/admorg");
 const fti = require("../controller/admfti/admfti");
@@ -25,6 +25,7 @@ router.get("/home", checkRole("mhs"), verif.verifyToken, mhs.home);
 router.get("/berita", verif.verifyToken, mhs.berita);
 router.get("/org", verif.verifyToken, mhs.org);
 router.get("/daftarorg", checkRole("mhs"), verif.verifyToken, mhs.daftar);
+router.get("/room", verif.verifyToken, mahasiswa.room);
 router.get("/chat", verif.verifyToken, mhs.chat);
 router.get("/profil", verif.verifyToken, mhs.profil);
 
