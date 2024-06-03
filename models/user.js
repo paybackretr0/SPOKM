@@ -8,16 +8,14 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
+      user.hasMany(models.Berita, {
+        foreignKey: "userId",
+      });
       user.belongsTo(models.mahasiswa, { foreignKey: "nim" });
     }
   }
   user.init(
     {
-      userId: {
-        allowNull: false,
-        primaryKey: true,
-        type: DataTypes.STRING,
-      },
       nim: {
         allowNull: false,
         type: DataTypes.STRING,

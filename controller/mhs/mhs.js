@@ -31,7 +31,7 @@ exports.org = async (req, res) => {
 
 exports.daftar = async (req, res) => {
   try {
-    res.render("mhs/daftar", { accessToken: req.cookies.accessToken });
+    res.render("mhs/daftarorg", { accessToken: req.cookies.accessToken });
   } catch (error) {
     console.error(error);
     res.redirect("/login");

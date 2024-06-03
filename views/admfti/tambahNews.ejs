@@ -6,43 +6,76 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
     />
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
-
     <link
       href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
       rel="stylesheet"
     />
-  <title>Formulir Berita</title>
- 
-</head>
-<body>
-  <div class="containert">
-    <h2>Formulir Berita</h2>
-    <form action="#" method="post">
-    <div class = "box">
-      <label for="judul">Judul:</label>
-      <input type="text" id="judul" name="judul" required>
+    <title>Formulir Berita</title>
+  </head>
+  <body>
+    <div class="containert">
+      <h2>Formulir Berita</h2>
+      <form
+        action="/addNews"
+        method="post"
+        id="beritaForm"
+        enctype="multipart/form-data"
+      >
+        <div class="box">
+          <label for="judul">Judul:</label>
+          <input type="text" id="judul" name="judul" required />
 
-      <label for="kategori">Kategori:</label>
-      <input type="text" id="kategori" name="kategori" required>
+          <label for="kategori">Kategori:</label>
+          <input type="text" id="kategori" name="kategori" required />
 
-      <label for="isi_berita">Isi Berita:</label>
-      <textarea id="isi_berita" name="isi_berita" required></textarea>
+          <label for="isi_berita">Isi Berita:</label>
+          <textarea id="isi_berita" name="isi_berita" required></textarea>
 
-      <label for="gambar">Gambar:</label>
-      <input type="file" id="gambar" name="gambar" accept="image/*">
+          <label for="gambar">Gambar:</label>
+          <input type="file" id="gambar" name="gambar" accept="image/*" />
 
-      <label for="penulis">Penulis:</label>
-      <input type="text" id="penulis" name="penulis" required>
+          <label for="penulis">Penulis:</label>
+          <input type="text" id="penulis" name="penulis" required />
 
-      <label for="tanggal">Tanggal:</label>
-      <input type="date" id="tanggal" name="tanggal" required>
+          <label for="tanggalPengajuan">Tanggal:</label>
+          <input
+            type="date"
+            id="tanggalPengajuan"
+            name="tanggalPengajuan"
+            required
+          />
+        </div>
+        <div class="button-container">
+          <input type="submit" value="Simpan" />
+          <a href="news">Batal</a>
+        </div>
+      </form>
     </div>
-      <div class="button-container">
-        <input type="submit" value="Simpan">
-        <a href="informasi">Batal</a>
-    </div>
-    </form>
-  </div>
-</body>
+    <script>
+      document
+        .getElementById("beritaForm")
+        .addEventListener("submit", async function (event) {
+          event.preventDefault();
+
+          const formData = new FormData(this);
+          try {
+            const response = await fetch("/addNews", {
+              method: "POST",
+              body: formData,
+            });
+
+            if (response.ok) {
+              alert("Informasi tersimpan");
+              window.location.href = "news";
+            } else {
+              const errorData = await response.json();
+              alert("Gagal menyimpan informasi: " + errorData.message);
+            }
+          } catch (error) {
+            console.error("Error:", error);
+            alert("Terjadi kesalahan pada server");
+          }
+        });
+    </script>
+  </body>
 </html>
