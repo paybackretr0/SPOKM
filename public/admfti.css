@@ -468,6 +468,56 @@ th {
   cursor: pointer;
   border-radius: 10px;
 }
+
+.berita {
+  left: 250px;
+  height: 100vh;
+  width: calc(100% - 250px);
+  background-color: var(--body-color);
+  transition: var(--tran-05);
+  display: flex;
+  flex-wrap: wrap;
+}
+.berita .text {
+  font-size: 30px;
+  font-weight: 500;
+  color: var(--text-color);
+  padding: 2rem;
+}
+
+.berita .informasi .controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 2rem;
+}
+
+.berita .informasi .table {
+  margin-right: 4rem;
+}
+
+table {
+  width: 80%;
+}
+
+th,
+td {
+  border: var(--border);
+  padding: 1rem;
+  text-align: center;
+  text-transform: none;
+}
+
+td {
+  background: var(--kremMud);
+  color: var(--hitam);
+}
+
+th {
+  background: var(--krem);
+  color: var(--hitam);
+}
+
 .action-buttons {
   display: flex;
   flex-direction: column;
@@ -491,7 +541,7 @@ th {
   cursor: pointer;
   margin-bottom: 5px;
 }
-
+  
 .action-button-detail {
   background-color: var(--warna);
   border-radius: 10px;
