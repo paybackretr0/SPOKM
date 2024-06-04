@@ -8,12 +8,12 @@
     />
     <title>Berita</title>
   </head>
-  <body class="dashboard">
+  <body class="news">
     <%- include('../komponen/sidebar');%>
     <section class="berita">
       <div class="text">Informasi</div>
       <div class="informasi">
-        <div class="controls">
+        <div class="table">
           <div class="button-container">
             <a href="tambahNews" class="add-button-link">
               <button class="add-button">
@@ -21,18 +21,16 @@
               </button></a
             >
           </div>
-        </div>
-        <div class="table">
           <table>
             <thead>
               <tr>
-                <th>NO</th>
-                <th>JUDUL</th>
-                <th>GAMBAR</th>
-                <th>KATEGORI</th>
-                <th>TANGGAL PENGAJUAN</th>
-                <th>PENULIS</th>
-                <th>PILIHAN</th>
+                <th>No.</th>
+                <th>Judul</th>
+                <th>Gambar</th>
+                <th>Kategori</th>
+                <th>Tanggal Pengajuan</th>
+                <th>Penulis</th>
+                <th>Aksi</th>
               </tr>
             </thead>
             <tbody>
@@ -48,9 +46,9 @@
                 <td><%= berita.penulis %></td>
                 <td>
                   <div class="action-buttons">
-                    <button class="action-button">Edit</button>
-                    <button class="action-button">Hapus</button>
-                    <button class="action-button">Detail</button>
+                    <button class="action-button-edit">Edit</button>
+                    <button class="action-button-hapus">Hapus</button>
+                    <button class="action-button-detail">Detail</button>
                   </div>
                 </td>
               </tr>

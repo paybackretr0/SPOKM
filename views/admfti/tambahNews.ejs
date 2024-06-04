@@ -10,56 +10,65 @@
       href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
       rel="stylesheet"
     />
-    <title>Formulir Berita</title>
+    <title>Form Penambahan Informasi</title>
   </head>
   <body>
-    <div class="containert">
-      <h2>Formulir Berita</h2>
-      <form
-        action="/addNews"
-        method="post"
-        id="beritaForm"
-        enctype="multipart/form-data"
-      >
-        <div class="box">
-          <label for="judul">Judul:</label>
-          <input type="text" id="judul" name="judul" required />
+    <%- include('../komponen/sidebar');%>
+    <section class="add-news">
+      <div class="containert">
+        <h2>Penambahan Informasi</h2>
+        <form
+          action="/addNews"
+          method="post"
+          id="beritaForm"
+          enctype="multipart/form-data"
+        >
+          <div class="box">
+            <label for="judul">Judul:</label>
+            <input type="text" id="judul" name="judul" required />
 
-          <label for="kategori">Kategori:</label>
-          <select id="namaKategori" name="kategori" required>
-            <option value="" disabled selected hidden>
-              ---Pilih Kategori Publikasi yang Sesuai---
-            </option>
-            <% kategoris.forEach(kategori => { %>
-            <option value="<%= kategori.idKategori %>">
-              <%= kategori.namaKategori %>
-            </option>
-            <% }) %>
-          </select>
+            <label for="kategori">Kategori:</label>
+            <select id="namaKategori" name="kategori" required>
+              <option value="" disabled selected hidden>
+                ---Pilih Kategori Publikasi yang Sesuai---
+              </option>
+              <% kategoris.forEach(kategori => { %>
+              <option value="<%= kategori.idKategori %>">
+                <%= kategori.namaKategori %>
+              </option>
+              <% }) %>
+            </select>
 
-          <label for="isi_berita">Isi Berita:</label>
-          <textarea id="isi_berita" name="isi_berita" required></textarea>
+            <label for="isi_berita">Isi Berita:</label>
+            <textarea id="isi_berita" name="isi_berita" required></textarea>
 
-          <label for="gambar">Gambar:</label>
-          <input type="file" id="gambar" name="gambar" accept="image/*" />
+            <label for="gambar">Gambar:</label>
+            <input
+              type="file"
+              id="gambar"
+              name="gambar"
+              accept="image/*"
+              required
+            />
 
-          <label for="penulis">Penulis:</label>
-          <input type="text" id="penulis" name="penulis" required />
+            <label for="penulis">Penulis:</label>
+            <input type="text" id="penulis" name="penulis" required />
 
-          <label for="tanggalPengajuan">Tanggal:</label>
-          <input
-            type="date"
-            id="tanggalPengajuan"
-            name="tanggalPengajuan"
-            required
-          />
-        </div>
-        <div class="button-container">
-          <input type="submit" value="Simpan" />
-          <a href="news">Batal</a>
-        </div>
-      </form>
-    </div>
+            <label for="tanggalPengajuan">Tanggal:</label>
+            <input
+              type="date"
+              id="tanggalPengajuan"
+              name="tanggalPengajuan"
+              required
+            />
+          </div>
+          <div class="button-container">
+            <input type="submit" value="Simpan" />
+            <a href="news">Batal</a>
+          </div>
+        </form>
+      </div>
+    </section>
     <script>
       document
         .getElementById("beritaForm")
