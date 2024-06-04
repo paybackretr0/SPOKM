@@ -26,7 +26,16 @@
           <input type="text" id="judul" name="judul" required />
 
           <label for="kategori">Kategori:</label>
-          <input type="text" id="kategori" name="kategori" required />
+          <select id="namaKategori" name="kategori" required>
+            <option value="" disabled selected hidden>
+              ---Pilih Kategori Publikasi yang Sesuai---
+            </option>
+            <% kategoris.forEach(kategori => { %>
+            <option value="<%= kategori.idKategori %>">
+              <%= kategori.namaKategori %>
+            </option>
+            <% }) %>
+          </select>
 
           <label for="isi_berita">Isi Berita:</label>
           <textarea id="isi_berita" name="isi_berita" required></textarea>
