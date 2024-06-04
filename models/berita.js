@@ -4,27 +4,32 @@ const { Model, DataTypes } = require("sequelize");
 module.exports = (sequelize) => {
   class Berita extends Model {
     static associate(models) {
-      // Hubungan antara berita dan user
-      Berita.belongsTo(models.user, {
+      Berita.belongsTo(models.User, {
         foreignKey: "userId",
+      });
+      Berita.belongsTo(models.Kategori, {
+        foreignKey: "idKategori",
       });
     }
   }
 
   Berita.init(
     {
-      // Definisi kolom tabel 'berita'
       idNews: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
+      },
+      userId: {
+        allowNull: false,
+        type: DataTypes.STRING,
       },
       judul: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      kategori: {
+      idKategori: {
+        allowNull: false,
         type: DataTypes.STRING,
       },
       isi_berita: {
@@ -53,8 +58,8 @@ module.exports = (sequelize) => {
     },
     {
       sequelize,
-      modelName: "Berita", // Nama model dengan huruf kapital
-      tableName: "beritas", // Nama tabel di basis data
+      modelName: "Berita",
+      tableName: "beritas",
     }
   );
 

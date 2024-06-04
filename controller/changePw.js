@@ -1,4 +1,4 @@
-const { user } = require("../models/index");
+const { User } = require("../models/index");
 const bcrypt = require("bcrypt");
 
 exports.changepassword = async (req, res) => {
@@ -15,7 +15,7 @@ exports.updatepassword = async (req, res, next) => {
     const { oldPassword, newPassword, confirmPassword } = req.body;
 
     // Cari pengguna berdasarkan userId
-    const users = await user.findByPk(req.userId);
+    const users = await User.findByPk(req.userId);
     console.log(users);
     if (!users) {
       return res.status(404).json({ message: "Pengguna tidak ditemukan" });

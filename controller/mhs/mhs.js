@@ -1,9 +1,9 @@
-const { user, mahasiswa } = require("../../models/index");
+const { User, Mahasiswa } = require("../../models/index");
 
 exports.home = async (req, res) => {
   try {
-    const pengguna = await user.findByPk(req.userId);
-    const mhs = await mahasiswa.findOne({ where: { nim: pengguna.nim } });
+    const pengguna = await User.findByPk(req.userId);
+    const mhs = await Mahasiswa.findOne({ where: { nim: pengguna.nim } });
     res.render("mhs/home", { accessToken: req.cookies.accessToken, mhs });
   } catch (error) {
     console.error(error);
@@ -40,8 +40,8 @@ exports.daftar = async (req, res) => {
 
 exports.room = async (req, res) => {
   try {
-    const pengguna = await user.findByPk(req.userId);
-    const mhs = await mahasiswa.findOne({ where: { nim: pengguna.nim } });
+    const pengguna = await User.findByPk(req.userId);
+    const mhs = await Mahasiswa.findOne({ where: { nim: pengguna.nim } });
     res.render("mhs/room", { accessToken: req.cookies.accessToken, mhs });
   } catch (error) {
     console.error(error);
@@ -60,8 +60,8 @@ exports.chat = async (req, res) => {
 
 exports.profil = async (req, res) => {
   try {
-    const pengguna = await user.findByPk(req.userId);
-    const mhs = await mahasiswa.findOne({ where: { nim: pengguna.nim } });
+    const pengguna = await User.findByPk(req.userId);
+    const mhs = await Mahasiswa.findOne({ where: { nim: pengguna.nim } });
     res.render("profil", {
       accessToken: req.cookies.accessToken,
       mhs,
