@@ -59,6 +59,7 @@ module.exports = (sequelize) => {
     {
       sequelize,
       modelName: "Berita",
+      tableName: "beritas",
     }
   );
 

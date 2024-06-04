@@ -1,7 +1,6 @@
-const { User, Berita } = require("../../models");
+const { User, Berita, Kategori } = require("../../models/index");
 let nanoid;
 
-// Use an IIFE (Immediately Invoked Function Expression) to import nanoid
 (async () => {
   nanoid = (await import("nanoid")).nanoid;
 })();
@@ -21,9 +20,18 @@ exports.admfti = async (req, res) => {
 exports.informasi = async (req, res) => {
   try {
     const pengguna = await User.findByPk(req.userId);
+    const beritas = await Berita.findAll({
+      include: [
+        {
+          model: Kategori,
+          attributes: ["namaKategori"], // replace with the actual column name in 'Kategori' table
+        },
+      ],
+    });
     res.render("admfti/news", {
       accessToken: req.cookies.accessToken,
       pengguna,
+      beritas,
     });
   } catch (error) {
     console.error(error);
@@ -34,9 +42,11 @@ exports.informasi = async (req, res) => {
 exports.tambahinformasi = async (req, res) => {
   try {
     const pengguna = await User.findByPk(req.userId);
+    const kategoris = await Kategori.findAll(); // Fetch all categories
     res.render("admfti/tambahNews", {
       accessToken: req.cookies.accessToken,
       pengguna,
+      kategoris,
     });
   } catch (error) {
     console.error(error);
@@ -57,7 +67,7 @@ exports.createNews = async (req, res) => {
     await Berita.create({
       idNews: "B" + nanoid(7),
       judul: judul,
-      kategori: kategori,
+      idKategori: kategori,
       isi_berita: isi_berita,
       gambar: gambar,
       penulis: penulis,

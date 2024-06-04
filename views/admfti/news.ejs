@@ -8,12 +8,12 @@
     />
     <title>Berita</title>
   </head>
-  <body class="dashboard">
+  <body class="news">
     <%- include('../komponen/sidebar');%>
     <section class="berita">
+      <div class="text">Informasi</div>
       <div class="informasi">
-        <div class="text">Informasi</div>
-        <div class="controls">
+        <div class="table">
           <div class="button-container">
             <a href="tambahNews" class="add-button-link">
               <button class="add-button">
@@ -21,52 +21,41 @@
               </button></a
             >
           </div>
+          <table>
+            <thead>
+              <tr>
+                <th>No.</th>
+                <th>Judul</th>
+                <th>Gambar</th>
+                <th>Kategori</th>
+                <th>Tanggal Pengajuan</th>
+                <th>Penulis</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% beritas.forEach((berita, index) => { %>
+              <tr>
+                <td><%= index + 1 %></td>
+                <td><%= berita.judul %></td>
+                <td>
+                  <img src="../../src/uploads/<%= berita.gambar %>" />
+                </td>
+                <td><%= berita.Kategori.namaKategori %></td>
+                <td><%= berita.tanggalPengajuan %></td>
+                <td><%= berita.penulis %></td>
+                <td>
+                  <div class="action-buttons">
+                    <button class="action-button-edit">Edit</button>
+                    <button class="action-button-hapus">Hapus</button>
+                    <button class="action-button-detail">Detail</button>
+                  </div>
+                </td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
         </div>
-        <table>
-          <thead>
-            <tr>
-              <th>NO</th>
-              <th>JUDUL</th>
-              <th>GAMBAR</th>
-              <th>KATEGORI</th>
-              <th>TANGGAL POSTING</th>
-              <th>PENULIS</th>
-              <th>PILIHAN</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td>
-                <div class="action-buttons">
-                  <button class="action-button">Edit</button>
-                  <button class="action-button">Hapus</button>
-                  <button class="action-button">Detail</button>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td>
-                <div class="action-buttons">
-                  <button class="action-button">Edit</button>
-                  <button class="action-button">Hapus</button>
-                  <button class="action-button">Detail</button>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
       </div>
     </section>
   </body>

@@ -387,6 +387,11 @@ body.dark .berita .informasi table {
   color: var(--hitam);
 }
 
+.news {
+  overflow-x: hidden;
+  display: flex;
+}
+
 .berita {
   position: absolute;
   top: 0;
@@ -396,87 +401,120 @@ body.dark .berita .informasi table {
   background-color: var(--body-color);
   transition: var(--tran-05);
   display: flex;
-  flex-wrap: wrap;
-  margin-left: 2rem;
+  flex-direction: column; /* Ensure items stack vertically */
+  padding: 2rem; /* Add padding for spacing */
 }
 
-.berita .informasi .text {
-  font-size: 2rem;
+.berita .text {
+  font-size: 30px;
+  margin-left: 1rem;
   font-weight: 500;
   color: var(--text-color);
-  padding: 10px 50px;
+  margin-bottom: 1rem; /* Add bottom margin for spacing */
+}
+
+.berita .informasi {
+  display: flex;
+  flex-direction: column;
+}
+
+.berita .informasi .button-container {
+  margin-bottom: 2rem; /* Add bottom margin for spacing */
+}
+
+.berita .informasi .table {
+  margin: 1rem;
+  overflow-x: auto;
+  padding: 2rem;
+  border-radius: 10px;
+  background: var(--kremMud);
 }
 
 table {
-  width: 165%;
+  width: 100%; /* Use full width of the container */
   border-collapse: collapse;
-  margin: 1rem 2rem;
+  margin: 0; /* Remove margin, handled by .table */
 }
+
 th,
 td {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: left;
-}
-.berita .informasi th {
-  background-color: #f2f2f2;
+  border: var(--border);
+  padding: 0.4rem;
   text-align: center;
-  vertical-align: middle;
+  text-transform: none;
 }
+
+td {
+  background: var(--kremMud);
+  color: var(--hitam);
+}
+
+th {
+  background: var(--krem);
+  color: var(--hitam);
+  font-weight: bold;
+}
+
 .button-container {
   display: flex;
   justify-content: flex-start;
   margin-bottom: 10px;
 }
 .add-button {
-  background-color: #555;
-  color: white;
+  background-color: var(--warna);
+  color: var(--putih);
   padding: 10px 20px;
   border: none;
   cursor: pointer;
-  border-radius: 20%;
+  border-radius: 10px;
 }
 .action-buttons {
   display: flex;
   flex-direction: column;
 }
-.action-button {
-  background-color: #555;
-  color: white;
+.action-button-edit {
+  background-color: var(--warna);
+  border-radius: 10px;
+  color: var(--putih);
   padding: 5px 10px;
   border: none;
   cursor: pointer;
   margin-bottom: 5px;
 }
 
-.berita .informasi .controls {
+.action-button-hapus {
+  background-color: red;
+  border-radius: 10px;
+  color: var(--putih);
+  padding: 5px 10px;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 5px;
+}
+
+.action-button-detail {
+  background-color: var(--warna);
+  border-radius: 10px;
+  color: var(--putih);
+  padding: 5px 10px;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 5px;
+}
+
+.add-news {
+  position: absolute;
+  top: 0;
+  left: 100px;
+  height: 100vh;
+  width: calc(100% - 250px);
+  background-color: var(--body-color);
+  transition: var(--tran-05);
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 1rem 2rem;
+  flex-wrap: wrap;
 }
 
-.gambar {
-  width: 50px;
-  height: 50px;
-  border: 1px solid #ddd;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.gambar::before {
-  content: "X";
-  font-size: 24px;
-}
-
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f0f0f0;
-  margin: 0;
-  padding: 0;
-}
-
-.containert {
+.add-news .containert {
   width: 90%;
   margin: 50px auto;
   background-color: #fff;
@@ -524,7 +562,7 @@ textarea {
 }
 
 input[type="submit"] {
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   border: none;
   padding: 15px 20px;
