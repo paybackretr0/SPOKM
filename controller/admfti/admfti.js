@@ -1,6 +1,5 @@
 const { User, Berita, Kategori } = require("../../models/index");
 let nanoid;
-
 (async () => {
   nanoid = (await import("nanoid")).nanoid;
 })();
