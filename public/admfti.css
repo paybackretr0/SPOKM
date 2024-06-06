@@ -369,6 +369,47 @@ body.dark .switch::before {
   text-transform: none;
 }
 
+/* Styling untuk notifikasi */
+.notification-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 300px;
+  z-index: 1000;
+}
+
+.notification {
+  background-color: #f0f8ff;
+  border: 1px solid #dcdcdc;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  min-width: 160px;
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
 .sidebar.close ~ .home,
 .sidebar.close ~ .berita {
   left: 78px;
@@ -515,22 +556,22 @@ th {
 }
 
 .add-news .containert {
-  width: 90%;
+  width: 75%;
+  border: var(--border);
+  box-shadow: var(--box-shadow);
+  background-color: var(--light-bg);
+  border-radius: 10px;
+  color: var(--hitam);
+  padding: 50px;
   margin: 50px auto;
-  background-color: #fff;
-  padding: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
 }
 
-h2 {
+.add-news .containert .judul {
   text-align: center;
-  color: #333;
-}
-
-form {
-  display: flex;
-  flex-direction: column;
+  margin-bottom: 2rem;
+  font-size: 2.5rem;
+  text-transform: uppercase;
+  color: var(--hitam);
 }
 
 .box {
@@ -538,57 +579,51 @@ form {
   flex-direction: column;
   gap: 15px;
 }
-
-label {
-  font-weight: bold;
-  margin-bottom: 5px;
+.box label {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--hitam);
+  margin-top: 1rem;
 }
 
-input[type="text"],
-input[type="date"],
-textarea,
-input[type="file"] {
+.box input,
+.box select {
   width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
+  padding: 1.2rem;
+  font-size: 1rem;
+  color: var(--hitam);
+  text-transform: none;
+  outline: none;
+}
+
+input {
+  border: var(--border);
+  border-radius: 10px;
 }
 
 textarea {
+  padding: 1.2rem;
   height: 150px;
   resize: vertical;
 }
 
 input[type="submit"] {
-  background-color: #4caf50;
+  background-color: var(--warna);
   color: white;
   border: none;
   padding: 15px 20px;
-  font-size: 16px;
-  border-radius: 4px;
+  font-size: 1rem;
+  border-radius: 10px;
   cursor: pointer;
-  margin-top: 10px;
+  margin-top: 2rem;
 }
 
 input[type="submit"]:hover {
-  background-color: #45a049;
+  background-color: #476a82;
 }
 
 .button-container {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-a {
-  text-decoration: none;
-  color: #333;
-  font-size: 16px;
-  margin-top: 10px;
-}
-
-a:hover {
-  text-decoration: underline;
+  justify-content: flex-start;
+  width: 100%;
 }

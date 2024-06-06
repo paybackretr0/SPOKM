@@ -14,7 +14,7 @@ function redirectIfLoggedIn(req, res, next) {
           res.redirect("/dashboard");
           break;
         case "adminorg":
-          res.redirect("/admorg");
+          res.redirect("/organisasi");
           break;
         case "mhs":
           res.redirect("/home");

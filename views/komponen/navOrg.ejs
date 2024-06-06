@@ -1,0 +1,56 @@
+<section class="header">
+  <a href="/" class="logo">FTI</a>
+  <nav class="navbar">
+    <a href="/">Home</a>
+    <a href="publish">Berita</a>
+    <a href="himp">Organisasi</a>
+    <a class="daftar" onclick="toggleMenuDaftar()">Pengajuan</a>
+    <div class="sub-daftar-wrap" id="subDaftar">
+      <div class="sub-daftar">
+        <div class="pendaftaran">
+          <a href="dafkgt" class="sub-daftar-links"
+            ><p>Pengajuan Kegiatan</p>
+            <span>></span></a
+          >
+        </div>
+      </div>
+    </div>
+  </nav>
+  <nav class="add">
+    <% if(accessToken){%>
+    <i class="bx bx-bell"></i>
+    <img src="/img/fti.jpg" class="user-pic" onclick="toggleMenu()" />
+    <div class="sub-menu-wrap" id="subMenu">
+      <div class="sub-menu">
+        <div class="user-info">
+          <h3>Halo,</h3>
+        </div>
+        <hr />
+        <a href="orga" class="sub-menu-links"
+          ><p>Profile</p>
+          <span>></span></a
+        >
+        <hr />
+        <form action="/logout" method="post">
+          <button type="submit" class="logut">
+            <i class="bx bxs-log-out"></i> <span>Logout</span>
+          </button>
+        </form>
+      </div>
+    </div>
+    <%} else {%>
+    <a href="login">Login</a>
+    <%}%>
+  </nav>
+
+  <script>
+    let subMenu = document.getElementById("subMenu");
+    function toggleMenu() {
+      subMenu.classList.toggle("open-menu");
+    }
+    let subDaftar = document.getElementById("subDaftar");
+    function toggleMenuDaftar() {
+      subDaftar.classList.toggle("open-daftar");
+    }
+  </script>
+</section>
