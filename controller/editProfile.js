@@ -4,7 +4,10 @@ exports.editProfile = async (req, res) => {
   try {
     const users = await User.findByPk(req.userId);
     const mhs = await Mahasiswa.findOne({ where: { nim: users.nim } });
-    res.render("editProfile", { accessToken: req.cookies.accessToken, mhs });
+    res.render("mhs/editProfile", {
+      accessToken: req.cookies.accessToken,
+      mhs,
+    });
   } catch (error) {
     console.error(error);
     res.redirect("/login");
