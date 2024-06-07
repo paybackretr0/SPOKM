@@ -42,10 +42,10 @@ exports.login = async (req, res) => {
       // Redirect based on role
       switch (role) {
         case "adminfti":
-          res.render("admfti/dashboard", { accessToken, pengguna, mhs });
+          res.render("admfti/dashboard", { accessToken, pengguna });
           break;
         case "adminorg":
-          res.render("admorg/admorg", { accessToken, pengguna, mhs });
+          res.render("admorg/organisasi", { accessToken, pengguna });
           break;
         case "mhs":
           res.render("mhs/home", { accessToken, pengguna, mhs });

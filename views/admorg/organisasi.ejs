@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="assets/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
+
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <title>Home</title>
+  </head>
+
+  <body>
+    <!-- Header -->
+    <%- include('../komponen/navOrg');%>
+    <!-- End Header -->
+
+    <!-- Awal Home -->
+    <section class="home">
+      <div class="swiper home-slider">
+        <div class="swiper-wrapper">
+          <div
+            class="swiper-slide slide"
+            style="background: url(/img/fti8.jpg) no-repeat"
+          >
+            <div class="content">
+              <span>Mewujudkan Potensi Mahasiswa FTI</span>
+              <h3>Beragam Organisasi, Peluang Tak Terbatas</h3>
+              <a href="" class="btn">discover more</a>
+            </div>
+          </div>
+          <div
+            class="swiper-slide slide"
+            style="background: url(/img/fti10.jpg) no-repeat"
+          >
+            <div class="content">
+              <span>Pusat Kreativitas dan Kolaborasi Mahasiswa FTI</span>
+              <h3>Organisasi yang Membangun, Kegiatan yang Menginspirasi</h3>
+              <a href="" class="btn">discover more</a>
+            </div>
+          </div>
+          <div
+            class="swiper-slide slide"
+            style="background: url(/img/fti7.jpg) no-repeat"
+          >
+            <div class="content">
+              <span>Inspirasi, Inovasi, Integrasi</span>
+              <h3>Ayo Berkarya, Ayo Beraksi!</h3>
+              <a href="" class="btn">discover more</a>
+            </div>
+          </div>
+        </div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+      </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="/js/script.js"></script>
+
+    <!-- Akhir Home -->
+    <!-- Home About -->
+    <section class="home-about">
+      <div class="image">
+        <img src="/img/fti2.jpg" alt="" />
+      </div>
+      <div class="content">
+        <h3>tentang website</h3>
+        <p>
+          Selamat datang di Sistem Pengelolaan Organisasi dan Kegiatan Mahasiswa
+          Fakultas Teknologi Informasi (FTI)! Kami menyediakan platform yang
+          terintegrasi untuk mempermudah manajemen dan koordinasi semua
+          aktivitas dan organisasi mahasiswa di FTI. Sistem ini dirancang untuk
+          membantu mahasiswa dalam mencari dan mengatur kegiatan, mengelola
+          keanggotaan, serta mengkoordinasikan acara dengan lebih efisien dan
+          efektif. Dengan fitur yang user-friendly, platform ini memungkinkan
+          mahasiswa untuk tetap terinformasi dan terlibat dalam berbagai
+          kegiatan, sekaligus memfasilitasi komunikasi yang lancar antara
+          anggota dan pengurus organisasi. Mari bersama-sama kita tingkatkan
+          kualitas dan keterlibatan dalam kegiatan mahasiswa dengan menggunakan
+          sistem ini!
+        </p>
+        <a href="" class="btn">read more</a>
+      </div>
+    </section>
+    <!-- End Home About -->
+    <!-- Home Latest -->
+    <section class="home-latest">
+      <h2>Organisasi dan Kegiatan Terbaru</h2>
+      <div class="content">
+        <div class="box">
+          <div class="isian">
+            <h3>Himpunan Mahasiswa Informatika</h3>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione
+              eum laborum modi dolorum. Ea velit blanditiis animi soluta
+              repellendus aliquam pariatur, repudiandae quidem voluptas rem,
+              natus dolorum quasi debitis! Tempore.
+            </p>
+            <a href="" class="btn">read more</a>
+          </div>
+          <div class="isian">
+            <h3>Technofest 2024</h3>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione
+              eum laborum modi dolorum. Ea velit blanditiis animi soluta
+              repellendus aliquam pariatur, repudiandae quidem voluptas rem,
+              natus dolorum quasi debitis! Tempore.
+            </p>
+            <a href="" class="btn">read more</a>
+          </div>
+        </div>
+        <div class="box">
+          <div class="isian">
+            <h3>BAKTI FTI 2024</h3>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione
+              eum laborum modi dolorum. Ea velit blanditiis animi soluta
+              repellendus aliquam pariatur, repudiandae quidem voluptas rem,
+              natus dolorum quasi debitis! Tempore.
+            </p>
+            <a href="" class="btn">read more</a>
+          </div>
+          <div class="isian">
+            <h3>Rekrutmen Asisten Labor</h3>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione
+              eum laborum modi dolorum. Ea velit blanditiis animi soluta
+              repellendus aliquam pariatur, repudiandae quidem voluptas rem,
+              natus dolorum quasi debitis! Tempore.
+            </p>
+            <a href="" class="btn">read more</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- End Home Latest -->
+    <!--  Kalender-->
+    <section class="kalender">
+      <div class="kalender" id="calendar"></div>
+    </section>
+    <!-- End Kalender -->
+  </body>
+</html>

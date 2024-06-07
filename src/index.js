@@ -21,6 +21,20 @@ if (!fs.existsSync(uploadDir)) {
 }
 
 app.use("/uploads", express.static(path.join(__dirname, "src/uploads")));
+io.on("connection", (socket) => {
+  console.log("New client connected");
+  socket.on("joinRoom", (role) => {
+    if (role === "adminfti") {
+      socket.join("adminfti");
+    }
+  });
+  socket.on("disconnect", () => {
+    console.log("Client disconnected");
+  });
+});
+
+app.set("io", io);
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use("/assets", express.static("public"));
