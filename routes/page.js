@@ -63,6 +63,26 @@ router.post(
   fti.createNews
 ); // Handle form submission
 
+router.post(
+  "/deletenews/:idNews/delete",
+  checkRole("adminfti"),
+  verif.verifyToken,
+  fti.hapusBerita
+);
+
+router.get(
+  "/editNews/:idNews",
+  checkRole("adminfti"),
+  verif.verifyToken,
+  fti.editNews
+);
+router.post(
+  "/editBerita",
+  checkRole("adminfti"),
+  verif.verifyToken,
+  fti.editBerita
+);
+
 //change password
 router.get("/changepassword", verif.verifyToken, pw.changepassword);
 router.post("/ubahpw", verif.verifyToken, pw.updatepassword);

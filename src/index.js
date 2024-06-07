@@ -20,6 +20,7 @@ if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir);
 }
 
+app.use("/uploads", express.static(path.join(__dirname, "src/uploads")));
 io.on("connection", (socket) => {
   console.log("New client connected");
   socket.on("joinRoom", (role) => {
@@ -39,7 +40,7 @@ app.use(express.static("public"));
 app.use("/assets", express.static("public"));
 app.use(cookieParser());
 app.use(express.json());
-app.use(router);
+app.use("/", router);
 
 chat(io);
 

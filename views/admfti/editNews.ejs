@@ -3,27 +3,30 @@
   <head>
     <link rel="stylesheet" href="assets/admfti.css" />
     <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+    <link
       href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
       rel="stylesheet"
     />
     <title>Form Penambahan Informasi</title>
   </head>
   <body>
-    <%- include('../komponen/sidebar');%>
     <section class="add-news">
       <div class="containert">
-        <h2 class="judul">Penambahan Informasi</h2>
+        <h2>Penambahan Informasi</h2>
         <form
-          action="/addNews"
+          action="/editBerita"
           method="post"
           id="beritaForm"
           enctype="multipart/form-data"
         >
           <div class="box">
-            <label for="judul">Judul</label>
+            <label for="judul">Judul:</label>
             <input type="text" id="judul" name="judul" required />
 
-            <label for="kategori">Kategori</label>
+            <label for="kategori">Kategori:</label>
             <select id="namaKategori" name="kategori" required>
               <option value="" disabled selected hidden>
                 ---Pilih Kategori Publikasi yang Sesuai---
@@ -35,10 +38,10 @@
               <% }) %>
             </select>
 
-            <label for="isi_berita">Isi Berita</label>
+            <label for="isi_berita">Isi Berita:</label>
             <textarea id="isi_berita" name="isi_berita" required></textarea>
 
-            <label for="gambar">Gambar</label>
+            <label for="gambar">Gambar:</label>
             <input
               type="file"
               id="gambar"
@@ -47,10 +50,10 @@
               required
             />
 
-            <label for="penulis">Penulis</label>
+            <label for="penulis">Penulis:</label>
             <input type="text" id="penulis" name="penulis" required />
 
-            <label for="tanggalPengajuan">Tanggal</label>
+            <label for="tanggalPengajuan">Tanggal:</label>
             <input
               type="date"
               id="tanggalPengajuan"
@@ -60,13 +63,15 @@
           </div>
           <div class="button-container">
             <input type="submit" value="Simpan" />
+            <a href="news">Batal</a>
           </div>
         </form>
       </div>
     </section>
     <script>
       document
-        .getElementById("beritaForm").addEventListener("submit", async function (event) {
+        .getElementById("beritaForm")
+        .addEventListener("submit", async function (event) {
           event.preventDefault();
 
           const formData = new FormData(this);

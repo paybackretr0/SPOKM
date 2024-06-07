@@ -81,3 +81,78 @@ exports.createNews = async (req, res) => {
     return res.status(500).json({ message: "Kesalahan Server" });
   }
 };
+
+exports.hapusBerita = async (req, res) => {
+  try {
+    const idNews = req.params.idNews;
+    const hapusNews = await Berita.findOne({ where: { idNews } });
+    if (!hapusNews) {
+      return res.status(404).json({ message: "Berita tidak ditemukan" });
+    }
+    await hapusNews.destroy();
+    res.redirect("/news");
+  } catch (error) {
+    console.error("Error saat hapus Berita:", error);
+    return res.status(500).json({ message: "Kesalahan Server" });
+  }
+};
+
+exports.editNews = async (req, res) => {
+  try {
+    const users = await User.findByPk(req.userId);
+    const beritas = await Berita.findByPk(req.idNews);
+    const kategoris = await Kategori.findAll();
+    res.render("admfti/editNews", {
+      accessToken: req.cookies.accessToken,
+      users,
+      beritas,
+      kategoris,
+    });
+  } catch (error) {
+    console.error(error);
+    res.redirect("/login");
+  }
+};
+
+exports.editBerita = async (req, res, next) => {
+  try {
+    const { judul, kategori, isi_berita, penulis, tanggalPengajuan } = req.body;
+    const { idNews } = req.params; // Mengambil idNews dari parameter URL
+
+    // Memeriksa apakah pengguna ada
+    const user = await User.findByPk(req.userId);
+    if (!user) {
+      return res.status(404).json({ message: "Pengguna tidak ditemukan" });
+    }
+
+    // Memeriksa apakah berita ada
+    const beritas = await Berita.findOne({ where: { idNews } });
+    if (!beritas) {
+      return res.status(404).json({ message: "Berita tidak ditemukan" });
+    }
+
+    // Memperbarui berita
+    const updatedBerita = {
+      judul: judul !== undefined && judul !== "" ? judul : beritas.judul,
+      kategori:
+        kategori !== undefined && kategori !== "" ? kategori : beritas.kategori,
+      isi_berita:
+        isi_berita !== undefined && isi_berita !== ""
+          ? isi_berita
+          : beritas.isi_berita,
+      penulis:
+        penulis !== undefined && penulis !== "" ? penulis : beritas.penulis,
+      tanggalPengajuan:
+        tanggalPengajuan !== undefined && tanggalPengajuan !== ""
+          ? tanggalPengajuan
+          : beritas.tanggalPengajuan,
+    };
+
+    await beritas.update(updatedBerita);
+
+    return res.status(200).json({ message: "Berita berhasil diupdate" });
+  } catch (error) {
+    console.error("Error saat update Berita:", error);
+    return res.status(500).json({ message: "Terjadi kesalahan server" });
+  }
+};
