@@ -13,12 +13,11 @@
     <title>Form Penambahan Informasi</title>
   </head>
   <body>
-    <%- include('../komponen/sidebar');%>
     <section class="add-news">
       <div class="containert">
         <h2>Penambahan Informasi</h2>
         <form
-          action="/addNews"
+          action="/editBerita"
           method="post"
           id="beritaForm"
           enctype="multipart/form-data"
@@ -71,7 +70,8 @@
     </section>
     <script>
       document
-        .getElementById("beritaForm").addEventListener("submit", async function (event) {
+        .getElementById("beritaForm")
+        .addEventListener("submit", async function (event) {
           event.preventDefault();
 
           const formData = new FormData(this);

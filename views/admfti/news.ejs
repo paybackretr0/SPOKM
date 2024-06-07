@@ -39,15 +39,24 @@
                 <td><%= index + 1 %></td>
                 <td><%= berita.judul %></td>
                 <td>
-                  <img src="../../src/uploads/<%= berita.gambar %>" />
+                  <img src="/uploads/<%= berita.userId %>/foto.jpg" />
                 </td>
                 <td><%= berita.Kategori.namaKategori %></td>
                 <td><%= berita.tanggalPengajuan %></td>
                 <td><%= berita.penulis %></td>
                 <td>
                   <div class="action-buttons">
-                    <button class="action-button-edit">Edit</button>
-                    <button class="action-button-hapus">Hapus</button>
+                    <a href="/editNews/<%= berita.idNews %>">
+                      <button class="action-button-edit">Edit</button>
+                    </a>
+                    <form
+                      action="/deletenews/<%= berita.idNews %>/delete"
+                      method="post"
+                    >
+                      <button class="action-button-hapus" type="submit">
+                        Hapus
+                      </button>
+                    </form>
                     <button class="action-button-detail">Detail</button>
                   </div>
                 </td>
