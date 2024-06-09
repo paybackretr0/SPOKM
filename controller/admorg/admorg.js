@@ -1,4 +1,9 @@
-const { User, Kegiatan, Notifikasi } = require("../../models/index");
+const {
+  User,
+  Kegiatan,
+  Notifikasi,
+  Organisasi,
+} = require("../../models/index");
 let nanoid;
 (async () => {
   nanoid = (await import("nanoid")).nanoid;
@@ -135,13 +140,99 @@ exports.daftarkgt = async (req, res) => {
 
 exports.orga = async (req, res) => {
   try {
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      const day = String(date.getDate()).padStart(2, "0");
+      const monthNames = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ];
+      const month = monthNames[date.getMonth()]; // January is 0!
+      const year = date.getFullYear();
+
+      return day + " " + month + " " + year;
+    }
     const users = await User.findByPk(req.userId);
+    const organisasi = await Organisasi.findOne({
+      where: {
+        userId: req.userId,
+      },
+    });
     res.render("admorg/orga", {
+      accessToken: req.cookies.accessToken,
+      users,
+      organisasi,
+      formatDate,
+    });
+  } catch (error) {
+    console.error(error);
+    res.redirect("/login");
+  }
+};
+
+exports.gantipw = async (req, res) => {
+  try {
+    const users = await User.findByPk(req.userId);
+    res.render("admorg/gantiPw", {
       accessToken: req.cookies.accessToken,
       users,
     });
   } catch (error) {
     console.error(error);
     res.redirect("/login");
+  }
+};
+
+exports.editProfileOrg = async (req, res) => {
+  try {
+    const users = await User.findByPk(req.userId);
+    const idOrga = req.params.idOrga;
+    const org = await Organisasi.findByPk(idOrga);
+    res.render("admorg/editOrga", {
+      accessToken: req.cookies.accessToken,
+      org,
+      users,
+    });
+  } catch (error) {
+    console.error(error);
+    res.redirect("/login");
+  }
+};
+
+exports.updateProfileOrg = async (req, res, next) => {
+  try {
+    const { namaOrga, deskripsi, tanggalBerdiri } = req.body;
+    const logo = req.file ? req.file.filename : null;
+    const idOrga = req.params.idOrga;
+    const org = await Organisasi.findByPk(idOrga);
+    if (!org) {
+      return res.status(404).json({ message: "Organisasi tidak ditemukan" });
+    }
+    const updatedOrg = {
+      namaOrga:
+        namaOrga !== undefined && namaOrga !== "" ? namaOrga : org.namaOrga,
+      deskripsi:
+        deskripsi !== undefined && deskripsi !== "" ? deskripsi : org.deskripsi,
+      tanggalBerdiri:
+        tanggalBerdiri !== undefined && tanggalBerdiri !== ""
+          ? tanggalBerdiri
+          : org.tanggalBerdiri,
+      logo: logo !== null ? logo : org.logo,
+    };
+    await Organisasi.update(updatedOrg, { where: { idOrga: org.idOrga } });
+    return res.status(200).json({ message: "Data berhasil diupdate" });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Terjadi kesalahan server" });
   }
 };

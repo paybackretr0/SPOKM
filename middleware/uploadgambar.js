@@ -6,7 +6,7 @@ const fs = require("fs");
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const userId = req.userId; // Replace this with how you get the user's ID
-    const dir = `src/uploads/${userId}`;
+    const dir = path.join(__dirname, "..", "uploads", userId.toString()); // Construct the absolute path
 
     // Create directory if it doesn't exist
     if (!fs.existsSync(dir)) {
@@ -16,8 +16,10 @@ const storage = multer.diskStorage({
     cb(null, dir);
   },
   filename: (req, file, cb) => {
-    cb(null, "foto.jpg");
-
+    const timestamp = Date.now();
+    // Append the timestamp to the filename
+    const filename = `foto${timestamp}.jpg`;
+    cb(null, filename);
   },
 });
 
@@ -30,7 +32,7 @@ const fileFilter = (req, file, cb) => {
   if (mimetype && extname) {
     return cb(null, true);
   } else {
-    cb("Error: Invalid file type!");
+    cb(new Error("Error: Invalid file type!"));
   }
 };
 

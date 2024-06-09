@@ -130,19 +130,8 @@ section {
   align-items: center;
 }
 
-.header .add .chat {
-  text-decoration: none;
-  color: var(--hitam);
-  margin: 0.5rem;
-}
-
-.header .add .profil {
-  font-size: 2rem;
-  color: var(--hitam);
-  justify-content: right;
-  text-decoration: none;
-  color: var(--hitam);
-  margin: 1rem;
+.header .add .notification-icon {
+  cursor: pointer;
 }
 
 .header .add .user-pic {
@@ -409,4 +398,90 @@ textarea:focus {
 
 .booking .book-form .tombol #back:hover {
   background: red;
+}
+
+.editprofil {
+  background: url("./img/fti7.jpg") no-repeat;
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+  backdrop-filter: blur(10px);
+  display: flex;
+}
+
+.editProfile {
+  border-radius: 20px;
+  width: 600px;
+  box-shadow: var(--box-shadow);
+  color: white;
+  padding: 2rem;
+  margin: 4rem auto;
+  background-color: var(--dark-bg);
+}
+
+h1 {
+  text-align: center;
+}
+
+.edit-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-form label {
+  margin-top: 10px;
+}
+
+.edit-form input {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  outline: none;
+  font-size: 16px;
+  color: #fff;
+  border-radius: 6px;
+  padding: 15px 15px 15px 15px;
+}
+
+.edit-form .tombol {
+  display: flex;
+}
+
+.edit-form .tombol a {
+  background-color: #a91d3a;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 1rem;
+  width: 100%;
+  text-align: center;
+  font-size: 0.8rem;
+}
+
+.edit-form .tombol button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 1rem;
+  width: 100%;
+  font-size: 0.8rem;
+}
+
+.edit-form .tombol button {
+  text-decoration: none;
+  color: white;
+}
+
+.edit-form .tombol button:hover {
+  background-color: #45a049;
+}
+
+.edit-form .tombol a:hover {
+  background-color: #c73659;
 }

@@ -100,7 +100,7 @@ exports.hapusBerita = async (req, res) => {
 exports.editNews = async (req, res) => {
   try {
     const users = await User.findByPk(req.userId);
-    const beritas = await Berita.findByPk(req.idNews);
+    const beritas = await Berita.findByPk(req.params.idNews);
     const kategoris = await Kategori.findAll();
     res.render("admfti/editNews", {
       accessToken: req.cookies.accessToken,
@@ -114,27 +114,37 @@ exports.editNews = async (req, res) => {
   }
 };
 
-exports.editBerita = async (req, res, next) => {
+exports.editBerita = async (req, res) => {
   try {
+    const idNews = req.params.idNews;
     const { judul, kategori, isi_berita, penulis, tanggalPengajuan } = req.body;
-    const { idNews } = req.params; // Mengambil idNews dari parameter URL
+    const gambar = req.file ? req.file.filename : null;
 
-    // Memeriksa apakah pengguna ada
+    console.log("Incoming data:", {
+      judul,
+      kategori,
+      isi_berita,
+      gambar,
+      penulis,
+      tanggalPengajuan,
+    });
+    console.log("idNews from params:", idNews);
+
     const user = await User.findByPk(req.userId);
     if (!user) {
       return res.status(404).json({ message: "Pengguna tidak ditemukan" });
     }
 
-    // Memeriksa apakah berita ada
-    const beritas = await Berita.findOne({ where: { idNews } });
+    const beritas = await Berita.findByPk(idNews);
     if (!beritas) {
       return res.status(404).json({ message: "Berita tidak ditemukan" });
     }
 
-    // Memperbarui berita
+    console.log("Existing berita:", beritas.toJSON());
+
     const updatedBerita = {
       judul: judul !== undefined && judul !== "" ? judul : beritas.judul,
-      kategori:
+      idKategori:
         kategori !== undefined && kategori !== "" ? kategori : beritas.kategori,
       isi_berita:
         isi_berita !== undefined && isi_berita !== ""
@@ -148,11 +158,18 @@ exports.editBerita = async (req, res, next) => {
           : beritas.tanggalPengajuan,
     };
 
+    // Hanya perbarui gambar jika ada file yang diunggah
+    if (gambar !== null) {
+      updatedBerita.gambar = gambar;
+    }
+
     await beritas.update(updatedBerita);
 
-    return res.status(200).json({ message: "Berita berhasil diupdate" });
+    console.log("Updated berita:", updatedBerita);
+
+    res.status(200).json({ message: "Berita berhasil diupdate" });
   } catch (error) {
     console.error("Error saat update Berita:", error);
-    return res.status(500).json({ message: "Terjadi kesalahan server" });
+    res.status(500).json({ message: "Terjadi kesalahan server" });
   }
 };

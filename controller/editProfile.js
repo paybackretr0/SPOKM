@@ -1,4 +1,4 @@
-const { User, Mahasiswa } = require("../models/index");
+const { User, Mahasiswa, Organisasi } = require("../models/index");
 
 exports.editProfile = async (req, res) => {
   try {

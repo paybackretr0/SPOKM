@@ -535,8 +535,6 @@ span {
   text-align: justify;
 }
 
-/* Edit Profile */
-
 .editprofil {
   background: url("./img/fti7.jpg") no-repeat;
   background-size: cover;
@@ -623,7 +621,6 @@ input {
   background-color: #c73659;
 }
 
-/* Ubah Password */
 .edit-pw {
   background: url("/img/fti10.jpg");
   background-size: cover;

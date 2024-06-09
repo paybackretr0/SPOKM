@@ -1,33 +1,34 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel="stylesheet" href="assets/admfti.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
-    />
+    <link rel="stylesheet" href="/assets/admfti.css" />
     <link
       href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
       rel="stylesheet"
     />
-    <title>Form Penambahan Informasi</title>
+    <title>Edit Publikasi</title>
   </head>
   <body>
     <section class="add-news">
       <div class="containert">
-        <h2>Penambahan Informasi</h2>
+        <h2>Edit Publikasi</h2>
         <form
-          action="/editBerita"
+          action="/editBerita/<%= beritas.idNews %>"
           method="post"
           id="beritaForm"
           enctype="multipart/form-data"
         >
           <div class="box">
-            <label for="judul">Judul:</label>
-            <input type="text" id="judul" name="judul" required />
+            <label for="judul">Judul</label>
+            <input
+              type="text"
+              id="judul"
+              name="judul"
+              placeholder="<%= beritas.judul %>"
+            />
 
-            <label for="kategori">Kategori:</label>
-            <select id="namaKategori" name="kategori" required>
+            <label for="kategori">Kategori</label>
+            <select id="namaKategori" name="kategori">
               <option value="" disabled selected hidden>
                 ---Pilih Kategori Publikasi yang Sesuai---
               </option>
@@ -38,36 +39,42 @@
               <% }) %>
             </select>
 
-            <label for="isi_berita">Isi Berita:</label>
-            <textarea id="isi_berita" name="isi_berita" required></textarea>
+            <label for="isi_berita">Isi</label>
+            <textarea
+              id="isi_berita"
+              name="isi_berita"
+              placeholder="<%= beritas.isi_berita%>"
+            ></textarea>
 
-            <label for="gambar">Gambar:</label>
+            <label for="gambar">Gambar</label>
+            <input type="file" id="gambar" name="gambar" accept="image/*" />
+
+            <label for="penulis">Penulis</label>
             <input
-              type="file"
-              id="gambar"
-              name="gambar"
-              accept="image/*"
-              required
+              type="text"
+              id="penulis"
+              name="penulis"
+              placeholder="<%= beritas.penulis %>"
             />
 
-            <label for="penulis">Penulis:</label>
-            <input type="text" id="penulis" name="penulis" required />
-
-            <label for="tanggalPengajuan">Tanggal:</label>
+            <label for="tanggalPengajuan">Tanggal</label>
             <input
               type="date"
               id="tanggalPengajuan"
               name="tanggalPengajuan"
-              required
+              readonly
             />
           </div>
-          <div class="button-container">
+          <div class="button-containert">
             <input type="submit" value="Simpan" />
-            <a href="news">Batal</a>
+            <a href="/news">Batal</a>
           </div>
         </form>
       </div>
     </section>
+    <div id="notification-container" class="notification-container"></div>
+    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+    <script src="/js/notifFti.js"></script>
     <script>
       document
         .getElementById("beritaForm")
@@ -76,14 +83,15 @@
 
           const formData = new FormData(this);
           try {
-            const response = await fetch("/addNews", {
+            const response = await fetch(this.action, {
               method: "POST",
               body: formData,
             });
 
             if (response.ok) {
+              const responseData = await response.json();
               alert("Informasi tersimpan");
-              window.location.href = "news";
+              window.location.href = "/news";
             } else {
               const errorData = await response.json();
               alert("Gagal menyimpan informasi: " + errorData.message);
@@ -93,6 +101,19 @@
             alert("Terjadi kesalahan pada server");
           }
         });
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const dateInput = document.getElementById("tanggalPengajuan");
+
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, "0");
+
+        const formattedDate = `${yyyy}-${mm}-${dd}`;
+
+        dateInput.value = formattedDate;
+      });
     </script>
   </body>
 </html>
