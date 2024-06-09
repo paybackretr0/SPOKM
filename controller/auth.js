@@ -51,7 +51,7 @@ exports.login = async (req, res) => {
           res.render("mhs/home", { accessToken, pengguna, mhs });
           break;
         default:
-          res.status(401).json({ msg: "InvaluserId role" });
+          res.status(401).json({ msg: "Invalid role" });
       }
     } else {
       res.status(401).json({ status: "error", msg: "Login failed" });

@@ -55,7 +55,7 @@
               type="date"
               id="tanggalPengajuan"
               name="tanggalPengajuan"
-              required
+              readonly
             />
           </div>
           <div class="button-container">
@@ -64,9 +64,17 @@
         </form>
       </div>
     </section>
+    <!-- Kontainer untuk notifikasi -->
+    <div id="notification-container" class="notification-container"></div>
+
+    <!-- Menyertakan script untuk socket.io -->
+    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+    <!-- Menyertakan script notifikasi -->
+    <script src="/js/notifFti.js"></script>
     <script>
       document
-        .getElementById("beritaForm").addEventListener("submit", async function (event) {
+        .getElementById("beritaForm")
+        .addEventListener("submit", async function (event) {
           event.preventDefault();
 
           const formData = new FormData(this);
@@ -88,6 +96,20 @@
             alert("Terjadi kesalahan pada server");
           }
         });
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const dateInput = document.getElementById("tanggalPengajuan");
+
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, "0");
+        const dd = String(today.getDate()).padStart(2, "0");
+
+        const formattedDate = `${yyyy}-${mm}-${dd}`;
+
+        dateInput.value = formattedDate;
+      });
     </script>
   </body>
 </html>

@@ -180,25 +180,6 @@ body.dark .sidebar header .toggle {
   margin-top: 40px;
 }
 
-.sidebar li.search-box {
-  border-radius: 6px;
-  background-color: var(--primary-color-light);
-  cursor: pointer;
-  transition: var(--tran-05);
-}
-
-.sidebar li.search-box input {
-  height: 100%;
-  width: 100%;
-  outline: none;
-  border: none;
-  background-color: var(--primary-color-light);
-  color: var(--text-color);
-  border-radius: 6px;
-  font-size: 17px;
-  font-weight: 500;
-  transition: var(--tran-05);
-}
 .sidebar li a {
   list-style: none;
   height: 100%;
@@ -214,10 +195,12 @@ body.dark .sidebar header .toggle {
 .sidebar li a:hover {
   background-color: var(--warna);
 }
+
 .sidebar li a:hover .icon,
 .sidebar li a:hover .text {
   color: var(--sidebar-color);
 }
+
 body.dark .sidebar li a:hover .icon,
 body.dark .sidebar li a:hover .text {
   color: var(--text-color);
@@ -263,12 +246,9 @@ body.dark .mode .sun-moon i.moon {
   border-radius: 10px;
   cursor: pointer;
   align-items: center;
-  justify-content: center;
   background-color: transparent;
   display: flex;
-  height: 100%;
   width: 100%;
-  text-decoration: none;
   transition: var(--tran-03);
   padding: 10px 0;
 }
@@ -339,11 +319,28 @@ body.dark .switch::before {
   display: flex;
   flex-wrap: wrap;
 }
-.home .text {
+
+.home .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.home .header .text {
   font-size: 30px;
   font-weight: 500;
   color: var(--text-color);
   padding: 12px 60px;
+}
+
+.home .header .notification-icon {
+  font-size: 30px;
+  cursor: pointer;
+  position: absolute;
+  top: 6.5%;
+  right: 10%;
+  transform: translateY(-50%);
 }
 
 .home .content {
@@ -369,7 +366,6 @@ body.dark .switch::before {
   text-transform: none;
 }
 
-/* Styling untuk notifikasi */
 .notification-container {
   position: fixed;
   top: 20px;
@@ -385,29 +381,6 @@ body.dark .switch::before {
   margin-bottom: 10px;
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  min-width: 160px;
-  z-index: 1;
-}
-
-.dropdown-content a {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-}
-
-.dropdown:hover .dropdown-content {
-  display: block;
 }
 
 .sidebar.close ~ .home,
@@ -442,16 +415,31 @@ body.dark .berita .informasi table {
   background-color: var(--body-color);
   transition: var(--tran-05);
   display: flex;
-  flex-direction: column; /* Ensure items stack vertically */
-  padding: 2rem; /* Add padding for spacing */
+  flex-direction: column;
+  padding: 1rem;
 }
 
-.berita .text {
+.berita .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.berita .header .text {
   font-size: 30px;
-  margin-left: 1rem;
   font-weight: 500;
   color: var(--text-color);
-  margin-bottom: 1rem; /* Add bottom margin for spacing */
+  padding: 12px 40px;
+}
+
+.berita .header .notification-icon {
+  font-size: 30px;
+  cursor: pointer;
+  position: absolute;
+  top: 9%;
+  right: 10%;
+  transform: translateY(-50%);
 }
 
 .berita .informasi {
@@ -501,6 +489,7 @@ th {
   justify-content: flex-start;
   margin-bottom: 10px;
 }
+
 .add-button {
   background-color: var(--warna);
   color: var(--putih);
@@ -509,17 +498,19 @@ th {
   cursor: pointer;
   border-radius: 10px;
 }
+
 .action-buttons {
   display: flex;
   flex-direction: column;
 }
+
 .action-button-edit {
   background-color: var(--warna);
   border-radius: 10px;
   color: var(--putih);
   padding: 5px 10px;
   border: none;
-  cursor: pointer;
+  text-decoration: none;
   margin-bottom: 5px;
 }
 
@@ -528,7 +519,9 @@ th {
   border-radius: 10px;
   color: var(--putih);
   padding: 5px 10px;
+  width: 100%;
   border: none;
+  font-size: 1rem;
   cursor: pointer;
   margin-bottom: 5px;
 }
@@ -539,6 +532,7 @@ th {
   color: var(--putih);
   padding: 5px 10px;
   border: none;
+  text-decoration: none;
   cursor: pointer;
   margin-bottom: 5px;
 }
@@ -622,8 +616,23 @@ input[type="submit"]:hover {
   background-color: #476a82;
 }
 
-.button-container {
+.button-containert {
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   width: 100%;
+}
+
+.button-containert a {
+  background-color: #a91d3a;
+  color: var(--putih);
+  border: none;
+  padding: 15px 20px;
+  font-size: 1rem;
+  border-radius: 10px;
+  margin-top: 2rem;
+  text-decoration: none;
+}
+
+.button-containert a:hover {
+  background-color: #c73659;
 }
