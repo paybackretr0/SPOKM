@@ -32,6 +32,7 @@ router.get(
   verif.verifyToken,
   edit.editProfile
 );
+
 router.get("/organisasi", checkRole("adminorg"), verif.verifyToken, org.admorg);
 router.get("/publish", checkRole("adminorg"), verif.verifyToken, org.publish);
 router.get("/himp", checkRole("adminorg"), verif.verifyToken, org.himp);
@@ -96,6 +97,21 @@ router.post(
   upload.single("gambar"),
   fti.editBerita
 );
+router.get(
+  "/organization",
+  checkRole("adminfti"),
+  verif.verifyToken,
+  fti.organization
+);
+router.get("/kegiatan", checkRole("adminfti"), verif.verifyToken, fti.kegiatan);
+router.get("/user", checkRole("adminfti"), verif.verifyToken, fti.user);
+router.post(
+  "/deleteuser/:userId",
+  checkRole("adminfti"),
+  verif.verifyToken,
+  fti.hapusUser
+);
+
 router.post("/ubahpw", verif.verifyToken, pw.updatepassword);
 router.post("/editP", verif.verifyToken, edit.updateProfile);
 router.get("/publikasi", verif.verifyToken, publish.publikasi);

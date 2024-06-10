@@ -10,6 +10,8 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Kegiatan.belongsTo(models.User, {
         foreignKey: "userId",
+        onDelete: "SET NULL",
+        onUpdate: "CASCADE",
       });
     }
   }

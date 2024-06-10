@@ -10,9 +10,13 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Himpunan.belongsTo(models.Organisasi, {
         foreignKey: "idOrga",
+        onDelete: "SET NULL",
+        onUpdate: "CASCADE",
       });
       Himpunan.belongsTo(models.Anggota, {
         foreignKey: "idPengurus",
+        onDelete: "SET NULL",
+        onUpdate: "CASCADE",
       });
     }
   }

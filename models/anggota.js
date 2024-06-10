@@ -10,6 +10,8 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Anggota.hasMany(models.Himpunan, {
         foreignKey: "idPengurus",
+        onDelete: "SET NULL",
+        onUpdate: "CASCADE",
       });
     }
   }

@@ -6,86 +6,83 @@
       href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
       rel="stylesheet"
     />
-    <title>Berita</title>
+    <title>Kegiatan</title>
   </head>
-  <body class="news">
+  <body class="kgt">
     <%- include('../komponen/sidebar');%>
-    <section class="berita">
+    <section class="kegiatan">
       <div class="header">
-        <div class="text">Informasi</div>
+        <div class="text">Kegiatan</div>
         <div class="notification-icon">
           <i class="bx bx-bell"></i>
         </div>
       </div>
-      <div class="informasi">
+      <div class="list-kegiatan">
         <div class="table">
-          <div class="button-container">
-            <a href="tambahNews" class="add-button-link">
-              <button class="add-button">
-                <i class="bx bx-plus"></i>Tambah
-              </button></a
-            >
-          </div>
           <table>
             <thead>
               <tr>
                 <th>No.</th>
-                <th>Judul</th>
-                <th>Gambar</th>
-                <th>Kategori</th>
+                <th>Nama Kegiatan</th>
+                <th>Logo</th>
+                <th>Deskripsi</th>
+                <th>Tanggal Kegiatan</th>
                 <th>Tanggal Pengajuan</th>
-                <th>Penulis</th>
+                <th>Penyelenggara</th>
+                <th>Proposal</th>
+                <th>NIM Ketupel</th>
                 <th>Status</th>
                 <th>Aksi</th>
               </tr>
             </thead>
             <tbody>
-              <% beritas.forEach((berita, index) => { %>
+              <% kegiatan.forEach((kegiatan, index) => { %>
               <tr>
                 <td><%= index + 1 %></td>
-                <td><%= berita.judul %></td>
+                <td><%= kegiatan.namaKegiatan %></td>
                 <td>
                   <img
                     style="width: 100px; height: 100px"
-                    src="/<%= beritas.userId %>/<%= berita.gambar %>"
+                    src="/<%= kegiatan.userId %>/<%= kegiatan.logo %>"
                   />
                 </td>
-                <td><%= berita.Kategori.namaKategori %></td>
-                <td><%= formatDate(berita.tanggalPengajuan) %></td>
-                <td><%= berita.penulis %></td>
+                <td><%= kegiatan.deskripsi %></td>
                 <td>
-                  <% if (berita.status === "Y") { %> Disetujui <% } else if
-                  (berita.status === "P") { %> Pending <% } else if
-                  (berita.status === "N") { %> Ditolak <% } %>
+                  <%= formatDate(kegiatan.tanggalMulai) %> s/d <%=
+                  formatDate(kegiatan.tanggalSelesai) %>
+                </td>
+                <td><%= formatDate(kegiatan.tanggalPengajuan) %></td>
+                <td>
+                  <% if (kegiatan.penyelenggara === "P") { %> Pribadi <% } else
+                  if (kegiatan.penyelenggara === "O") { %> Organisasi <% } %>
+                </td>
+                <td><%= kegiatan.proposal %></td>
+                <td><%= kegiatan.nimKetupel %></td>
+                <td>
+                  <% if (kegiatan.status === "P") { %>Pending<% } else if
+                  (kegiatan.status === "Y") { %>Disetujui<% } else if
+                  (kegiatan.status === "N") { %>Ditolak<% } %>
                 </td>
                 <td>
+                  <% if (kegiatan.status === "P") { %>
                   <div class="action-buttons">
-                    <a
-                      href="/editNews/<%= berita.idNews %>"
-                      class="action-button-edit"
-                      >Edit</a
-                    >
                     <form
-                      action="/deletenews/<%= berita.idNews %>/delete"
+                      action="/acc/<%= kegiatan.idKegiatan %>"
                       method="post"
                     >
-                      <button class="action-button-hapus" type="submit">
-                        Hapus
-                      </button>
-                    </form>
-                    <% if (berita.status === "P") { %>
-                    <form action="/acc/<%= berita.idNews %>" method="post">
                       <button class="action-button-acc" type="submit">
                         Setuju
                       </button>
                     </form>
-                    <form action="/tolak/<%= berita.idNews %>" method="post">
+                    <form
+                      action="/tolak/<%= kegiatan.idKegiatan %>"
+                      method="post"
+                    >
                       <button class="action-button-tolak" type="submit">
                         Tolak
                       </button>
                     </form>
                     <% } %>
-                    <a href="detailNews" class="action-button-detail">Detail</a>
                   </div>
                 </td>
               </tr>
