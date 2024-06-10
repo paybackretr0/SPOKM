@@ -9,12 +9,13 @@ module.exports = {
         type: Sequelize.STRING,
       },
       userId: {
-        allowNull: false,
         type: Sequelize.STRING,
         references: {
           model: "Users",
           key: "userId",
         },
+        onUpdate: "CASCADE",
+        onDelete: "SET NULL",
       },
       namaKegiatan: {
         allowNull: false,
@@ -56,6 +57,10 @@ module.exports = {
         type: Sequelize.STRING,
       },
       logo: {
+        allowNull: false,
+        type: Sequelize.STRING,
+      },
+      namaKetupel: {
         allowNull: false,
         type: Sequelize.STRING,
       },

@@ -10,9 +10,13 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Organisasi.belongsTo(models.User, {
         foreignKey: "userId",
+        onDelete: "SET NULL",
+        onUpdate: "CASCADE",
       });
       Organisasi.hasMany(models.Himpunan, {
         foreignKey: "idOrga",
+        onDelete: "SET NULL",
+        onUpdate: "CASCADE",
       });
     }
   }

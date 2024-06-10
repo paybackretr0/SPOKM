@@ -9,12 +9,13 @@ module.exports = {
         type: Sequelize.STRING,
       },
       userId: {
-        allowNull: false,
         type: Sequelize.STRING,
         references: {
           model: "Users",
           key: "userId",
         },
+        onUpdate: "CASCADE",
+        onDelete: "SET NULL",
       },
       namaOrga: {
         allowNull: false,

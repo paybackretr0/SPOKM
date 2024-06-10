@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="assets/admfti.css" />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <title>Pengguna</title>
+  </head>
+  <body class="user">
+    <%- include('../komponen/sidebar');%>
+    <section class="pengguna">
+      <div class="header">
+        <div class="text">Pengguna</div>
+        <div class="notification-icon">
+          <i class="bx bx-bell"></i>
+        </div>
+      </div>
+      <div class="list-pengguna">
+        <div class="table">
+          <div class="button-container">
+            <a href="tambahUser" class="add-button-link">
+              <button class="add-button">
+                <i class="bx bx-plus"></i>Tambah
+              </button></a
+            >
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>No.</th>
+                <th>Username/NIM</th>
+                <th>Nama</th>
+                <th>Departemen</th>
+                <th>Email</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% users.forEach((user, index) => { %>
+              <tr>
+                <td><%= index + 1 %></td>
+                <td><%= user.nim %></td>
+                <td><%= user.Mahasiswa.nama %></td>
+                <td><%= user.Mahasiswa.jurusan %></td>
+                <td><%= user.Mahasiswa.email %></td>
+                <td>
+                  <div class="action-buttons">
+                    <form action="/deleteuser/<%= user.userId %>" method="post">
+                      <button class="action-button-hapus" type="submit">
+                        Hapus
+                      </button>
+                    </form>
+                  </div>
+                </td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    <div id="notification-container" class="notification-container"></div>
+    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+    <script src="/js/notifFti.js"></script>
+  </body>
+</html>
