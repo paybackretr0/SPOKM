@@ -25,7 +25,33 @@ router.get("/home", checkRole("mhs"), verif.verifyToken, mahasiswa.home);
 router.get("/berita", verif.verifyToken, mahasiswa.berita);
 router.get("/org", verif.verifyToken, mahasiswa.org);
 router.get("/daftarorg", checkRole("mhs"), verif.verifyToken, mahasiswa.daftar);
-router.get("/room", verif.verifyToken, mahasiswa.room);
+router.post(
+  "/daftarOrg",
+  checkRole("mhs"),
+  verif.verifyToken,
+  upload.fields([
+    { name: "logo", maxCount: 1 },
+    { name: "profilOrg", maxCount: 1 },
+    { name: "suratRek", maxCount: 1 },
+  ]),
+  mahasiswa.daftarOrg
+);
+// router.get("/room", verif.verifyToken, mahasiswa.room);
+router.get(
+  "/daftarkgt",
+  checkRole("mhs"),
+  verif.verifyToken,
+  mahasiswa.daftarkegiatan
+);
+router.post(
+  "/daftarkgt",
+  verif.verifyToken,
+  upload.fields([
+    { name: "logo", maxCount: 1 },
+    { name: "proposal", maxCount: 1 },
+  ]),
+  mahasiswa.daftarkgt
+);
 router.get("/chat", verif.verifyToken, mahasiswa.chat);
 router.get("/profil", verif.verifyToken, mahasiswa.profil);
 

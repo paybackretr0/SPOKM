@@ -46,6 +46,32 @@ module.exports = (sequelize, DataTypes) => {
       tanggalBerdiri: {
         type: DataTypes.DATE,
       },
+      lingkupOrganisasi: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      namaKetua: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      nimKetua: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      no_wa: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      departemen: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      profilOrg: {
+        type: DataTypes.STRING,
+      },
+      suratRek: {
+        type: DataTypes.STRING,
+      },
       logo: {
         type: DataTypes.STRING,
       },

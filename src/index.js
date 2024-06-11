@@ -15,12 +15,7 @@ const upload = require("../middleware/uploadgambar");
 
 app.set("view engine", "ejs");
 
-const uploadDir = path.join(__dirname, "uploads");
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir);
-}
-
-app.use("/uploads", express.static(path.join(__dirname, "src/uploads")));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 io.on("connection", (socket) => {
   console.log("New client connected");
   socket.on("joinRoom", (role) => {
@@ -34,12 +29,11 @@ io.on("connection", (socket) => {
 });
 
 app.set("io", io);
-
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use("/assets", express.static("public"));
 app.use(cookieParser());
-app.use(express.json());
 app.use("/", router);
 
 chat(io);

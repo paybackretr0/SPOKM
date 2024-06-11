@@ -1,13 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <link rel="stylesheet" href="assets/style.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
       rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     />
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
-
+    <link rel="stylesheet" href="/assets/admorg.css" />
+    <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
     <link
       href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
       rel="stylesheet"
@@ -16,10 +17,176 @@
   </head>
 
   <body>
-    <div class="content">
-      <h2>Pendaftaran Organisasi</h2>
-      <!-- Tambahkan konten formulir atau informasi lainnya di sini -->
+    <%- include('../komponen/navMhs');%>
+    <div class="heading" style="background: url(/img/rommm.jpg) no-repeat">
+      <h1>Pendaftaran Organisasi</h1>
     </div>
+    <section class="booking">
+      <h1 class="heading-title">Daftarkan Organisasimu!!</h1>
+      <form
+        action="/daftarOrg"
+        method="post"
+        class="book-form"
+        id="daftarorg"
+        enctype="multipart/form-data"
+      >
+        <div class="flex">
+          <div class="inputbox">
+            <h4 class="data">Data Ketua</h4>
+            <span>Nama Ketua </span>
+            <input
+              type="text"
+              placeholder="masukan nama ketupel"
+              name="namaKetua"
+              required
+            />
+          </div>
+          <div class="inputbox">
+            <h4 class="data">Data Organisasi</h4>
+            <span>Nama Organisasi</span>
+            <input
+              type="text"
+              placeholder="masukan nama kegiatan"
+              name="namaOrga"
+              required
+            />
+          </div>
+          <div class="inputbox">
+            <span>NIM Ketua </span>
+            <input
+              type="text"
+              placeholder="masukan NIM ketupel"
+              name="nimKetua"
+              required
+            />
+          </div>
+          <div class="inputbox">
+            <span>Deskripsi Organisasi</span>
+            <textarea type="text" name="deskripsi" required></textarea>
+          </div>
+          <div class="inputbox">
+            <span>Nomor Whatsapp Ketua</span>
+            <input
+              type="text"
+              placeholder="masukan No. WA ketupel"
+              name="no_wa"
+              required
+            />
+          </div>
+          <div class="inputbox">
+            <span>Lingkup Organisasi</span>
+            <input
+              type="text"
+              placeholder="masukan lingkup kegiatan"
+              name="lingkupOrganisasi"
+              required
+            />
+          </div>
+          <div class="inputbox">
+            <span>Departemen Ketua </span>
+            <input
+              type="text"
+              placeholder="masukan departemen ketupel"
+              name="departemen"
+              required
+            />
+          </div>
+          <div class="inputbox">
+            <span>Tanggal Pengajuan</span>
+            <input
+              type="date"
+              id="tanggalPengajuan"
+              name="tanggalPengajuan"
+              required
+            />
+          </div>
+          <h4 class="dokumen">Dokumen</h4>
+          <div class="doc">
+            <div class="box">
+              <span>Profil Organisasi (.pdf)</span>
+              <input
+                type="file"
+                placeholder="pilih file proposal"
+                name="profilOrg"
+                accept=".pdf"
+                required
+              />
+            </div>
+            <div class="box">
+              <span>Surat Rekomendasi dari Pihak di Lingkup Kampus (.pdf)</span>
+              <input
+                type="file"
+                placeholder="pilih file proposal"
+                name="suratRek"
+                accept=".pdf"
+                required
+              />
+            </div>
+            <div class="box">
+              <span>logo organisasi (.png/.jpg/.jpeg)</span>
+              <input
+                type="file"
+                placeholder="pilih file logo"
+                name="logo"
+                accept="image/*"
+                required
+              />
+            </div>
+          </div>
+        </div>
+        <label
+          ><input type="checkbox" required />Informasi di atas sudah
+          benar</label
+        >
+        <div class="tombol">
+          <input
+            type="submit"
+            name="send"
+            value="submit"
+            class="btn"
+            id="btn"
+          />
+        </div>
+        <script>
+          document
+            .getElementById("daftarorg")
+            .addEventListener("submit", async function (event) {
+              event.preventDefault();
+
+              const formData = new FormData(this);
+              try {
+                const response = await fetch("/daftarOrg", {
+                  method: "POST",
+                  body: formData,
+                });
+
+                if (response.ok) {
+                  alert("Informasi tersimpan");
+                  window.location.href = "daftarorg";
+                } else {
+                  const errorData = await response.json();
+                  alert("Gagal menyimpan informasi: " + errorData.message);
+                }
+              } catch (error) {
+                console.error("Error:", error);
+                alert("Terjadi kesalahan pada server");
+              }
+            });
+        </script>
+      </form>
+    </section>
+    <script>
+      Swal.fire({
+        icon: "success",
+        title: "Berhasil Booking!",
+        text: "Silakan Lihat Riwayat Booking Anda!",
+      });
+
+      Swal.fire({
+        icon: "error",
+        title: "Gagal Booking!",
+        text: "Silakan Lihat Cek Kembali Data Anda atau Lapor ke Admin!",
+      });
+    </script>
   </body>
-  </html>
-  
+</html>

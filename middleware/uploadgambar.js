@@ -6,7 +6,7 @@ const fs = require("fs");
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const userId = req.userId; // Replace this with how you get the user's ID
-    const dir = `src/uploads/${userId}`;
+    const dir = path.join(__dirname, "..", "uploads", userId.toString()); // Construct the absolute path
 
     // Create directory if it doesn't exist
     if (!fs.existsSync(dir)) {
@@ -16,21 +16,25 @@ const storage = multer.diskStorage({
     cb(null, dir);
   },
   filename: (req, file, cb) => {
-    cb(null, "foto.jpg");
-
+    const timestamp = Date.now();
+    // Get the file extension
+    const ext = path.extname(file.originalname).toLowerCase();
+    // Create the filename with the timestamp and original extension
+    const filename = `file-${timestamp}${ext}`;
+    cb(null, filename);
   },
 });
 
-// Middleware untuk memeriksa tipe file gambar
+// Middleware untuk memeriksa tipe file
 const fileFilter = (req, file, cb) => {
   const filetypes = /jpeg|jpg|png|pdf/;
   const mimetype = filetypes.test(file.mimetype);
   const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
 
   if (mimetype && extname) {
-    return cb(null, true);
+    cb(null, true);
   } else {
-    cb("Error: Invalid file type!");
+    cb(new Error("Error: Invalid file type!"));
   }
 };
 
