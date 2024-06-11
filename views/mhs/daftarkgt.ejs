@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link rel="stylesheet" href="assets/admorg.css" />
+    <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <title>Pendaftaran Kegiatan</title>
+  </head>
+
+  <body>
+    <%- include('../komponen/navMhs');%>
+
+    <div class="heading" style="background: url(/img/rommm.jpg) no-repeat">
+      <h1>Pengajuan Kegiatan</h1>
+    </div>
+
+    <!-- Awal booking -->
+    <section class="booking">
+      <h1 class="heading-title">Daftarkan Kegiatanmu!</h1>
+      <form
+        action="/daftarkgt"
+        method="post"
+        class="book-form"
+        id="daftarkgt"
+        enctype="multipart/form-data"
+      >
+        <div class="flex">
+          <div class="inputbox">
+            <h4 class="data">Data Ketua Pelaksana</h4>
+            <span>nama ketua pelaksana</span>
+            <input
+              type="text"
+              placeholder="masukan nama ketupel"
+              name="namaKetupel"
+              required
+            />
+          </div>
+          <div class="inputbox">
+            <h4 class="data">Data Kegiatan</h4>
+            <span>nama kegiatan</span>
+            <input
+              type="text"
+              placeholder="masukan nama kegiatan"
+              name="namaKegiatan"
+              required
+            />
+          </div>
+          <div class="inputbox">
+            <span>NIM Ketua Pelaksana</span>
+            <input
+              type="text"
+              placeholder="masukan NIM ketupel"
+              name="nimKetupel"
+              required
+            />
+          </div>
+          <div class="inputbox">
+            <span>bidang kegiatan</span>
+            <input
+              type="text"
+              placeholder="masukan bidang kegiatan"
+              name="bidangKegiatan"
+              required
+            />
+          </div>
+          <div class="inputbox">
+            <span>nomor Whatsapp ketua pelaksana</span>
+            <input
+              type="text"
+              placeholder="masukan No. WA ketupel"
+              name="noHpKetupel"
+              required
+            />
+          </div>
+          <div class="inputbox">
+            <span>lingkup kegiatan</span>
+            <input
+              type="text"
+              placeholder="masukan lingkup kegiatan"
+              name="lingkupKegiatan"
+              required
+            />
+          </div>
+          <div class="inputbox">
+            <span>Departemen Ketua Pelaksana</span>
+            <input
+              type="text"
+              placeholder="masukan departemen ketupel"
+              name="departemenKetupel"
+              required
+            />
+          </div>
+          <div class="inputbox">
+            <span>deskripsi singkat kegiatan</span>
+            <textarea type="text" name="deskripsi" required></textarea>
+          </div>
+          <div class="inputbox"></div>
+          <div class="inputbox">
+            <span>Tanggal Mulai</span>
+            <input type="date" name="tanggalMulai" required />
+          </div>
+          <div class="inputbox"></div>
+          <div class="inputbox">
+            <span>Tanggal Selesai</span>
+            <input type="date" name="tanggalSelesai" required />
+          </div>
+          <div class="inputbox"></div>
+          <div class="inputbox">
+            <span>Tanggal Pengajuan</span>
+            <input type="date" name="tanggalPengajuan" required />
+          </div>
+          <div class="inputbox"></div>
+          <div class="inputbox">
+            <span>Penyelenggara</span>
+            <select id="penyelenggara" name="penyelenggara" required>
+              <option value="" disabled selected hidden>
+                ---Pilih Penyelenggara yang Sesuai---
+              </option>
+              <option value="P">Pribadi</option>
+              <option value="O">Organisasi</option>
+            </select>
+          </div>
+        </div>
+        <h4 class="dokumen">Dokumen</h4>
+        <div class="doc">
+          <div class="box">
+            <span>proposal kegiatan (.pdf)</span>
+            <input
+              type="file"
+              placeholder="pilih file proposal"
+              name="proposal"
+              accept=".pdf"
+              required
+            />
+          </div>
+          <div class="box">
+            <span>logo kegiatan (.png/.jpg/.jpeg)</span>
+            <input
+              type="file"
+              placeholder="pilih file logo"
+              name="logo"
+              accept="image/*"
+              required
+            />
+          </div>
+        </div>
+        <label
+          ><input type="checkbox" required />Informasi di atas sudah
+          benar</label
+        >
+        <div class="tombol">
+          <input
+            type="submit"
+            name="send"
+            value="submit"
+            class="btn"
+            id="btn"
+          />
+        </div>
+        <script>
+          document
+            .getElementById("daftarkgt")
+            .addEventListener("submit", async function (event) {
+              event.preventDefault();
+
+              const formData = new FormData(this);
+              try {
+                const response = await fetch("/daftarkgt", {
+                  method: "POST",
+                  body: formData,
+                });
+
+                if (response.ok) {
+                  alert("Informasi tersimpan");
+                  window.location.href = "daftarkgt";
+                } else {
+                  const errorData = await response.json();
+                  alert("Gagal menyimpan informasi: " + errorData.message);
+                }
+              } catch (error) {
+                console.error("Error:", error);
+                alert("Terjadi kesalahan pada server");
+              }
+            });
+        </script>
+        <script>
+          Swal.fire({
+            icon: "success",
+            title: "Berhasil Booking!",
+            text: "Silakan Lihat Riwayat Booking Anda!",
+          });
+        </script>
+        <script>
+          Swal.fire({
+            icon: "error",
+            title: "Gagal Booking!",
+            text: "Silakan Lihat Cek Kembali Data Anda atau Lapor ke Admin!",
+          });
+        </script>
+      </form>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="assets/js/script.js"></script>
+  </body>
+</html>

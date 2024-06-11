@@ -47,6 +47,31 @@ section {
   }
 }
 
+.heading {
+  background-size: cover !important;
+  background-position: center !important;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.heading h1 {
+  font-size: 5rem;
+  color: var(--putih);
+  text-transform: uppercase;
+  text-shadow: var(--text-shadow);
+}
+
+.heading-title {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2.5rem;
+  text-transform: uppercase;
+  color: var(--hitam);
+}
+
 .btn {
   display: inline-block;
   background: var(--putih);
@@ -415,8 +440,6 @@ section {
 .home .swiper-button-prev::after {
   font-size: 2rem;
 }
-
-/* Profile */
 
 .body-profile {
   display: flex;
@@ -914,8 +937,6 @@ input {
   font-weight: 600;
 }
 
-/* Join Page */
-
 .room-header {
   position: absolute;
   top: 0;
@@ -1003,14 +1024,4 @@ input {
 .in a {
   text-decoration: none;
   color: black;
-}
-
-@media (max-width: 700px) {
-  .chat-main {
-    display: block;
-  }
-
-  .chat-sidebar {
-    display: none;
-  }
 }

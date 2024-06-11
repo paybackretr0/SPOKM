@@ -15,11 +15,6 @@ const upload = require("../middleware/uploadgambar");
 
 app.set("view engine", "ejs");
 
-const uploadDir = path.join(__dirname, "..", "uploads");
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir);
-}
-
 io.on("connection", (socket) => {
   console.log("New client connected");
   socket.on("joinRoom", (role) => {
