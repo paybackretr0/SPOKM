@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="assets/admfti.css" />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <title>Organisasi</title>
+  </head>
+  <body class="org">
+    <%- include('../komponen/sidebar');%>
+    <section class="organisasi">
+      <div class="header">
+        <div class="text">Organisasi</div>
+        <div class="notification-icon">
+          <i class="bx bx-bell"></i>
+        </div>
+      </div>
+      <div class="list-organisasi">
+        <div class="table">
+          <table>
+            <thead>
+              <tr>
+                <th>No.</th>
+                <th>Nama Organisasi</th>
+                <th>Logo</th>
+                <th>Tanggal Pengajuan</th>
+                <th>Status</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% org.forEach((org, index) => { %>
+              <tr>
+                <td><%= index + 1 %></td>
+                <td><%= org.namaOrga %></td>
+                <td>
+                  <img
+                    style="width: 100px; height: 100px"
+                    src="/<%= org.userId %>/<%= org.logo %>"
+                  />
+                </td>
+                <td><%= formatDate(org.tanggalPengajuan) %></td>
+                <td>
+                  <% if (org.status === "Y") { %> Disetujui <% } else if
+                  (org.status === "P") { %> Pending <% } else if (org.status ===
+                  "N") { %> Ditolak <% } %>
+                </td>
+                <td>
+                  <div class="action-buttons">
+                    <a href="detailOrga" class="action-button-detail">Detail</a>
+                    <% if (org.status === "P") { %>
+                    <form action="/acc/<%= org.idOrga %>" method="post">
+                      <button class="action-button-acc" type="submit">
+                        Setuju
+                      </button>
+                    </form>
+                    <form action="/tolak/<%= org.idOrga %>" method="post">
+                      <button class="action-button-tolak" type="submit">
+                        Tolak
+                      </button>
+                    </form>
+                    <% } %>
+                  </div>
+                </td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    <div id="notification-container" class="notification-container"></div>
+    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+    <script src="/js/notifFti.js"></script>
+  </body>
+</html>

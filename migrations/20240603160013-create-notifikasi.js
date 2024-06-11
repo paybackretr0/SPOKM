@@ -25,12 +25,13 @@ module.exports = {
         type: Sequelize.TEXT,
       },
       userId: {
-        allowNull: false,
         type: Sequelize.STRING,
         references: {
           model: "Users",
           key: "userId",
         },
+        onUpdate: "CASCADE",
+        onDelete: "SET NULL",
       },
       createdAt: {
         allowNull: false,

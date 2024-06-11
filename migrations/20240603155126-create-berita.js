@@ -13,12 +13,13 @@ module.exports = {
         type: Sequelize.STRING,
       },
       idKategori: {
-        allowNull: false,
         type: Sequelize.STRING,
         references: {
           model: "Kategoris",
           key: "idKategori",
         },
+        onUpdate: "CASCADE",
+        onDelete: "SET NULL",
       },
       isi_berita: {
         allowNull: false,
@@ -43,12 +44,13 @@ module.exports = {
         type: Sequelize.DATE,
       },
       userId: {
-        allowNull: false,
         type: Sequelize.STRING,
         references: {
           model: "Users",
           key: "userId",
         },
+        onUpdate: "CASCADE",
+        onDelete: "SET NULL",
       },
       createdAt: {
         allowNull: false,

@@ -8,7 +8,11 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Mahasiswa.hasOne(models.User, { foreignKey: "nim" });
+      Mahasiswa.hasOne(models.User, {
+        foreignKey: "nim",
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
+      });
     }
   }
   Mahasiswa.init(

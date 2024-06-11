@@ -4,20 +4,22 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable("Himpunans", {
       idOrga: {
-        allowNull: false,
         type: Sequelize.STRING,
         references: {
           model: "Organisasis",
           key: "idOrga",
         },
+        onUpdate: "CASCADE",
+        onDelete: "SET NULL",
       },
       idPengurus: {
-        allowNull: false,
         type: Sequelize.STRING,
         references: {
           model: "Anggotas",
           key: "idPengurus",
         },
+        onUpdate: "CASCADE",
+        onDelete: "SET NULL",
       },
       createdAt: {
         allowNull: false,

@@ -1,4 +1,11 @@
-const { User, Berita, Kategori } = require("../../models/index");
+const {
+  User,
+  Berita,
+  Kategori,
+  Kegiatan,
+  Organisasi,
+  Mahasiswa,
+} = require("../../models/index");
 let nanoid;
 (async () => {
   nanoid = (await import("nanoid")).nanoid;
@@ -18,12 +25,34 @@ exports.admfti = async (req, res) => {
 
 exports.informasi = async (req, res) => {
   try {
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      const day = String(date.getDate()).padStart(2, "0");
+      const monthNames = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ];
+      const month = monthNames[date.getMonth()]; // January is 0!
+      const year = date.getFullYear();
+
+      return day + " " + month + " " + year;
+    }
     const pengguna = await User.findByPk(req.userId);
     const beritas = await Berita.findAll({
       include: [
         {
           model: Kategori,
-          attributes: ["namaKategori"], // replace with the actual column name in 'Kategori' table
+          attributes: ["namaKategori"],
         },
       ],
     });
@@ -31,6 +60,7 @@ exports.informasi = async (req, res) => {
       accessToken: req.cookies.accessToken,
       pengguna,
       beritas,
+      formatDate,
     });
   } catch (error) {
     console.error(error);
@@ -41,7 +71,7 @@ exports.informasi = async (req, res) => {
 exports.tambahinformasi = async (req, res) => {
   try {
     const pengguna = await User.findByPk(req.userId);
-    const kategoris = await Kategori.findAll(); // Fetch all categories
+    const kategoris = await Kategori.findAll();
     res.render("admfti/tambahNews", {
       accessToken: req.cookies.accessToken,
       pengguna,
@@ -100,7 +130,7 @@ exports.hapusBerita = async (req, res) => {
 exports.editNews = async (req, res) => {
   try {
     const users = await User.findByPk(req.userId);
-    const beritas = await Berita.findByPk(req.idNews);
+    const beritas = await Berita.findByPk(req.params.idNews);
     const kategoris = await Kategori.findAll();
     res.render("admfti/editNews", {
       accessToken: req.cookies.accessToken,
@@ -114,27 +144,37 @@ exports.editNews = async (req, res) => {
   }
 };
 
-exports.editBerita = async (req, res, next) => {
+exports.editBerita = async (req, res) => {
   try {
+    const idNews = req.params.idNews;
     const { judul, kategori, isi_berita, penulis, tanggalPengajuan } = req.body;
-    const { idNews } = req.params; // Mengambil idNews dari parameter URL
+    const gambar = req.file ? req.file.filename : null;
 
-    // Memeriksa apakah pengguna ada
+    console.log("Incoming data:", {
+      judul,
+      kategori,
+      isi_berita,
+      gambar,
+      penulis,
+      tanggalPengajuan,
+    });
+    console.log("idNews from params:", idNews);
+
     const user = await User.findByPk(req.userId);
     if (!user) {
       return res.status(404).json({ message: "Pengguna tidak ditemukan" });
     }
 
-    // Memeriksa apakah berita ada
-    const beritas = await Berita.findOne({ where: { idNews } });
+    const beritas = await Berita.findByPk(idNews);
     if (!beritas) {
       return res.status(404).json({ message: "Berita tidak ditemukan" });
     }
 
-    // Memperbarui berita
+    console.log("Existing berita:", beritas.toJSON());
+
     const updatedBerita = {
       judul: judul !== undefined && judul !== "" ? judul : beritas.judul,
-      kategori:
+      idKategori:
         kategori !== undefined && kategori !== "" ? kategori : beritas.kategori,
       isi_berita:
         isi_berita !== undefined && isi_berita !== ""
@@ -148,11 +188,124 @@ exports.editBerita = async (req, res, next) => {
           : beritas.tanggalPengajuan,
     };
 
+    if (gambar !== null) {
+      updatedBerita.gambar = gambar;
+    }
     await beritas.update(updatedBerita);
-
-    return res.status(200).json({ message: "Berita berhasil diupdate" });
+    console.log("Updated berita:", updatedBerita);
+    res.status(200).json({ message: "Berita berhasil diupdate" });
   } catch (error) {
     console.error("Error saat update Berita:", error);
-    return res.status(500).json({ message: "Terjadi kesalahan server" });
+    res.status(500).json({ message: "Terjadi kesalahan server" });
+  }
+};
+
+exports.organization = async (req, res) => {
+  try {
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      const day = String(date.getDate()).padStart(2, "0");
+      const monthNames = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ];
+      const month = monthNames[date.getMonth()]; // January is 0!
+      const year = date.getFullYear();
+
+      return day + " " + month + " " + year;
+    }
+    const pengguna = await User.findByPk(req.userId);
+    const org = await Organisasi.findAll();
+    res.render("admfti/organization", {
+      accessToken: req.cookies.accessToken,
+      pengguna,
+      org,
+      formatDate,
+    });
+  } catch (error) {
+    console.error(error);
+    res.redirect("/login");
+  }
+};
+
+exports.kegiatan = async (req, res) => {
+  try {
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      const day = String(date.getDate()).padStart(2, "0");
+      const monthNames = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ];
+      const month = monthNames[date.getMonth()]; // January is 0!
+      const year = date.getFullYear();
+
+      return day + " " + month + " " + year;
+    }
+    const pengguna = await User.findByPk(req.userId);
+    const kegiatan = await Kegiatan.findAll();
+    res.render("admfti/kegiatan", {
+      accessToken: req.cookies.accessToken,
+      pengguna,
+      kegiatan,
+      formatDate,
+    });
+  } catch (error) {
+    console.error(error);
+    res.redirect("/login");
+  }
+};
+
+exports.user = async (req, res) => {
+  try {
+    const users = await User.findAll({
+      include: [
+        {
+          model: Mahasiswa,
+        },
+      ],
+    });
+    res.render("admfti/user", {
+      accessToken: req.cookies.accessToken,
+      users,
+    });
+  } catch (error) {
+    console.error(error);
+    res.redirect("/login");
+  }
+};
+
+exports.hapusUser = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const hapusUsers = await User.findOne({ where: { userId } });
+    if (!hapusUsers) {
+      return res.status(404).json({ message: "User tidak ditemukan" });
+    }
+    await hapusUsers.destroy();
+    res.redirect("/user");
+  } catch (error) {
+    console.error("Error saat hapus User:", error);
+    return res.status(500).json({ message: "Kesalahan Server" });
   }
 };

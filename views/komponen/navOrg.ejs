@@ -17,8 +17,9 @@
     </div>
   </nav>
   <nav class="add">
-    <% if(accessToken){%>
-    <i class="bx bx-bell"></i>
+    <div class="notification-icon">
+      <i class="bx bx-bell"></i>
+    </div>
     <img src="/img/fti.jpg" class="user-pic" onclick="toggleMenu()" />
     <div class="sub-menu-wrap" id="subMenu">
       <div class="sub-menu">
@@ -38,9 +39,6 @@
         </form>
       </div>
     </div>
-    <%} else {%>
-    <a href="login">Login</a>
-    <%}%>
   </nav>
 
   <script>
@@ -51,6 +49,10 @@
     let subDaftar = document.getElementById("subDaftar");
     function toggleMenuDaftar() {
       subDaftar.classList.toggle("open-daftar");
+    }
+    let subNotif = document.getElementById("subNotif");
+    function toggleMenuNotif() {
+      subDaftar.classList.toggle("open-notif");
     }
   </script>
 </section>

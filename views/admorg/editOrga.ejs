@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/assets/admorg.css" />
+    <title>Edit Profile Organisasi</title>
+  </head>
+  <body class="editprofil">
+    <div class="editProfile">
+      <h1>Edit Profile</h1>
+      <form
+        action="/editorga/<%= org.idOrga %>"
+        method="POST"
+        class="edit-form"
+      >
+        <label for="namaOrga">Nama Organisasi</label>
+        <input
+          type="text"
+          id="namaOrga"
+          name="namaOrga"
+          placeholder="<%= org.namaOrga%>"
+        />
+
+        <label for="deskripsi">Deskripsi Organisasi</label>
+        <input
+          type="deskripsi"
+          id="deskripsi"
+          name="deskripsi"
+          placeholder="<%= org.deskripsi%>"
+        />
+
+        <label for="tanggalBerdiri">Tanggal Berdiri</label>
+        <input type="date" id="tanggalBerdiri" name="tanggalBerdiri" />
+
+        <label for="logo">Logo</label>
+        <input type="file" id="logo" name="logo" accept="image/*" />
+
+        <div class="tombol">
+          <a href="/orga" class="back">Kembali</a>
+          <button type="submit" value="editProfile">Submit</button>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

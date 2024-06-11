@@ -1,19 +1,14 @@
-// notifFti.js
-const socket = io("http://localhost:3000"); // Ganti URL dengan alamat server Anda jika berbeda
-
-// Saat terhubung, bergabung dengan room 'adminfti'
+const socket = io("http://localhost:3000");
 socket.on("connect", () => {
-  console.log("Connected to Admin FTI");
-  socket.emit("joinRoom", "adminfti"); // Emit untuk bergabung dengan room 'adminfti'
+  console.log("Connected to Admin Organisasi");
+  socket.emit("joinRoom", "adminorg");
 });
 
-// Menerima notifikasi kegiatan baru
-socket.on("new_kegiatan", (data) => {
+socket.on("new_notifikasi", (data) => {
   console.log("Notifikasi baru:", data);
   showNotification(data);
 });
 
-// Fungsi untuk menampilkan notifikasi di dashboard
 function showNotification(data) {
   const notificationContainer = document.getElementById(
     "notification-container"
@@ -26,7 +21,6 @@ function showNotification(data) {
   `;
   notificationContainer.appendChild(notification);
 
-  // Menghapus notifikasi setelah beberapa detik
   setTimeout(() => {
     notificationContainer.removeChild(notification);
   }, 5000);

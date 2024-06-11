@@ -15,12 +15,11 @@ const upload = require("../middleware/uploadgambar");
 
 app.set("view engine", "ejs");
 
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 io.on("connection", (socket) => {
   console.log("New client connected");
   socket.on("joinRoom", (role) => {
-    if (role === "adminfti") {
-      socket.join("adminfti");
+    if (role === "adminfti" || role === "adminorg" || role === "mhs") {
+      socket.join(role);
     }
   });
   socket.on("disconnect", () => {
@@ -33,6 +32,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use("/assets", express.static("public"));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use(cookieParser());
 app.use("/", router);
 

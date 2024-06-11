@@ -8,7 +8,6 @@
 }
 
 :root {
-  /* ===== Colors ===== */
   --body-color: #e4e9f7;
   --sidebar-color: #fff;
   --primary-color: #695cfe;
@@ -29,7 +28,6 @@
   --box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
   --text-shadow: 0 1.5rem 3rem rgba(0, 0, 0, 0.3);
 
-  /* ====== Transition ====== */
   --tran-03: all 0.2s ease;
   --tran-03: all 0.3s ease;
   --tran-04: all 0.3s ease;
@@ -56,7 +54,6 @@ body.dark {
   --text-color: #ccc;
 }
 
-/* ===== Sidebar ===== */
 .sidebar {
   position: fixed;
   top: 0;
@@ -68,11 +65,11 @@ body.dark {
   transition: var(--tran-05);
   z-index: 100;
 }
+
 .sidebar.close {
   width: 88px;
 }
 
-/* ===== Reusable code - Here ===== */
 .sidebar li {
   height: 50px;
   list-style: none;
@@ -113,7 +110,6 @@ body.dark {
 .sidebar.close .text {
   opacity: 0;
 }
-/* =========================== */
 
 .sidebar header {
   position: relative;
@@ -180,25 +176,6 @@ body.dark .sidebar header .toggle {
   margin-top: 40px;
 }
 
-.sidebar li.search-box {
-  border-radius: 6px;
-  background-color: var(--primary-color-light);
-  cursor: pointer;
-  transition: var(--tran-05);
-}
-
-.sidebar li.search-box input {
-  height: 100%;
-  width: 100%;
-  outline: none;
-  border: none;
-  background-color: var(--primary-color-light);
-  color: var(--text-color);
-  border-radius: 6px;
-  font-size: 17px;
-  font-weight: 500;
-  transition: var(--tran-05);
-}
 .sidebar li a {
   list-style: none;
   height: 100%;
@@ -214,10 +191,12 @@ body.dark .sidebar header .toggle {
 .sidebar li a:hover {
   background-color: var(--warna);
 }
+
 .sidebar li a:hover .icon,
 .sidebar li a:hover .text {
   color: var(--sidebar-color);
 }
+
 body.dark .sidebar li a:hover .icon,
 body.dark .sidebar li a:hover .text {
   color: var(--text-color);
@@ -230,9 +209,11 @@ body.dark .sidebar li a:hover .text {
   justify-content: space-between;
   overflow-y: scroll;
 }
+
 .menu-bar::-webkit-scrollbar {
   display: none;
 }
+
 .sidebar .menu-bar .mode {
   border-radius: 6px;
   background-color: var(--primary-color-light);
@@ -248,12 +229,15 @@ body.dark .sidebar li a:hover .text {
 .mode .sun-moon i {
   position: absolute;
 }
+
 .mode .sun-moon i.sun {
   opacity: 0;
 }
+
 body.dark .mode .sun-moon i.sun {
   opacity: 1;
 }
+
 body.dark .mode .sun-moon i.moon {
   opacity: 0;
 }
@@ -263,12 +247,9 @@ body.dark .mode .sun-moon i.moon {
   border-radius: 10px;
   cursor: pointer;
   align-items: center;
-  justify-content: center;
   background-color: transparent;
   display: flex;
-  height: 100%;
   width: 100%;
-  text-decoration: none;
   transition: var(--tran-03);
   padding: 10px 0;
 }
@@ -285,6 +266,7 @@ body.dark .mode .sun-moon i.moon {
 .menu-bar .bottom-content .logut:hover .text {
   color: var(--sidebar-color);
 }
+
 body.dark .menu-bar .bottom-content .logut:hover .icon,
 body.dark .menu-bar .bottom-content .logut:hover .text {
   color: var(--text-color);
@@ -339,11 +321,28 @@ body.dark .switch::before {
   display: flex;
   flex-wrap: wrap;
 }
-.home .text {
+
+.home .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.home .header .text {
   font-size: 30px;
   font-weight: 500;
   color: var(--text-color);
   padding: 12px 60px;
+}
+
+.home .header .notification-icon {
+  font-size: 30px;
+  cursor: pointer;
+  position: absolute;
+  top: 6.5%;
+  right: 10%;
+  transform: translateY(-50%);
 }
 
 .home .content {
@@ -369,7 +368,6 @@ body.dark .switch::before {
   text-transform: none;
 }
 
-/* Styling untuk notifikasi */
 .notification-container {
   position: fixed;
   top: 20px;
@@ -387,43 +385,29 @@ body.dark .switch::before {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  min-width: 160px;
-  z-index: 1;
-}
-
-.dropdown-content a {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-}
-
-.dropdown:hover .dropdown-content {
-  display: block;
-}
-
 .sidebar.close ~ .home,
-.sidebar.close ~ .berita {
+.sidebar.close ~ .berita,
+.sidebar.close ~ .kegiatan,
+.sidebar.close ~ .organisasi,
+.sidebar.close ~ .pengguna {
   left: 78px;
   height: 100vh;
   width: calc(100% - 78px);
 }
 
 body.dark .home,
-body.dark .berita {
+body.dark .berita,
+body.dark .kegiatan,
+body.dark .organisasi,
+body.dark .pengguna {
   color: var(--text-color);
 }
 
 body.dark .home .content .isian,
-body.dark .berita .informasi table {
+body.dark .berita .informasi table,
+body.dark .kegiatan .list-kegiatan table,
+body.dark .organisasi .list-organisasi table,
+body.dark .pengguna .list-pengguna table {
   background: var(--putih);
   color: var(--hitam);
 }
@@ -442,16 +426,31 @@ body.dark .berita .informasi table {
   background-color: var(--body-color);
   transition: var(--tran-05);
   display: flex;
-  flex-direction: column; /* Ensure items stack vertically */
-  padding: 2rem; /* Add padding for spacing */
+  flex-direction: column;
+  padding: 1rem;
 }
 
-.berita .text {
+.berita .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.berita .header .text {
   font-size: 30px;
-  margin-left: 1rem;
   font-weight: 500;
   color: var(--text-color);
-  margin-bottom: 1rem; /* Add bottom margin for spacing */
+  padding: 12px 40px;
+}
+
+.berita .header .notification-icon {
+  font-size: 30px;
+  cursor: pointer;
+  position: absolute;
+  top: 9%;
+  right: 10%;
+  transform: translateY(-50%);
 }
 
 .berita .informasi {
@@ -460,7 +459,7 @@ body.dark .berita .informasi table {
 }
 
 .berita .informasi .button-container {
-  margin-bottom: 2rem; /* Add bottom margin for spacing */
+  margin-bottom: 2rem;
 }
 
 .berita .informasi .table {
@@ -472,9 +471,9 @@ body.dark .berita .informasi table {
 }
 
 table {
-  width: 100%; /* Use full width of the container */
+  width: 100%;
   border-collapse: collapse;
-  margin: 0; /* Remove margin, handled by .table */
+  margin: 0;
 }
 
 th,
@@ -501,6 +500,7 @@ th {
   justify-content: flex-start;
   margin-bottom: 10px;
 }
+
 .add-button {
   background-color: var(--warna);
   color: var(--putih);
@@ -509,17 +509,19 @@ th {
   cursor: pointer;
   border-radius: 10px;
 }
+
 .action-buttons {
   display: flex;
   flex-direction: column;
 }
+
 .action-button-edit {
   background-color: var(--warna);
   border-radius: 10px;
   color: var(--putih);
   padding: 5px 10px;
   border: none;
-  cursor: pointer;
+  text-decoration: none;
   margin-bottom: 5px;
 }
 
@@ -528,7 +530,9 @@ th {
   border-radius: 10px;
   color: var(--putih);
   padding: 5px 10px;
+  width: 100%;
   border: none;
+  font-size: 1rem;
   cursor: pointer;
   margin-bottom: 5px;
 }
@@ -539,6 +543,7 @@ th {
   color: var(--putih);
   padding: 5px 10px;
   border: none;
+  text-decoration: none;
   cursor: pointer;
   margin-bottom: 5px;
 }
@@ -622,8 +627,295 @@ input[type="submit"]:hover {
   background-color: #476a82;
 }
 
-.button-container {
+.button-containert {
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   width: 100%;
+}
+
+.button-containert a {
+  background-color: #a91d3a;
+  color: var(--putih);
+  border: none;
+  padding: 15px 20px;
+  font-size: 1rem;
+  border-radius: 10px;
+  margin-top: 2rem;
+  text-decoration: none;
+}
+
+.button-containert a:hover {
+  background-color: #c73659;
+}
+
+.kgt {
+  overflow-x: hidden;
+  display: flex;
+}
+
+.kegiatan {
+  position: absolute;
+  top: 0;
+  left: 250px;
+  height: 100vh;
+  width: calc(100% - 250px);
+  background-color: var(--body-color);
+  transition: var(--tran-05);
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.kegiatan .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.kegiatan .header .text {
+  font-size: 30px;
+  font-weight: 500;
+  color: var(--text-color);
+  padding: 12px 40px;
+}
+
+.kegiatan .header .notification-icon {
+  font-size: 30px;
+  cursor: pointer;
+  position: absolute;
+  top: 6.7%;
+  right: 10%;
+  transform: translateY(-50%);
+}
+
+.kegiatan .list-kegiatan {
+  display: flex;
+  flex-direction: column;
+}
+
+.kegiatan .list-kegiatan .table {
+  margin: 1rem;
+  overflow-x: auto;
+  padding: 2rem;
+  border-radius: 10px;
+  background: var(--kremMud);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0;
+}
+
+th,
+td {
+  border: var(--border);
+  padding: 0.4rem;
+  text-align: center;
+  text-transform: none;
+}
+
+td {
+  background: var(--kremMud);
+  color: var(--hitam);
+}
+
+th {
+  background: var(--krem);
+  color: var(--hitam);
+  font-weight: bold;
+}
+
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+}
+
+.action-button-acc {
+  background-color: var(--warna);
+  border-radius: 10px;
+  color: var(--putih);
+  padding: 5px 10px;
+  border: none;
+  text-decoration: none;
+  margin-bottom: 5px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 1rem;
+}
+
+.action-button-tolak {
+  background-color: red;
+  border-radius: 10px;
+  color: var(--putih);
+  padding: 5px 10px;
+  border: none;
+  text-decoration: none;
+  margin-bottom: 5px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 1rem;
+}
+
+.org {
+  overflow-x: hidden;
+  display: flex;
+}
+
+.organisasi {
+  position: absolute;
+  top: 0;
+  left: 250px;
+  height: 100vh;
+  width: calc(100% - 250px);
+  background-color: var(--body-color);
+  transition: var(--tran-05);
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.organisasi .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.organisasi .header .text {
+  font-size: 30px;
+  font-weight: 500;
+  color: var(--text-color);
+  padding: 12px 40px;
+}
+
+.organisasi .header .notification-icon {
+  font-size: 30px;
+  cursor: pointer;
+  position: absolute;
+  top: 9%;
+  right: 10%;
+  transform: translateY(-50%);
+}
+
+.organisasi .list-organisasi {
+  display: flex;
+  flex-direction: column;
+}
+
+.organisasi .list-organisasi .table {
+  margin: 1rem;
+  overflow-x: auto;
+  padding: 2rem;
+  border-radius: 10px;
+  background: var(--kremMud);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0;
+}
+
+th,
+td {
+  border: var(--border);
+  padding: 0.4rem;
+  text-align: center;
+  text-transform: none;
+}
+
+td {
+  background: var(--kremMud);
+  color: var(--hitam);
+}
+
+th {
+  background: var(--krem);
+  color: var(--hitam);
+  font-weight: bold;
+}
+
+.user {
+  overflow-x: hidden;
+  display: flex;
+}
+
+.pengguna {
+  position: absolute;
+  top: 0;
+  left: 250px;
+  height: 100vh;
+  width: calc(100% - 250px);
+  background-color: var(--body-color);
+  transition: var(--tran-05);
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.pengguna .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.pengguna .header .text {
+  font-size: 30px;
+  font-weight: 500;
+  color: var(--text-color);
+  padding: 12px 40px;
+}
+
+.pengguna .header .notification-icon {
+  font-size: 30px;
+  cursor: pointer;
+  position: absolute;
+  top: 9%;
+  right: 10%;
+  transform: translateY(-50%);
+}
+
+.pengguna .list-pengguna {
+  display: flex;
+  flex-direction: column;
+}
+
+.pengguna .list-pengguna .button-container {
+  margin-bottom: 2rem;
+}
+
+.pengguna .list-pengguna .table {
+  margin: 1rem;
+  overflow-x: auto;
+  padding: 2rem;
+  border-radius: 10px;
+  background: var(--kremMud);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0;
+}
+
+th,
+td {
+  border: var(--border);
+  padding: 0.4rem;
+  text-align: center;
+  text-transform: none;
+}
+
+td {
+  background: var(--kremMud);
+  color: var(--hitam);
+}
+
+th {
+  background: var(--krem);
+  color: var(--hitam);
+  font-weight: bold;
 }

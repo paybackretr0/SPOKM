@@ -5,10 +5,9 @@ const fs = require("fs");
 // Konfigurasi penyimpanan multer
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const userId = req.userId; // Replace this with how you get the user's ID
-    const dir = path.join(__dirname, "..", "uploads", userId.toString()); // Construct the absolute path
+    const userId = req.userId; 
+    const dir = path.join(__dirname, "..", "uploads", userId.toString()); 
 
-    // Create directory if it doesn't exist
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir, { recursive: true });
     }
@@ -17,9 +16,7 @@ const storage = multer.diskStorage({
   },
   filename: (req, file, cb) => {
     const timestamp = Date.now();
-    // Get the file extension
     const ext = path.extname(file.originalname).toLowerCase();
-    // Create the filename with the timestamp and original extension
     const filename = `file-${timestamp}${ext}`;
     cb(null, filename);
   },
