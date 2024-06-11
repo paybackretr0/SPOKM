@@ -34,6 +34,7 @@
                 <th>Nama</th>
                 <th>Departemen</th>
                 <th>Email</th>
+                <th>Status</th>
                 <th>Aksi</th>
               </tr>
             </thead>
@@ -45,6 +46,11 @@
                 <td><%= user.Mahasiswa.nama %></td>
                 <td><%= user.Mahasiswa.jurusan %></td>
                 <td><%= user.Mahasiswa.email %></td>
+                <td>
+                  <% if (user.role === "mhs") { %> Mahasiswa <% } else if
+                  (user.role === "adminorg") { %> Admin Organisasi <% } else if
+                  (user.role === "adminfti") { %> Admin Fakultas <% } %>
+                </td>
                 <td>
                   <div class="action-buttons">
                     <form action="/deleteuser/<%= user.userId %>" method="post">

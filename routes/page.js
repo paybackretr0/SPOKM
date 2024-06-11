@@ -105,11 +105,23 @@ router.get(
 );
 router.get("/kegiatan", checkRole("adminfti"), verif.verifyToken, fti.kegiatan);
 router.get("/user", checkRole("adminfti"), verif.verifyToken, fti.user);
+router.get(
+  "/tambahUser",
+  checkRole("adminfti"),
+  verif.verifyToken,
+  fti.regisUser
+);
 router.post(
   "/deleteuser/:userId",
   checkRole("adminfti"),
   verif.verifyToken,
   fti.hapusUser
+);
+router.post(
+  "/addUser",
+  checkRole("adminfti"),
+  verif.verifyToken,
+  fti.tambahUser
 );
 
 router.post("/ubahpw", verif.verifyToken, pw.updatepassword);

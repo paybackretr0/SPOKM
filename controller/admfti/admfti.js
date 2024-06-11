@@ -10,6 +10,8 @@ let nanoid;
 (async () => {
   nanoid = (await import("nanoid")).nanoid;
 })();
+const bcrypt = require("bcrypt");
+
 exports.admfti = async (req, res) => {
   try {
     const pengguna = await User.findByPk(req.userId);
@@ -307,5 +309,41 @@ exports.hapusUser = async (req, res) => {
   } catch (error) {
     console.error("Error saat hapus User:", error);
     return res.status(500).json({ message: "Kesalahan Server" });
+  }
+};
+
+exports.regisUser = async (req, res) => {
+  try {
+    res.render("admfti/tambahUser", {
+      accessToken: req.cookies.accessToken,
+    });
+  } catch (error) {
+    console.error(error);
+    res.redirect("/login");
+  }
+};
+
+exports.tambahUser = async (req, res) => {
+  const { nim, password, passwordLagi, role } = req.body;
+
+  if (password !== passwordLagi) {
+    return res.status(400).json({ msg: "Konfirmasi password tidak sesuai" });
+  }
+
+  try {
+    const salt = await bcrypt.genSalt();
+    const hashPass = await bcrypt.hash(password, salt);
+
+    await User.create({
+      userId: "U" + nanoid(7),
+      nim: nim,
+      password: hashPass,
+      role: role,
+    });
+
+    res.json({ msg: "Registrasi berhasil" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ msg: "Registrasi gagal, coba lagi nanti" });
   }
 };

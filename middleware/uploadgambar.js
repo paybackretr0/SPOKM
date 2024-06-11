@@ -2,13 +2,11 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 
-// Konfigurasi penyimpanan multer
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const userId = req.userId; // Replace this with how you get the user's ID
-    const dir = path.join(__dirname, "..", "uploads", userId.toString()); // Construct the absolute path
+    const userId = req.userId;
+    const dir = path.join(__dirname, "..", "uploads", userId.toString());
 
-    // Create directory if it doesn't exist
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir, { recursive: true });
     }
@@ -17,13 +15,12 @@ const storage = multer.diskStorage({
   },
   filename: (req, file, cb) => {
     const timestamp = Date.now();
-    // Append the timestamp to the filename
-    const filename = `foto${timestamp}.jpg`;
+    const extname = path.extname(file.originalname).toLowerCase();
+    const filename = `file${timestamp}${extname}`;
     cb(null, filename);
   },
 });
 
-// Middleware untuk memeriksa tipe file gambar
 const fileFilter = (req, file, cb) => {
   const filetypes = /jpeg|jpg|png|pdf/;
   const mimetype = filetypes.test(file.mimetype);
@@ -38,7 +35,7 @@ const fileFilter = (req, file, cb) => {
 
 const upload = multer({
   storage: storage,
-  limits: { fileSize: 1024 * 1024 * 5 }, // Maksimal ukuran file 5MB
+  limits: { fileSize: 1024 * 1024 * 5 },
   fileFilter: fileFilter,
 });
 
