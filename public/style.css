@@ -88,7 +88,6 @@ section {
   background: var(--warna);
 }
 
-/* Login */
 .login {
   display: flex;
   justify-content: center;
@@ -182,7 +181,6 @@ section {
   color: black;
 }
 
-/* Home Mhs*/
 .header {
   position: sticky;
   top: 0;
