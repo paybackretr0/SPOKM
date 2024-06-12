@@ -335,11 +335,9 @@ exports.tambahUser = async (req, res) => {
   try {
     const salt = await bcrypt.genSalt();
     const hashPass = await bcrypt.hash(password, salt);
-
     await Mahasiswa.create({
       nim: nim,
     });
-
     await User.create({
       userId: "U" + nanoid(7),
       nim: nim,
