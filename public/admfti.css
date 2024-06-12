@@ -919,3 +919,131 @@ th {
   color: var(--hitam);
   font-weight: bold;
 }
+
+.login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: url("./img/fti.jpg") no-repeat;
+  backdrop-filter: blur(3px);
+  background-size: cover;
+  background-position: center;
+}
+
+.room-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 2rem;
+}
+
+.room-header .logo {
+  font-size: 50px;
+  color: var(--putih);
+}
+
+.wrapper {
+  width: 420px;
+  background: transparent;
+  border: var(--border);
+  backdrop-filter: blur(20px);
+  box-shadow: var(--box-shadow);
+  color: black;
+  border-radius: 10px;
+  padding: 30px 40px;
+}
+
+.wrapper h1 {
+  font-size: 36px;
+  text-align: center;
+  user-select: none;
+}
+
+.wrapper h2 {
+  font-size: 30px;
+  text-align: center;
+  margin-bottom: 10px;
+  color: var(--putih);
+  user-select: none;
+}
+
+.wrapper .input-box {
+  position: relative;
+  width: 100%;
+  height: 50px;
+  margin: 30px 0;
+}
+
+.input-box input {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  border-radius: 40px;
+  font-size: 16px;
+  color: var(--putih);
+  padding: 20px 45px 20px 20px;
+}
+
+.input-box input::placeholder {
+  color: var(--putih);
+}
+
+.input-box i {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+  color: var(--putih);
+}
+
+.input-box select {
+  background: transparent;
+  width: 100%;
+  border: none;
+  outline: none;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  border-radius: 40px;
+  font-size: 16px;
+  color: var(--putih);
+  padding: 1rem;
+  margin-bottom: 2rem;
+}
+
+select#role option {
+  color: var(--hitam);
+  background-color: var(--light-bg);
+}
+
+select#role option:checked {
+  color: var(--putih);
+  background-color: var(--light-black);
+}
+
+.wrapper .log {
+  width: 100%;
+  height: 45px;
+  background: white;
+  border: none;
+  outline: none;
+  border-radius: 40px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  font-size: 16px;
+  color: #333;
+  font-weight: 600;
+  transition: 0.3s ease-in-out;
+}
+
+.log:hover {
+  background: var(--warna);
+}
+
+.log a {
+  text-decoration: none;
+  color: black;
+}

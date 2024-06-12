@@ -48,7 +48,7 @@ exports.himp = async (req, res) => {
   }
 };
 
-exports.dafkgt = async (req, res) => {
+exports.daftarKeg = async (req, res) => {
   try {
     const users = await User.findByPk(req.userId);
     res.render("admorg/dafkgt", {
@@ -61,7 +61,7 @@ exports.dafkgt = async (req, res) => {
   }
 };
 
-exports.daftarkgt = async (req, res) => {
+exports.dafkgt = async (req, res) => {
   try {
     const pengguna = await User.findByPk(req.userId);
     if (!pengguna) {
@@ -70,6 +70,7 @@ exports.daftarkgt = async (req, res) => {
 
     const {
       namaKegiatan,
+      namaKetupel,
       nimKetupel,
       deskripsi,
       bidangKegiatan,
@@ -87,6 +88,7 @@ exports.daftarkgt = async (req, res) => {
     await Kegiatan.create({
       idKegiatan: "K" + nanoid(7),
       namaKegiatan: namaKegiatan,
+      namaKetupel: namaKetupel,
       nimKetupel: nimKetupel,
       deskripsi: deskripsi,
       bidangKegiatan: bidangKegiatan,
@@ -115,18 +117,6 @@ exports.daftarkgt = async (req, res) => {
       message: "Pengajuan Kegiatan Baru!",
       kegiatan: {
         namaKegiatan,
-        nimKetupel,
-        deskripsi,
-        bidangKegiatan,
-        tanggalMulai,
-        tanggalSelesai,
-        tanggalPengajuan,
-        penyelenggara,
-        lingkupKegiatan,
-        logo,
-        proposal,
-        status: "P",
-        userId: req.userId,
         nama: "Admin Organisasi",
       },
     });

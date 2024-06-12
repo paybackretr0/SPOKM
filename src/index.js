@@ -5,6 +5,7 @@ const router = require("../routes/page");
 const cookieParser = require("cookie-parser");
 const socketio = require("socket.io");
 const chat = require("../controller/socket");
+const jwt_decode = require("jwt-decode");
 const app = express();
 const fs = require("fs");
 const path = require("path");
@@ -31,8 +32,8 @@ app.set("io", io);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
+app.use(express.static("uploads"));
 app.use("/assets", express.static("public"));
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use(cookieParser());
 app.use("/", router);
 

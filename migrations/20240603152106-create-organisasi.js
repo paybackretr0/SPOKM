@@ -25,6 +25,16 @@ module.exports = {
         allowNull: false,
         type: Sequelize.TEXT,
       },
+      lingkupOrganisasi: {
+        allowNull: false,
+        type: Sequelize.STRING,
+      },
+      namaKetua: {
+        type: Sequelize.STRING,
+      },
+      nimKetua: {
+        type: Sequelize.STRING,
+      },
       tanggalPengajuan: {
         allowNull: false,
         type: Sequelize.DATE,
@@ -38,6 +48,14 @@ module.exports = {
       },
       logo: {
         type: Sequelize.STRING,
+      },
+      profilOrg: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      suratRek: {
+        type: Sequelize.STRING,
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,

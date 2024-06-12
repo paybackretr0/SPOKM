@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="assets/admfti.css" />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <title>Tambah User</title>
+  </head>
+  <body class="login">
+    <section class="room-header">
+      <a href="/user" class="logo"><i class="bx bx-log-out-circle"></i></a>
+    </section>
+    <div class="wrapper">
+      <form action="/addUser" method="post">
+        <h1>Tambah User</h1>
+        <h2>FTI Organizer Hub</h2>
+        <div class="input-box">
+          <input type="text" name="nim" placeholder="NIM" required />
+          <i class="bx bxs-user-pin"></i>
+        </div>
+        <div class="input-box">
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            requireds
+          />
+          <i class="bx bx-lock-alt"></i>
+        </div>
+        <div class="input-box">
+          <input
+            type="password"
+            name="passwordLagi"
+            placeholder="Konfirmasi Password"
+            requireds
+          />
+          <i class="bx bx-lock-alt"></i>
+        </div>
+        <div class="input-box">
+          <select id="role" name="role" required>
+            <option value="" disabled selected hidden>
+              -------Pilih Role yang Sesuai-------
+            </option>
+            <option value="mhs">Mahasiswa</option>
+            <option value="adminorg">Admin Organisasi</option>
+          </select>
+        </div>
+        <button type="submit" name="login" class="log">Tambah</button>
+      </form>
+    </div>
+  </body>
+</html>

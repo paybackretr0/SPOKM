@@ -332,6 +332,8 @@ textarea:focus {
   display: flex;
   justify-content: center;
   font-size: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
 }
 
 .booking .book-form .doc {
@@ -392,10 +394,6 @@ textarea:focus {
   text-align: right;
   justify-content: space-between;
   margin-bottom: 1rem;
-}
-
-.booking .book-form .tombol #back:hover {
-  background: red;
 }
 
 .editprofil {
