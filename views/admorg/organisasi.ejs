@@ -7,7 +7,6 @@
       href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
     />
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
-
     <link
       href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
       rel="stylesheet"
@@ -16,11 +15,8 @@
   </head>
 
   <body>
-    <!-- Header -->
     <%- include('../komponen/navOrg');%>
-    <!-- End Header -->
 
-    <!-- Awal Home -->
     <section class="home">
       <div class="swiper home-slider">
         <div class="swiper-wrapper">
@@ -59,12 +55,8 @@
         <div class="swiper-button-prev"></div>
       </div>
     </section>
-
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="/js/script.js"></script>
-
-    <!-- Akhir Home -->
-    <!-- Home About -->
     <section class="home-about">
       <div class="image">
         <img src="/img/fti2.jpg" alt="" />
@@ -88,8 +80,6 @@
         <a href="" class="btn">read more</a>
       </div>
     </section>
-    <!-- End Home About -->
-    <!-- Home Latest -->
     <section class="home-latest">
       <h2>Organisasi dan Kegiatan Terbaru</h2>
       <div class="content">
@@ -139,19 +129,12 @@
         </div>
       </div>
     </section>
-    <!-- End Home Latest -->
-    <!--  Kalender-->
     <section class="kalender">
       <div class="kalender" id="calendar"></div>
     </section>
 
-    <!-- Kontainer untuk notifikasi -->
     <div id="notification-container" class="notification-container"></div>
-
-    <!-- Menyertakan script untuk socket.io -->
     <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
-    <!-- Menyertakan script notifikasi -->
-    <script src="/js/notifOrg.js"></script>
-    <!-- End Kalender -->
+    <script src="/js/notifUser.js"></script>
   </body>
 </html>

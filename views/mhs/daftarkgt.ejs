@@ -7,8 +7,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     />
-    <link rel="stylesheet" href="assets/admorg.css" />
-    <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
+    <link rel="stylesheet" href="/style.css" />
     <link
       href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
       rel="stylesheet"
@@ -22,21 +21,19 @@
     <div class="heading" style="background: url(/img/rommm.jpg) no-repeat">
       <h1>Pengajuan Kegiatan</h1>
     </div>
-
-    <!-- Awal booking -->
-    <section class="booking">
+    <section class="dafkgt">
       <h1 class="heading-title">Daftarkan Kegiatanmu!</h1>
       <form
         action="/daftarkgt"
         method="post"
-        class="book-form"
+        class="dafkgt-form"
         id="daftarkgt"
         enctype="multipart/form-data"
       >
         <div class="flex">
           <div class="inputbox">
             <h4 class="data">Data Ketua Pelaksana</h4>
-            <span>nama ketua pelaksana</span>
+            <span>Nama Ketua Pelaksana</span>
             <input
               type="text"
               placeholder="masukan nama ketupel"
@@ -46,7 +43,7 @@
           </div>
           <div class="inputbox">
             <h4 class="data">Data Kegiatan</h4>
-            <span>nama kegiatan</span>
+            <span>Nama Kegiatan</span>
             <input
               type="text"
               placeholder="masukan nama kegiatan"
@@ -64,7 +61,7 @@
             />
           </div>
           <div class="inputbox">
-            <span>bidang kegiatan</span>
+            <span>Bidang Kegiatan</span>
             <input
               type="text"
               placeholder="masukan bidang kegiatan"
@@ -72,17 +69,9 @@
               required
             />
           </div>
+          <div class="inputbox"></div>
           <div class="inputbox">
-            <span>nomor Whatsapp ketua pelaksana</span>
-            <input
-              type="text"
-              placeholder="masukan No. WA ketupel"
-              name="noHpKetupel"
-              required
-            />
-          </div>
-          <div class="inputbox">
-            <span>lingkup kegiatan</span>
+            <span>Lingkup Kegiatan</span>
             <input
               type="text"
               placeholder="masukan lingkup kegiatan"
@@ -90,17 +79,9 @@
               required
             />
           </div>
+          <div class="inputbox"></div>
           <div class="inputbox">
-            <span>Departemen Ketua Pelaksana</span>
-            <input
-              type="text"
-              placeholder="masukan departemen ketupel"
-              name="departemenKetupel"
-              required
-            />
-          </div>
-          <div class="inputbox">
-            <span>deskripsi singkat kegiatan</span>
+            <span>Deskripsi Kegiatan</span>
             <textarea type="text" name="deskripsi" required></textarea>
           </div>
           <div class="inputbox"></div>
@@ -116,7 +97,12 @@
           <div class="inputbox"></div>
           <div class="inputbox">
             <span>Tanggal Pengajuan</span>
-            <input type="date" name="tanggalPengajuan" required />
+            <input
+              type="date"
+              name="tanggalPengajuan"
+              id="tanggalPengajuan"
+              readonly
+            />
           </div>
           <div class="inputbox"></div>
           <div class="inputbox">
@@ -164,6 +150,7 @@
             value="submit"
             class="btn"
             id="btn"
+            style="width: 100%"
           />
         </div>
         <script>
@@ -193,23 +180,20 @@
             });
         </script>
         <script>
-          Swal.fire({
-            icon: "success",
-            title: "Berhasil Booking!",
-            text: "Silakan Lihat Riwayat Booking Anda!",
-          });
-        </script>
-        <script>
-          Swal.fire({
-            icon: "error",
-            title: "Gagal Booking!",
-            text: "Silakan Lihat Cek Kembali Data Anda atau Lapor ke Admin!",
+          document.addEventListener("DOMContentLoaded", function () {
+            const dateInput = document.getElementById("tanggalPengajuan");
+
+            const today = new Date();
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, "0");
+            const dd = String(today.getDate()).padStart(2, "0");
+
+            const formattedDate = `${yyyy}-${mm}-${dd}`;
+
+            dateInput.value = formattedDate;
           });
         </script>
       </form>
     </section>
-
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script src="assets/js/script.js"></script>
   </body>
 </html>

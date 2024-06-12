@@ -67,7 +67,7 @@
                   <% if (kegiatan.status === "P") { %>
                   <div class="action-buttons">
                     <form
-                      action="/acc/<%= kegiatan.idKegiatan %>"
+                      action="/acc/<%= kegiatan.userId %>/<%= kegiatan.idKegiatan%>"
                       method="post"
                     >
                       <button class="action-button-acc" type="submit">

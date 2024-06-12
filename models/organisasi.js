@@ -62,14 +62,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      no_wa: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      departemen: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
       profilOrg: {
         type: DataTypes.STRING,
       },

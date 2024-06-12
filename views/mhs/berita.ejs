@@ -1,9 +1,39 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link rel="stylesheet" href="assets/style.css" />
     <title>Berita</title>
   </head>
   <body>
-    <h1>Hello</h1>
+    <%- include('../komponen/navMhs');%>
+    <div class="heading" style="background: url(/img/rommm.jpg) no-repeat">
+      <h1>Kumpulan Berita</h1>
+    </div>
+    <section class="packages">
+      <h1 class="heading-title">Berita</h1>
+      <div class="box-container">
+        <% beritas.forEach((berita, index) => { %>
+        <div class="box">
+          <div class="image">
+            <img src="/<%= berita.userId %>/<%= berita.gambar %>" alt="" />
+          </div>
+          <div class="content">
+            <h3><%= berita.judul %></h3>
+            <p><%= berita.isi_berita %></p>
+            <a href="" class="btn">Detail</a>
+          </div>
+        </div>
+        <% }) %>
+      </div>
+      <div class="load-more"><span class="btn">load more</span></div>
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="/js/script.js"></script>
   </body>
 </html>

@@ -1,9 +1,11 @@
+const { where } = require("sequelize");
 const {
   User,
   Mahasiswa,
   Notifikasi,
   Organisasi,
   Kegiatan,
+  Berita,
 } = require("../../models/index");
 let nanoid;
 (async () => {
@@ -23,7 +25,15 @@ exports.home = async (req, res) => {
 
 exports.berita = async (req, res) => {
   try {
-    res.render("mhs/berita", { accessToken: req.cookies.accessToken });
+    const users = await User.findByPk(req.userId);
+    const mhs = await Mahasiswa.findOne({ where: { nim: users.nim } });
+    const beritas = await Berita.findAll({ where: { status: "Y" } });
+    res.render("mhs/berita", {
+      accessToken: req.cookies.accessToken,
+      users,
+      mhs,
+      beritas,
+    });
   } catch (error) {
     console.error(error);
     res.redirect("/login");
@@ -33,6 +43,17 @@ exports.berita = async (req, res) => {
 exports.org = async (req, res) => {
   try {
     res.render("mhs/org", { accessToken: req.cookies.accessToken });
+  } catch (error) {
+    console.error(error);
+    res.redirect("/login");
+  }
+};
+
+exports.room = async (req, res) => {
+  try {
+    const pengguna = await User.findByPk(req.userId);
+    const mhs = await Mahasiswa.findOne({ where: { nim: pengguna.nim } });
+    res.render("mhs/room", { accessToken: req.cookies.accessToken, mhs });
   } catch (error) {
     console.error(error);
     res.redirect("/login");
@@ -57,6 +78,7 @@ exports.daftar = async (req, res) => {
 exports.daftarOrg = async (req, res) => {
   try {
     const pengguna = await User.findByPk(req.userId);
+    const mhs = await Mahasiswa.findOne({ where: { nim: pengguna.nim } });
     if (!pengguna) {
       return res.status(404).json({ message: "User tidak ditemukan" });
     }
@@ -107,6 +129,15 @@ exports.daftarOrg = async (req, res) => {
       userId: req.userId,
     });
 
+    const io = req.app.get("io");
+    io.to("adminfti").emit("new_organisasi", {
+      message: "Pengajuan Organisasi Baru!",
+      orga: {
+        namaOrga,
+        nama: mhs.nama || "Mahasiswa",
+      },
+    });
+
     res.status(200).json({ message: "Organisasi berhasil didaftarkan" });
   } catch (error) {
     console.error("Gagal mendaftarkan organisasi:", error);
@@ -134,6 +165,7 @@ exports.daftarkegiatan = async (req, res) => {
 exports.daftarkgt = async (req, res) => {
   try {
     const pengguna = await User.findByPk(req.userId);
+    const mhs = await Mahasiswa.findOne({ where: { nim: pengguna.nim } });
     if (!pengguna) {
       return res.status(404).json({ message: "User tidak ditemukan" });
     }
@@ -141,6 +173,7 @@ exports.daftarkgt = async (req, res) => {
     const {
       namaKegiatan,
       deskripsi,
+      namaKetupel,
       nimKetupel,
       tanggalPengajuan,
       bidangKegiatan,
@@ -157,6 +190,7 @@ exports.daftarkgt = async (req, res) => {
     await Kegiatan.create({
       idKegiatan: "K" + nanoid(7),
       namaKegiatan: namaKegiatan,
+      namaKetupel: namaKetupel,
       deskripsi: deskripsi,
       tanggalPengajuan: tanggalPengajuan,
       tanggalMulai: tanggalMulai,
@@ -178,6 +212,15 @@ exports.daftarkgt = async (req, res) => {
       status: "N",
       isi: `Pengajuan Kegiatan ${namaKegiatan} oleh ${req.userId} telah diajukan`,
       userId: req.userId,
+    });
+
+    const io = req.app.get("io");
+    io.to("adminfti").emit("new_kegiatanMhs", {
+      message: "Pengajuan Kegiatan Baru!",
+      kegiatan: {
+        namaKegiatan,
+        nama: mhs.nama || "Mahasiswa",
+      },
     });
 
     res.status(200).json({ message: "Kegiatan berhasil didaftarkan" });

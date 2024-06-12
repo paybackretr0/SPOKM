@@ -94,6 +94,7 @@ exports.createNews = async (req, res) => {
 
     const { judul, kategori, isi_berita, penulis, tanggalPengajuan } = req.body;
     const gambar = req.file ? req.file.filename : null;
+    const today = new Date();
 
     await Berita.create({
       idNews: "B" + nanoid(7),
@@ -104,6 +105,7 @@ exports.createNews = async (req, res) => {
       penulis: penulis,
       tanggalPengajuan: tanggalPengajuan,
       status: "Y",
+      tanggalPublish: today,
       userId: req.userId,
     });
 
@@ -333,7 +335,9 @@ exports.tambahUser = async (req, res) => {
   try {
     const salt = await bcrypt.genSalt();
     const hashPass = await bcrypt.hash(password, salt);
-
+    await Mahasiswa.create({
+      nim: nim,
+    });
     await User.create({
       userId: "U" + nanoid(7),
       nim: nim,
@@ -345,5 +349,49 @@ exports.tambahUser = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({ msg: "Registrasi gagal, coba lagi nanti" });
+  }
+};
+
+exports.accKegiatan = async (req, res) => {
+  try {
+    const idKegiatan = req.params.idKegiatan;
+    const userId = req.params.userId;
+    const kegiatan = await Kegiatan.findOne({ where: { idKegiatan } });
+    if (!kegiatan) {
+      return res.status(404).json({ message: "Kegiatan tidak ditemukan" });
+    }
+    await kegiatan.update({ status: "Y" });
+
+    const io = req.app.get("io");
+    io.to("adminorg").emit("accKegiatan", {
+      message: "Kegiatan Anda telah disetujui",
+      userId,
+    });
+
+    res.redirect("/kegiatan");
+  } catch (error) {
+    console.error("Error saat acc Kegiatan:", error);
+    return res.status(500).json({ message: "Kesalahan Server" });
+  }
+};
+
+exports.tolakKegiatan = async (req, res) => {
+  try {
+    const idKegiatan = req.params.idKegiatan;
+    const kegiatan = await Kegiatan.findOne({ where: { idKegiatan } });
+    if (!kegiatan) {
+      return res.status(404).json({ message: "Kegiatan tidak ditemukan" });
+    }
+    await kegiatan.update({ status: "N" });
+
+    // const io = req.app.get("io");
+    // io.to("adminorg").emit("accKegiatan", {
+    //   message: "Kegiatan Anda telah disetujui",
+    // });
+
+    res.redirect("/kegiatan");
+  } catch (error) {
+    console.error("Error saat acc Kegiatan:", error);
+    return res.status(500).json({ message: "Kesalahan Server" });
   }
 };

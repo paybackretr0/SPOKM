@@ -69,6 +69,10 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         type: DataTypes.STRING,
       },
+      namaKetupel: {
+        allowNull: false,
+        type: DataTypes.STRING,
+      },
       nimKetupel: {
         allowNull: false,
         type: DataTypes.STRING,

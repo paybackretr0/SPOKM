@@ -33,7 +33,7 @@ router.post(
   ]),
   mahasiswa.daftarOrg
 );
-// router.get("/room", verif.verifyToken, mahasiswa.room);
+router.get("/room", verif.verifyToken, mahasiswa.room);
 router.get(
   "/daftarkgt",
   checkRole("mhs"),
@@ -42,6 +42,7 @@ router.get(
 );
 router.post(
   "/daftarkgt",
+  checkRole("mhs"),
   verif.verifyToken,
   upload.fields([
     { name: "logo", maxCount: 1 },
@@ -62,16 +63,16 @@ router.get(
 router.get("/organisasi", checkRole("adminorg"), verif.verifyToken, org.admorg);
 router.get("/publish", checkRole("adminorg"), verif.verifyToken, org.publish);
 router.get("/himp", checkRole("adminorg"), verif.verifyToken, org.himp);
-router.get("/dafkgt", checkRole("adminorg"), verif.verifyToken, org.dafkgt);
+router.get("/dafkgt", checkRole("adminorg"), verif.verifyToken, org.daftarKeg);
 router.post(
-  "/daftarkgt",
+  "/dafkgt",
   checkRole("adminorg"),
   verif.verifyToken,
   upload.fields([
     { name: "logo", maxCount: 1 },
     { name: "proposal", maxCount: 1 },
   ]),
-  org.daftarkgt
+  org.dafkgt
 );
 router.get("/orga", checkRole("adminorg"), verif.verifyToken, org.orga);
 router.get("/gantipw", checkRole("adminorg"), verif.verifyToken, org.gantipw);
@@ -130,6 +131,18 @@ router.get(
   fti.organization
 );
 router.get("/kegiatan", checkRole("adminfti"), verif.verifyToken, fti.kegiatan);
+router.post(
+  "/acc/:userId/:idKegiatan",
+  checkRole("adminfti"),
+  verif.verifyToken,
+  fti.accKegiatan
+);
+router.post(
+  "/tolak/:idKegiatan",
+  checkRole("adminfti"),
+  verif.verifyToken,
+  fti.tolakKegiatan
+);
 router.get("/user", checkRole("adminfti"), verif.verifyToken, fti.user);
 router.get(
   "/tambahUser",

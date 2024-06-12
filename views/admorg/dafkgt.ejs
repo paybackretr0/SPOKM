@@ -19,14 +19,13 @@
     <%- include('../komponen/navOrg');%>
 
     <div class="heading" style="background: url(/img/rommm.jpg) no-repeat">
-      <h1>Pengajuan</h1>
+      <h1>Pengajuan Kegiatan</h1>
     </div>
 
-    <!-- Awal booking -->
     <section class="booking">
       <h1 class="heading-title">Daftarkan Kegiatanmu!</h1>
       <form
-        action="/daftarkgt"
+        action="/dafkgt"
         method="post"
         class="book-form"
         id="daftarkgt"
@@ -71,15 +70,7 @@
               required
             />
           </div>
-          <div class="inputbox">
-            <span>nomor Whatsapp ketua pelaksana</span>
-            <input
-              type="text"
-              placeholder="masukan No. WA ketupel"
-              name="noHpKetupel"
-              required
-            />
-          </div>
+          <div class="inputbox"></div>
           <div class="inputbox">
             <span>lingkup kegiatan</span>
             <input
@@ -89,15 +80,7 @@
               required
             />
           </div>
-          <div class="inputbox">
-            <span>Departemen Ketua Pelaksana</span>
-            <input
-              type="text"
-              placeholder="masukan departemen ketupel"
-              name="departemenKetupel"
-              required
-            />
-          </div>
+          <div class="inputbox"></div>
           <div class="inputbox">
             <span>deskripsi singkat kegiatan</span>
             <textarea type="text" name="deskripsi" required></textarea>
@@ -188,7 +171,7 @@
 
               const formData = new FormData(this);
               try {
-                const response = await fetch("/daftarkgt", {
+                const response = await fetch("/dafkgt", {
                   method: "POST",
                   body: formData,
                 });

@@ -22,7 +22,6 @@
     </div>
   </nav>
   <nav class="add">
-    <% if(accessToken){%>
     <i class="bx bx-bell"></i>
     <a href="room" class="chat"><i class="bx bx-chat"></i></a>
     <img src="/img/fti.jpg" class="user-pic" onclick="toggleMenu()" />
@@ -44,9 +43,6 @@
         </form>
       </div>
     </div>
-    <%} else {%>
-    <a href="login">Login</a>
-    <%}%>
   </nav>
 
   <script>

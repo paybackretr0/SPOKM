@@ -74,9 +74,9 @@ section {
 
 .btn {
   display: inline-block;
-  background: var(--putih);
+  background: var(--hitam);
   margin-top: 1rem;
-  color: var(--hitam);
+  color: var(--putih);
   font-size: 1rem;
   padding: 1rem 3rem;
   border-radius: 10px;
@@ -439,6 +439,23 @@ section {
   font-size: 2rem;
 }
 
+.notification-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 300px;
+  z-index: 1000;
+}
+
+.notification {
+  background-color: #f0f8ff;
+  border: 1px solid #dcdcdc;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
 .body-profile {
   display: flex;
   justify-content: center;
@@ -575,20 +592,20 @@ span {
   background-color: var(--dark-bg);
 }
 
-h1 {
+.editProfile h1 {
   text-align: center;
 }
 
-.edit-form {
+.editProfile .edit-form {
   display: flex;
   flex-direction: column;
 }
 
-label {
+.editProfile .edit-form label {
   margin-top: 10px;
 }
 
-input {
+.editProfile .edit-form input {
   width: 100%;
   height: 100%;
   background: transparent;
@@ -661,20 +678,15 @@ input {
   padding: 50px;
 }
 
-h1 {
+.ubah-pw h1 {
   text-align: center;
 }
 
-.booking-form {
-  display: flex;
-  flex-direction: column;
-}
-
-label {
+.ubah-pw label {
   margin-top: 10px;
 }
 
-input {
+.ubah-pw input {
   width: 100%;
   height: 100%;
   background: transparent;
@@ -1022,4 +1034,309 @@ input {
 .in a {
   text-decoration: none;
   color: black;
+}
+
+.dafkgt .dafkgt-form {
+  padding: 2rem;
+  background: var(--light-bg);
+  border-radius: 10px;
+}
+
+.dafkgt .dafkgt-form .flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.dafkgt .dafkgt-form .flex .inputbox {
+  flex: 1 1 30rem;
+}
+
+.dafkgt .dafkgt-form .flex .inputbox .data {
+  margin-bottom: 2rem;
+  font-size: 1.5rem;
+}
+
+.dafkgt .dafkgt-form .flex .inputbox input,
+select,
+textarea {
+  width: 100%;
+  padding: 1.2rem 1.2rem;
+  font-size: 1rem;
+  color: var(--hitam);
+  text-transform: none;
+  margin-top: 1rem;
+  outline: none;
+}
+
+.dafkgt .dafkgt-form .flex .inputbox textarea {
+  height: 150px;
+  resize: vertical;
+}
+
+.dafkgt .dafkgt-form .flex .inputbox input:focus,
+select:focus,
+textarea:focus {
+  background: var(--putih);
+  color: var(--hitam);
+  outline: none;
+}
+
+.dafkgt .dafkgt-form .flex .inputbox input::placeholder {
+  text-transform: capitalize;
+}
+
+.dafkgt .dafkgt-form .flex .inputbox input:focus::placeholder {
+  color: var(--light-black);
+}
+
+.dafkgt .dafkgt-form .flex .inputbox span {
+  font-size: 1rem;
+  color: var(--hitam);
+}
+
+.dafkgt .dafkgt-form .dokumen {
+  display: flex;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.dafkgt .dafkgt-form .doc {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.dafkgt .dafkgt-form .doc .box {
+  flex: 1 1 30rem;
+}
+
+.dafkgt .dafkgt-form .doc .box input {
+  width: 100%;
+  padding: 1.2rem 1.2rem;
+  font-size: 1rem;
+  color: var(--hitam);
+  background: var(--light-bg);
+  text-transform: none;
+  margin-top: 1rem;
+  outline: none;
+  border: var(--border);
+}
+
+.dafkgt .dafkgt-form .doc .box input:focus {
+  background: var(--putih);
+  color: var(--hitam);
+  outline: none;
+}
+
+.dafkgt .dafkgt-form .doc .box input::placeholder {
+  text-transform: capitalize;
+}
+
+.dafkgt .dafkgt-form .doc .box input:focus::placeholder {
+  color: var(--light-black);
+}
+
+.dafkgt .dafkgt-form .doc .box span {
+  font-size: 1rem;
+  color: var(--hitam);
+  text-transform: capitalize;
+}
+
+.dafkgt .dafkgt-form label {
+  display: inline-block;
+  font-size: 1rem;
+  margin-top: 1rem;
+  text-transform: none;
+}
+
+.dafkgt .dafkgt-form label input {
+  accent-color: var(--putih);
+  margin-right: 0.5rem;
+}
+
+.dafkgt .dafkgt-form .tombol {
+  display: flex;
+  text-align: right;
+  width: 100%;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.daforg .daforg-form {
+  padding: 2rem;
+  background: var(--light-bg);
+  border-radius: 10px;
+}
+
+.daforg .daforg-form .flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.daforg .daforg-form .flex .inputbox {
+  flex: 1 1 30rem;
+}
+
+.daforg .daforg-form .flex .inputbox .data {
+  margin-bottom: 2rem;
+  font-size: 1.5rem;
+}
+
+.daforg .daforg-form .flex .inputbox input,
+select,
+textarea {
+  width: 100%;
+  padding: 1.2rem 1.2rem;
+  font-size: 1rem;
+  color: var(--hitam);
+  text-transform: none;
+  margin-top: 1rem;
+  outline: none;
+}
+
+.daforg .daforg-form .flex .inputbox textarea {
+  height: 150px;
+  resize: vertical;
+}
+
+.daforg .daforg-form .flex .inputbox input:focus,
+select:focus,
+textarea:focus {
+  background: var(--putih);
+  color: var(--hitam);
+  outline: none;
+}
+
+.daforg .daforg-form .flex .inputbox input::placeholder {
+  text-transform: capitalize;
+}
+
+.daforg .daforg-form .flex .inputbox input:focus::placeholder {
+  color: var(--light-black);
+}
+
+.daforg .daforg-form .flex .inputbox span {
+  font-size: 1rem;
+  color: var(--hitam);
+}
+
+.daforg .daforg-form .dokumen {
+  display: flex;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.daforg .daforg-form .doc {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.daforg .daforg-form .doc .box {
+  flex: 1 1 30rem;
+}
+
+.daforg .daforg-form .doc .box input {
+  width: 100%;
+  padding: 1.2rem 1.2rem;
+  font-size: 1rem;
+  color: var(--hitam);
+  background: var(--light-bg);
+  text-transform: none;
+  margin-top: 1rem;
+  outline: none;
+  border: var(--border);
+}
+
+.daforg .daforg-form .doc .box input:focus {
+  background: var(--putih);
+  color: var(--hitam);
+  outline: none;
+}
+
+.daforg .daforg-form .doc .box input::placeholder {
+  text-transform: capitalize;
+}
+
+.daforg .daforg-form .doc .box input:focus::placeholder {
+  color: var(--light-black);
+}
+
+.daforg .daforg-form .doc .box span {
+  font-size: 1rem;
+  color: var(--hitam);
+}
+
+.daforg .daforg-form label {
+  display: inline-block;
+  font-size: 1rem;
+  margin-top: 1rem;
+  text-transform: none;
+}
+
+.daforg .daforg-form label input {
+  accent-color: var(--putih);
+  margin-right: 0.5rem;
+}
+
+.packages .box-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  gap: 10rem;
+}
+
+.packages .box-container .box {
+  box-shadow: var(--box-shadow);
+  border-color: var(--light-black);
+  background: var(--putih);
+  border-radius: 10px;
+  display: none;
+}
+
+.packages .box-container .box:nth-child(1),
+.packages .box-container .box:nth-child(2) {
+  display: inline-block;
+}
+
+.packages .box-container .box .image {
+  height: 15rem;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.packages .box-container .box .image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: 0.2s linear;
+}
+
+.packages .box-container .box .content {
+  padding: 2rem;
+  text-align: center;
+}
+
+.packages .box-container .box .content h3 {
+  font-size: 1.5rem;
+  text-transform: capitalize;
+}
+
+.packages .box-container .box .content p {
+  font-size: 1rem;
+  color: var(--hitam);
+  line-height: 2;
+  padding: 1rem 0;
+  text-transform: none;
+}
+
+.packages .load-more {
+  text-align: center;
+  margin-top: 2rem;
+  text-transform: capitalize;
 }
