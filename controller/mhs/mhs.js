@@ -6,6 +6,8 @@ const {
   Organisasi,
   Kegiatan,
   Berita,
+  Kategori,
+  Komentar,
 } = require("../../models/index");
 let nanoid;
 (async () => {
@@ -276,5 +278,83 @@ exports.notifikasi = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+exports.detailBerita = async (req, res) => {
+  try {
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      const day = String(date.getDate()).padStart(2, "0");
+      const monthNames = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ];
+      const month = monthNames[date.getMonth()]; // January is 0!
+      const year = date.getFullYear();
+
+      return day + " " + month + " " + year;
+    }
+    const userId = req.userId;
+    const pengguna = await User.findOne({ where: { userId: userId } });
+    const mhs = await Mahasiswa.findOne({ where: { nim: pengguna.nim } });
+    const idNews = req.params.idNews;
+    const beritas = await Berita.findOne({
+      where: { idNews: idNews },
+      include: [
+        {
+          model: Kategori,
+          attributes: ["namaKategori"],
+        },
+      ],
+    });
+    const komentar = await Komentar.findAll({
+      where: { idNews: idNews },
+    });
+    res.render("mhs/detailNews", {
+      accessToken: req.cookies.accessToken,
+      mhs,
+      beritas,
+      formatDate,
+      komentar,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+exports.komentar = async (req, res) => {
+  try {
+    const pengguna = await User.findByPk(req.userId);
+    const mhs = await Mahasiswa.findOne({ where: { nim: pengguna.nim } });
+    const idNews = req.params.idNews;
+    const beritas = await Berita.findOne({ where: { idNews: idNews } });
+    if (!pengguna) {
+      return res.status(404).json({ message: "User tidak ditemukan" });
+    }
+    const { komentar, namaPengirim } = req.body;
+    await Komentar.create({
+      idKomentar: "COM" + nanoid(5),
+      idNews: req.params.idNews,
+      userId: req.userId,
+      komentar: komentar,
+      tanggal: new Date(),
+      namaPengirim: namaPengirim,
+    });
+    res.status(200).json({ message: "Komentar berhasil ditambahkan" });
+  } catch (error) {
+    console.error("Gagal Komentar:", error);
+    res.status(500).json({ message: "Terjadi kesalahan saat Komentar" });
   }
 };
