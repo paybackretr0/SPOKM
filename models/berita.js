@@ -14,6 +14,11 @@ module.exports = (sequelize) => {
         onDelete: "SET NULL",
         onUpdate: "CASCADE",
       });
+      Berita.hasMany(models.Komentar, {
+        foreignKey: "idNews",
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
+      });
     }
   }
 
