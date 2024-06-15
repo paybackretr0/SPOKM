@@ -11,10 +11,10 @@ let nanoid;
 
 exports.admorg = async (req, res) => {
   try {
-    const users = await User.findByPk(req.userId);
+    const pengguna = await User.findByPk(req.userId);
     res.render("admorg/organisasi", {
       accessToken: req.cookies.accessToken,
-      users,
+      pengguna,
     });
   } catch (error) {
     console.error(error);
@@ -50,10 +50,10 @@ exports.himp = async (req, res) => {
 
 exports.daftarKeg = async (req, res) => {
   try {
-    const users = await User.findByPk(req.userId);
+    const pengguna = await User.findByPk(req.userId);
     res.render("admorg/dafkgt", {
       accessToken: req.cookies.accessToken,
-      users,
+      pengguna,
     });
   } catch (error) {
     console.error(error);

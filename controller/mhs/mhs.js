@@ -1,4 +1,3 @@
-const { where } = require("sequelize");
 const {
   User,
   Mahasiswa,
@@ -6,6 +5,7 @@ const {
   Organisasi,
   Kegiatan,
   Berita,
+  Kategori,
 } = require("../../models/index");
 let nanoid;
 (async () => {
@@ -16,7 +16,11 @@ exports.home = async (req, res) => {
   try {
     const pengguna = await User.findByPk(req.userId);
     const mhs = await Mahasiswa.findOne({ where: { nim: pengguna.nim } });
-    res.render("mhs/home", { accessToken: req.cookies.accessToken, mhs });
+    res.render("mhs/home", {
+      accessToken: req.cookies.accessToken,
+      mhs,
+      pengguna,
+    });
   } catch (error) {
     console.error(error);
     res.redirect("/login");
@@ -25,12 +29,12 @@ exports.home = async (req, res) => {
 
 exports.berita = async (req, res) => {
   try {
-    const users = await User.findByPk(req.userId);
-    const mhs = await Mahasiswa.findOne({ where: { nim: users.nim } });
+    const pengguna = await User.findByPk(req.userId);
+    const mhs = await Mahasiswa.findOne({ where: { nim: pengguna.nim } });
     const beritas = await Berita.findAll({ where: { status: "Y" } });
     res.render("mhs/berita", {
       accessToken: req.cookies.accessToken,
-      users,
+      pengguna,
       mhs,
       beritas,
     });
@@ -42,7 +46,13 @@ exports.berita = async (req, res) => {
 
 exports.org = async (req, res) => {
   try {
-    res.render("mhs/org", { accessToken: req.cookies.accessToken });
+    const pengguna = await User.findByPk(req.userId);
+    const mhs = await Mahasiswa.findOne({ where: { nim: pengguna.nim } });
+    res.render("mhs/org", {
+      accessToken: req.cookies.accessToken,
+      pengguna,
+      mhs,
+    });
   } catch (error) {
     console.error(error);
     res.redirect("/login");
@@ -53,7 +63,11 @@ exports.room = async (req, res) => {
   try {
     const pengguna = await User.findByPk(req.userId);
     const mhs = await Mahasiswa.findOne({ where: { nim: pengguna.nim } });
-    res.render("mhs/room", { accessToken: req.cookies.accessToken, mhs });
+    res.render("mhs/room", {
+      accessToken: req.cookies.accessToken,
+      mhs,
+      pengguna,
+    });
   } catch (error) {
     console.error(error);
     res.redirect("/login");
@@ -232,9 +246,89 @@ exports.daftarkgt = async (req, res) => {
   }
 };
 
+exports.daftarnews = async (req, res) => {
+  try {
+    const pengguna = await User.findByPk(req.userId);
+    const mhs = await Mahasiswa.findOne({ where: { nim: pengguna.nim } });
+    const kategoris = await Kategori.findAll();
+
+    res.render("mhs/daftarnews", {
+      accessToken: req.cookies.accessToken,
+      mhs,
+      pengguna,
+      kategoris,
+    });
+  } catch (error) {
+    console.error(error);
+    res.redirect("/login");
+  }
+};
+
+exports.daftarberita = async (req, res) => {
+  try {
+    const pengguna = await User.findByPk(req.userId);
+    const mhs = await Mahasiswa.findOne({ where: { nim: pengguna.nim } });
+    if (!pengguna) {
+      return res.status(404).json({ message: "User tidak ditemukan" });
+    }
+
+    const { penulis, kategori, judul, isi_berita, tanggalPengajuan } = req.body;
+    const gambar = req.file ? req.file.filename : null;
+
+    if (
+      !penulis ||
+      !kategori ||
+      !judul ||
+      !isi_berita ||
+      !tanggalPengajuan ||
+      !gambar
+    ) {
+      return res.status(400).json({ message: "Semua bidang harus diisi" });
+    }
+
+    await Berita.create({
+      idNews: "B" + nanoid(7),
+      judul: judul,
+      idKategori: kategori,
+      isi_berita: isi_berita,
+      gambar: gambar,
+      penulis: penulis,
+      tanggalPengajuan: tanggalPengajuan,
+      status: "P",
+      userId: req.userId,
+    });
+
+    const newNotification = await Notifikasi.create({
+      idNotif: "N" + nanoid(7),
+      judul: "Pengajuan Publikasi",
+      tanggal: new Date(),
+      status: "N",
+      isi: `Pengajuan Publikasi dengan judul ${judul} oleh ${req.userId} telah diajukan`,
+      userId: req.userId,
+    });
+
+    const io = req.app.get("io");
+    io.to("adminfti").emit("new_berita", {
+      message: "Pengajuan Publikasi Baru!",
+      berita: {
+        judul,
+        nama: mhs.nama || "Mahasiswa",
+      },
+    });
+
+    res.status(200).json({ message: "Publikasi berhasil didaftarkan" });
+  } catch (error) {
+    console.error("Gagal mendaftarkan publikasi:", error);
+    res
+      .status(500)
+      .json({ message: "Terjadi kesalahan saat mendaftarkan publikasi" });
+  }
+};
+
 exports.chat = async (req, res) => {
   try {
-    res.render("mhs/chat", { accessToken: req.cookies.accessToken });
+    const pengguna = await User.findByPk(req.userId);
+    res.render("mhs/chat", { accessToken: req.cookies.accessToken, pengguna });
   } catch (error) {
     console.error(error);
     res.redirect("/login");
@@ -248,33 +342,10 @@ exports.profil = async (req, res) => {
     res.render("mhs/profil", {
       accessToken: req.cookies.accessToken,
       mhs,
+      pengguna,
     });
   } catch (error) {
     console.error(error);
     res.redirect("/login");
-  }
-};
-
-exports.notif = async (req, res) => {
-  try {
-    const userId = req.params.userId;
-    const notifications = await Notifikasi.findAll({ where: { userId } });
-    res.json(notifications);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-};
-
-exports.notifikasi = async (req, res) => {
-  try {
-    const { judul, tanggal, isi, userId } = req.body;
-    await Notifikasi.create({ judul, tanggal, isi, userId });
-
-    io.emit(`notification_${userId}`, { isi });
-    res.status(201).json({ message: "Notification created successfully" });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal server error" });
   }
 };

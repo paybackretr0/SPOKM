@@ -135,6 +135,41 @@
 
     <div id="notification-container" class="notification-container"></div>
     <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
-    <script src="/js/notifUser.js"></script>
+    <script>
+      const socket = io("http://localhost:3000");
+      const userId = "<%= pengguna.userId %>";
+      socket.on("connect", () => {
+        console.log("Connected to server");
+        socket.emit("join", userId);
+      });
+
+      socket.on("kegiatan_setuju", (data) => {
+        console.log("Notifikasi baru:", data);
+        showNotification(data);
+      });
+
+      socket.on("kegiatan_ditolak", (data) => {
+        console.log("Notifikasi baru:", data);
+        showNotification(data);
+      });
+
+      function showNotification(data) {
+        const notificationContainer = document.getElementById(
+          "notification-container"
+        );
+        const notification = document.createElement("div");
+        notification.className = "notification";
+        notification.innerHTML = `<div class="notification-title">${data.message}</div>`;
+
+        notificationContainer.appendChild(notification);
+
+        setTimeout(() => {
+          notification.classList.add("notification-fade-out");
+          setTimeout(() => {
+            notificationContainer.removeChild(notification);
+          }, 300);
+        }, 5000);
+      }
+    </script>
   </body>
 </html>

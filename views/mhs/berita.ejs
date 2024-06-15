@@ -16,9 +16,9 @@
       <h1>Kumpulan Berita</h1>
     </div>
     <section class="packages">
+      <% if (beritas.length > 0) { %> <% beritas.forEach((berita, index) => { %>
       <h1 class="heading-title">Berita</h1>
       <div class="box-container">
-        <% beritas.forEach((berita, index) => { %>
         <div class="box">
           <div class="image">
             <img src="/<%= berita.userId %>/<%= berita.gambar %>" alt="" />
@@ -26,14 +26,80 @@
           <div class="content">
             <h3><%= berita.judul %></h3>
             <p><%= berita.isi_berita %></p>
-            <a href="" class="btn">Detail</a>
+            <a href="detailNews" class="btn">Detail</a>
           </div>
         </div>
-        <% }) %>
       </div>
       <div class="load-more"><span class="btn">load more</span></div>
+      <% }) %> <% } else { %>
+      <h1 class="heading-title">Belum Ada Informasi</h1>
+      <% } %>
     </section>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="/js/script.js"></script>
+    <div id="notification-container" class="notification-container"></div>
+    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+    <script>
+      const socket = io("http://localhost:3000");
+      const userId = "<%= pengguna.userId %>";
+      socket.on("connect", () => {
+        console.log("Connected to server");
+        socket.emit("join", userId);
+      });
+
+      socket.on("kegiatan_setuju", (data) => {
+        console.log("Notifikasi baru:", data);
+        showNotification(data, "kegiatan");
+      });
+
+      socket.on("berita_disetujui", (data) => {
+        console.log("Notifikasi baru:", data);
+        showNotification(data, "berita");
+      });
+
+      socket.on("berita_ditolak", (data) => {
+        console.log("Notifikasi baru:", data);
+        showNotification(data, "berita");
+      });
+
+      socket.on("kegiatan_ditolak", (data) => {
+        console.log("Notifikasi baru:", data);
+        showNotification(data, "kegiatan");
+      });
+
+      socket.on("organisasi_setuju", (data) => {
+        console.log("Notifikasi baru:", data);
+        showNotification(data, "organisasi");
+      });
+
+      socket.on("organisasi_ditolak", (data) => {
+        console.log("Notifikasi baru:", data);
+        showNotification(data, "organisasi");
+      });
+
+      function showNotification(data, type) {
+        const notificationContainer = document.getElementById(
+          "notification-container"
+        );
+        const notification = document.createElement("div");
+        notification.className = "notification";
+        if (type === "kegiatan") {
+          notification.innerHTML = `<strong>${data.message}</strong>`;
+        } else if (type === "berita") {
+          notification.innerHTML = `<strong>${data.message}</strong>`;
+        } else if (type === "organisasi") {
+          notification.innerHTML = `<strong>${data.message}</strong>`;
+        }
+
+        notificationContainer.appendChild(notification);
+
+        setTimeout(() => {
+          notification.classList.add("notification-fade-out");
+          setTimeout(() => {
+            notificationContainer.removeChild(notification);
+          }, 300);
+        }, 5000);
+      }
+    </script>
   </body>
 </html>

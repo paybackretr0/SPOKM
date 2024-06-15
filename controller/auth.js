@@ -39,7 +39,6 @@ exports.login = async (req, res) => {
 
       const mhs = await Mahasiswa.findOne({ where: { nim: pengguna.nim } });
 
-      // Redirect based on role
       switch (role) {
         case "adminfti":
           res.render("admfti/dashboard", { accessToken, pengguna });

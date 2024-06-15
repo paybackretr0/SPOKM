@@ -17,12 +17,18 @@ const upload = require("../middleware/uploadgambar");
 app.set("view engine", "ejs");
 
 io.on("connection", (socket) => {
-  console.log("New client connected");
+  console.log("admin FTI client connected");
   socket.on("joinRoom", (role) => {
-    if (role === "adminfti" || role === "adminorg" || role === "mhs") {
-      socket.join(role);
+    if (role === "adminfti") {
+      socket.join("adminfti");
     }
   });
+
+  socket.on("join", (userId) => {
+    console.log(`User with userId ${userId} joined room`);
+    socket.join(userId);
+  });
+
   socket.on("disconnect", () => {
     console.log("Client disconnected");
   });

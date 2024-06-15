@@ -7,135 +7,99 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     />
-    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="assets/style.css" />
     <link
       href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
       rel="stylesheet"
     />
-    <title>Pendaftaran Kegiatan</title>
+    <title>Pengajuan Publikasi</title>
   </head>
 
   <body>
     <%- include('../komponen/navMhs');%>
 
     <div class="heading" style="background: url(/img/rommm.jpg) no-repeat">
-      <h1>Pengajuan Kegiatan</h1>
+      <h1>Pengajuan Publikasi</h1>
     </div>
-    <section class="dafkgt">
-      <h1 class="heading-title">Daftarkan Kegiatanmu!</h1>
+    <section class="dafnews">
+      <h1 class="heading-title">Publish Berita, Pengumuman, dan Opini!</h1>
       <form
-        action="/daftarkgt"
+        action="/publishnews"
         method="post"
-        class="dafkgt-form"
-        id="daftarkgt"
+        class="dafnews-form"
+        id="dafnews"
         enctype="multipart/form-data"
       >
         <div class="flex">
           <div class="inputbox">
-            <h4 class="data">Data Ketua Pelaksana</h4>
-            <span>Nama Ketua Pelaksana</span>
+            <h4 class="data">Data Penulis</h4>
+            <span>Nama Penulis</span>
             <input
               type="text"
-              placeholder="masukan nama ketupel"
-              name="namaKetupel"
+              placeholder="masukan nama penulis"
+              name="penulis"
               required
             />
           </div>
           <div class="inputbox">
-            <h4 class="data">Data Kegiatan</h4>
-            <span>Nama Kegiatan</span>
+            <h4 class="data">Data Publikasi</h4>
+            <span>Kategori Publikasi</span>
+            <select id="namaKategori" name="kategori" required>
+              <option value="" disabled selected hidden>
+                ---Pilih Kategori Publikasi yang Sesuai---
+              </option>
+              <% kategoris.forEach(kategori => { %>
+              <option value="<%= kategori.idKategori %>">
+                <%= kategori.namaKategori %>
+              </option>
+              <% }) %>
+            </select>
+          </div>
+          <div class="inputbox">
+            <span>NIM Penulis</span>
             <input
               type="text"
-              placeholder="masukan nama kegiatan"
-              name="namaKegiatan"
+              placeholder="masukan NIM penulis"
+              name="nimPenulis"
               required
             />
           </div>
           <div class="inputbox">
-            <span>NIM Ketua Pelaksana</span>
+            <span>Judul</span>
             <input
               type="text"
-              placeholder="masukan NIM ketupel"
-              name="nimKetupel"
-              required
-            />
-          </div>
-          <div class="inputbox">
-            <span>Bidang Kegiatan</span>
-            <input
-              type="text"
-              placeholder="masukan bidang kegiatan"
-              name="bidangKegiatan"
-              required
-            />
-          </div>
-          <div class="inputbox"></div>
-          <div class="inputbox">
-            <span>Lingkup Kegiatan</span>
-            <input
-              type="text"
-              placeholder="masukan lingkup kegiatan"
-              name="lingkupKegiatan"
+              placeholder="masukan judul publikasi"
+              name="judul"
               required
             />
           </div>
           <div class="inputbox"></div>
           <div class="inputbox">
-            <span>Deskripsi Kegiatan</span>
-            <textarea type="text" name="deskripsi" required></textarea>
+            <span>Isi</span>
+            <textarea
+              name="isi_berita"
+              placeholder="Masukan Isi Tulisan"
+            ></textarea>
           </div>
           <div class="inputbox"></div>
           <div class="inputbox">
-            <span>Tanggal Mulai</span>
-            <input type="date" name="tanggalMulai" required />
+            <span>Gambar (.png/.jpg/.jpeg)</span>
+            <input
+              type="file"
+              placeholder="pilih gambar"
+              name="gambar"
+              accept="image/*"
+              required
+            />
           </div>
           <div class="inputbox"></div>
           <div class="inputbox">
-            <span>Tanggal Selesai</span>
-            <input type="date" name="tanggalSelesai" required />
-          </div>
-          <div class="inputbox"></div>
-          <div class="inputbox">
-            <span>Tanggal Pengajuan</span>
+            <span>Tanggal Pengajuan <b>(mm/dd/yyyy)</b></span>
             <input
               type="date"
               name="tanggalPengajuan"
               id="tanggalPengajuan"
               readonly
-            />
-          </div>
-          <div class="inputbox"></div>
-          <div class="inputbox">
-            <span>Penyelenggara</span>
-            <select id="penyelenggara" name="penyelenggara" required>
-              <option value="" disabled selected hidden>
-                ---Pilih Penyelenggara yang Sesuai---
-              </option>
-              <option value="P">Pribadi</option>
-              <option value="O">Organisasi</option>
-            </select>
-          </div>
-        </div>
-        <h4 class="dokumen">Dokumen</h4>
-        <div class="doc">
-          <div class="box">
-            <span>proposal kegiatan (.pdf)</span>
-            <input
-              type="file"
-              placeholder="pilih file proposal"
-              name="proposal"
-              accept=".pdf"
-              required
-            />
-          </div>
-          <div class="box">
-            <span>logo kegiatan (.png/.jpg/.jpeg)</span>
-            <input
-              type="file"
-              placeholder="pilih file logo"
-              name="logo"
-              accept="image/*"
-              required
             />
           </div>
         </div>
@@ -155,20 +119,20 @@
         </div>
         <script>
           document
-            .getElementById("daftarkgt")
+            .getElementById("dafnews")
             .addEventListener("submit", async function (event) {
               event.preventDefault();
 
               const formData = new FormData(this);
               try {
-                const response = await fetch("/daftarkgt", {
+                const response = await fetch("/publishnews", {
                   method: "POST",
                   body: formData,
                 });
 
                 if (response.ok) {
                   alert("Informasi tersimpan");
-                  window.location.href = "daftarkgt";
+                  window.location.href = "daftarnews";
                 } else {
                   const errorData = await response.json();
                   alert("Gagal menyimpan informasi: " + errorData.message);

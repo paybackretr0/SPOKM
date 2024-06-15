@@ -265,7 +265,7 @@ section {
 }
 
 .header .navbar .sub-daftar-wrap.open-daftar {
-  max-height: 200px;
+  max-height: 450px;
 }
 
 .header .add .sub-menu-wrap.open-menu {
@@ -1339,4 +1339,89 @@ textarea:focus {
   text-align: center;
   margin-top: 2rem;
   text-transform: capitalize;
+}
+
+.dafnews .dafnews-form {
+  padding: 2rem;
+  background: var(--light-bg);
+  border-radius: 10px;
+}
+
+.dafnews .dafnews-form .flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.dafnews .dafnews-form .flex .inputbox {
+  flex: 1 1 30rem;
+}
+
+.dafnews .dafnews-form .flex .inputbox .data {
+  margin-bottom: 2rem;
+  font-size: 1.5rem;
+}
+
+.dafnews .dafnews-form .flex .inputbox input,
+select,
+textarea {
+  width: 100%;
+  padding: 1.2rem 1.2rem;
+  font-size: 1rem;
+  color: var(--hitam);
+  text-transform: none;
+  margin-top: 1rem;
+  outline: none;
+}
+
+.dafnews .dafnews-form .flex .inputbox input[type="file"] {
+  border: var(--border);
+}
+
+.dafnews .dafnews-form .flex .inputbox textarea {
+  height: 150px;
+  resize: vertical;
+}
+
+.dafnews .dafnews-form .flex .inputbox input:focus,
+select:focus,
+textarea:focus {
+  background: var(--putih);
+  color: var(--hitam);
+  border: var(--border);
+}
+
+.dafnews .dafnews-form .flex .inputbox input::placeholder,
+textarea::placeholder {
+  text-transform: capitalize;
+}
+
+.dafnews .dafnews-form .flex .inputbox input:focus::placeholder,
+textarea:focus::placeholder {
+  color: var(--light-black);
+}
+
+.dafnews .dafnews-form .flex .inputbox span {
+  font-size: 1rem;
+  color: var(--hitam);
+}
+
+.dafnews .dafnews-form label {
+  display: inline-block;
+  font-size: 1rem;
+  margin-top: 1rem;
+  text-transform: none;
+}
+
+.dafnews .dafnews-form label input {
+  accent-color: var(--putih);
+  margin-right: 0.5rem;
+}
+
+.dafnews .dafnews-form .tombol {
+  display: flex;
+  text-align: right;
+  width: 100%;
+  justify-content: space-between;
+  margin-bottom: 1rem;
 }

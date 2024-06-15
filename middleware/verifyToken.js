@@ -16,3 +16,24 @@ exports.verifyToken = (req, res, next) => {
     next();
   });
 };
+
+exports.verifySocketToken = (socket, next) => {
+  const token = socket.handshake.query.token;
+  console.log("Token received:", token);
+
+  if (!token) {
+    console.error("Token not found");
+    return next(new Error("Authentication error"));
+  }
+
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+    if (err) {
+      console.error("Token verification error:", err);
+      return next(new Error("Authentication error"));
+    }
+
+    console.log("Token verified, userId:", decoded.userId);
+    socket.userId = decoded.userId;
+    next();
+  });
+};
