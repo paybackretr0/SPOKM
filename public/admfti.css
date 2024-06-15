@@ -584,6 +584,7 @@ th {
   flex-direction: column;
   gap: 15px;
 }
+
 .box label {
   font-size: 1rem;
   font-weight: 800;

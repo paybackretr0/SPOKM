@@ -5,6 +5,7 @@ const {
   Kegiatan,
   Organisasi,
   Mahasiswa,
+  Notifikasi,
 } = require("../../models/index");
 let nanoid;
 (async () => {
@@ -261,7 +262,7 @@ exports.kegiatan = async (req, res) => {
         "Nov",
         "Dec",
       ];
-      const month = monthNames[date.getMonth()]; // January is 0!
+      const month = monthNames[date.getMonth()];
       const year = date.getFullYear();
 
       return day + " " + month + " " + year;
@@ -355,17 +356,25 @@ exports.tambahUser = async (req, res) => {
 exports.accKegiatan = async (req, res) => {
   try {
     const idKegiatan = req.params.idKegiatan;
-    const userId = req.params.userId;
     const kegiatan = await Kegiatan.findOne({ where: { idKegiatan } });
     if (!kegiatan) {
       return res.status(404).json({ message: "Kegiatan tidak ditemukan" });
     }
     await kegiatan.update({ status: "Y" });
+    const userId = kegiatan.userId;
+
+    const newNotification = await Notifikasi.create({
+      idNotif: "N" + nanoid(7),
+      judul: "Pengajuan Disetujui!",
+      tanggal: new Date(),
+      status: "N",
+      isi: `Pengajuan Kegiatan ${kegiatan.namaKegiatan} telah disetujui`,
+      userId: userId,
+    });
 
     const io = req.app.get("io");
-    io.to("adminorg").emit("accKegiatan", {
-      message: "Kegiatan Anda telah disetujui",
-      userId,
+    io.to(userId).emit("kegiatan_setuju", {
+      message: `Pengajuan Kegiatan ${kegiatan.namaKegiatan} Disetujui!`,
     });
 
     res.redirect("/kegiatan");
@@ -383,15 +392,153 @@ exports.tolakKegiatan = async (req, res) => {
       return res.status(404).json({ message: "Kegiatan tidak ditemukan" });
     }
     await kegiatan.update({ status: "N" });
+    const userId = kegiatan.userId;
 
-    // const io = req.app.get("io");
-    // io.to("adminorg").emit("accKegiatan", {
-    //   message: "Kegiatan Anda telah disetujui",
-    // });
+    const newNotification = await Notifikasi.create({
+      idNotif: "N" + nanoid(7),
+      judul: "Pengajuan Ditolak!",
+      tanggal: new Date(),
+      status: "N",
+      isi: `Pengajuan Kegiatan ${kegiatan.namaKegiatan} ditolak`,
+      userId: userId,
+    });
+
+    const io = req.app.get("io");
+    io.to(userId).emit("kegiatan_ditolak", {
+      message: `Pengajuan Kegiatan ${kegiatan.namaKegiatan} Ditolak!`,
+    });
 
     res.redirect("/kegiatan");
   } catch (error) {
     console.error("Error saat acc Kegiatan:", error);
+    return res.status(500).json({ message: "Kesalahan Server" });
+  }
+};
+
+exports.approveBerita = async (req, res) => {
+  try {
+    const beritaId = req.params.idNews;
+    const berita = await Berita.findByPk(beritaId);
+
+    if (!berita) {
+      return res.status(404).json({ message: "Publikasi tidak ditemukan" });
+    }
+
+    await berita.update({ status: "Y" });
+    const userId = berita.userId;
+
+    const newNotification = await Notifikasi.create({
+      idNotif: "N" + nanoid(7),
+      judul: "Pengajuan disetujui!",
+      tanggal: new Date(),
+      status: "N",
+      isi: `Pengajuan berita ${berita.namaberita} disetujui`,
+      userId: userId,
+    });
+
+    const io = req.app.get("io");
+    io.to(userId).emit("berita_disetujui", {
+      message: `Pengajuan publikasi dengan judul "${berita.judul}" disetujui!`,
+    });
+
+    res.redirect("/news");
+  } catch (error) {
+    console.error("Error approving berita:", error);
+    res.status(500).json({ message: "Terjadi kesalahan server" });
+  }
+};
+
+exports.rejectBerita = async (req, res) => {
+  try {
+    const beritaId = req.params.idNews;
+    const berita = await Berita.findByPk(beritaId);
+
+    if (!berita) {
+      return res.status(404).json({ message: "Publikasi tidak ditemukan" });
+    }
+
+    await berita.update({ status: "N" });
+    const userId = berita.userId;
+
+    const newNotification = await Notifikasi.create({
+      idNotif: "N" + nanoid(7),
+      judul: "Pengajuan Ditolak!",
+      tanggal: new Date(),
+      status: "N",
+      isi: `Pengajuan publikasi dengan judul "${berita.judul}" ditolak`,
+      userId: userId,
+    });
+
+    const io = req.app.get("io");
+    io.to(userId).emit("berita_ditolak", {
+      message: `Pengajuan publikasi dengan judul "${berita.judul}" ditolak!`,
+    });
+
+    res.redirect("/news");
+  } catch (error) {
+    console.error("Error rejecting berita:", error);
+    res.status(500).json({ message: "Terjadi kesalahan server" });
+  }
+};
+
+exports.accOrg = async (req, res) => {
+  try {
+    const idOrga = req.params.idOrga;
+    const org = await Organisasi.findByPk(idOrga);
+    if (!org) {
+      return res.status(404).json({ message: "Organisasi tidak ditemukan" });
+    }
+    await org.update({ status: "Y" });
+    const userId = org.userId;
+
+    const newNotification = await Notifikasi.create({
+      idNotif: "N" + nanoid(7),
+      judul: "Pengajuan Disetujui!",
+      tanggal: new Date(),
+      status: "N",
+      isi: `Pengajuan Organisasi ${org.namaOrga} telah disetujui`,
+      userId: userId,
+    });
+
+    const io = req.app.get("io");
+    io.to(userId).emit("organisasi_setuju", {
+      message: `Pengajuan Organisasi dengan nama "${org.namaOrga}" Disetujui!`,
+    });
+
+    res.redirect("/organization");
+  } catch (error) {
+    console.error("Error saat acc Organisasi:", error);
+    return res.status(500).json({ message: "Kesalahan Server" });
+  }
+};
+
+exports.tolakOrg = async (req, res) => {
+  try {
+    const idOrga = req.params.idOrga;
+    const org = await Organisasi.findByPk(idOrga);
+    if (!org) {
+      return res.status(404).json({ message: "Organisasi tidak ditemukan" });
+    }
+    await org.update({ status: "N" });
+    const userId = org.userId;
+
+    const newNotification = await Notifikasi.create({
+      idNotif: "N" + nanoid(7),
+      judul: "Pengajuan Ditolak!",
+      tanggal: new Date(),
+      status: "N",
+      isi: `Pengajuan Organisasi ${org.namaOrga} ditolak`,
+      userId: userId,
+    });
+
+    const io = req.app.get("io");
+    io.to(userId).emit("organisasi_ditolak", {
+      message: `Pengajuan Organisasi dengan nama "${org.namaOrga}" Ditolak!`,
+    });
+
+    res.redirect("/organization");
+  } catch (error) {
+    console.error("Error saat acc Organisasi:", error);
     return res.status(500).json({ message: "Kesalahan Server" });
   }
 };

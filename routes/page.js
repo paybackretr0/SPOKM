@@ -3,7 +3,6 @@ const jwt = require("jsonwebtoken");
 const router = express.Router();
 const user = require("../controller/auth");
 const mahasiswa = require("../controller/mhs/mhs");
-const publish = require("../controller/mhs/ppi");
 const org = require("../controller/admorg/admorg");
 const fti = require("../controller/admfti/admfti");
 const pw = require("../controller/changePw");
@@ -49,6 +48,19 @@ router.post(
     { name: "proposal", maxCount: 1 },
   ]),
   mahasiswa.daftarkgt
+);
+router.get(
+  "/daftarnews",
+  checkRole("mhs"),
+  verif.verifyToken,
+  mahasiswa.daftarnews
+);
+router.post(
+  "/publishnews",
+  checkRole("mhs"),
+  verif.verifyToken,
+  upload.single("gambar"),
+  mahasiswa.daftarberita
 );
 router.get("/chat", verif.verifyToken, mahasiswa.chat);
 router.get("/profil", verif.verifyToken, mahasiswa.profil);
@@ -136,6 +148,18 @@ router.post(
   upload.single("gambar"),
   fti.editBerita
 );
+router.post(
+  "/accBerita/:idNews",
+  checkRole("adminfti"),
+  verif.verifyToken,
+  fti.approveBerita
+);
+router.post(
+  "/tolakBerita/:idNews",
+  checkRole("adminfti"),
+  verif.verifyToken,
+  fti.rejectBerita
+);
 router.get(
   "/organization",
   checkRole("adminfti"),
@@ -144,16 +168,28 @@ router.get(
 );
 router.get("/kegiatan", checkRole("adminfti"), verif.verifyToken, fti.kegiatan);
 router.post(
-  "/acc/:userId/:idKegiatan",
+  "/accKeg/:idKegiatan",
   checkRole("adminfti"),
   verif.verifyToken,
   fti.accKegiatan
 );
 router.post(
-  "/tolak/:idKegiatan",
+  "/tolakKeg/:idKegiatan",
   checkRole("adminfti"),
   verif.verifyToken,
   fti.tolakKegiatan
+);
+router.post(
+  "/accOrg/:idOrga",
+  checkRole("adminfti"),
+  verif.verifyToken,
+  fti.accOrg
+);
+router.post(
+  "/tolakOrg/:idOrga",
+  checkRole("adminfti"),
+  verif.verifyToken,
+  fti.tolakOrg
 );
 router.get("/user", checkRole("adminfti"), verif.verifyToken, fti.user);
 router.get(
@@ -177,10 +213,6 @@ router.post(
 
 router.post("/ubahpw", verif.verifyToken, pw.updatepassword);
 router.post("/editP", verif.verifyToken, edit.updateProfile);
-router.get("/publikasi", verif.verifyToken, publish.publikasi);
-router.post("/publish", verif.verifyToken, publish.publish);
-router.get("/notif/:userId", verif.verifyToken, mahasiswa.notif);
-router.post("/notifikasi/:userId", verif.verifyToken, mahasiswa.notifikasi);
 router.post("/logout", user.logout);
 router.get("/token", token.refreshToken);
 
