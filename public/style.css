@@ -1424,4 +1424,59 @@ textarea:focus::placeholder {
   width: 100%;
   justify-content: space-between;
   margin-bottom: 1rem;
+
+.detail-news .box-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  gap: 10rem;
+}
+
+.detail-news .box-container .box {
+  box-shadow: var(--box-shadow);
+  border-color: var(--light-black);
+  background: var(--putih);
+  border-radius: 10px;
+  display: none;
+}
+
+.detail-news .box-container .box:nth-child(1),
+.detail-news .box-container .box:nth-child(2) {
+  display: inline-block;
+}
+
+.detail-news .box-container .box .image {
+  height: 15rem;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.detail-news .box-container .box .image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: 0.2s linear;
+}
+
+.detail-news .box-container .box .content {
+  padding: 2rem;
+  text-align: center;
+}
+
+.detail-news .box-container .box .content h3 {
+  font-size: 1.5rem;
+  text-transform: capitalize;
+}
+
+.detail-news .box-container .box .content p {
+  font-size: 1rem;
+  color: var(--hitam);
+  line-height: 2;
+  padding: 1rem 0;
+  text-transform: none;
+}
+
+.detail-news .load-more {
+  text-align: center;
+  margin-top: 2rem;
+  text-transform: capitalize;
 }

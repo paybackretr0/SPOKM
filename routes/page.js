@@ -71,6 +71,18 @@ router.get(
   verif.verifyToken,
   edit.editProfile
 );
+router.get(
+  "/detailNews/:idNews",
+  checkRole("mhs"),
+  verif.verifyToken,
+  mahasiswa.detailBerita
+);
+router.post(
+  "/komentar/:idNews",
+  checkRole("mhs"),
+  verif.verifyToken,
+  mahasiswa.komentar
+);
 
 router.get("/organisasi", checkRole("adminorg"), verif.verifyToken, org.admorg);
 router.get("/publish", checkRole("adminorg"), verif.verifyToken, org.publish);
