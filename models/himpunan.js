@@ -38,3 +38,4 @@ module.exports = (sequelize, DataTypes) => {
   );
   return Himpunan;
 };
+

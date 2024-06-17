@@ -35,3 +35,4 @@ module.exports = {
     await queryInterface.dropTable("Himpunans");
   },
 };
+

@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv").config();
 const Swal = require("sweetalert2");
-const { User, Mahasiswa } = require("../models/index");
+const { User, Mahasiswa, Organisasi } = require("../models/index");
 
 exports.login = async (req, res) => {
   try {
@@ -38,13 +38,16 @@ exports.login = async (req, res) => {
       });
 
       const mhs = await Mahasiswa.findOne({ where: { nim: pengguna.nim } });
+      const orga = await Organisasi.findOne({
+        where: { userId: userId },
+      });
 
       switch (role) {
         case "adminfti":
           res.render("admfti/dashboard", { accessToken, pengguna });
           break;
         case "adminorg":
-          res.render("admorg/organisasi", { accessToken, pengguna });
+          res.render("admorg/organisasi", { accessToken, pengguna, orga });
           break;
         case "mhs":
           res.render("mhs/home", { accessToken, pengguna, mhs });

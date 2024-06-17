@@ -41,7 +41,7 @@
                     src="/<%= org.userId %>/<%= org.logo %>"
                   />
                 </td>
-                <td><%= formatDate(org.tanggalPengajuan) %></td>
+                <td><%= formatDate(org.tanggalPengajuan) || "-" %></td>
                 <td>
                   <% if (org.status === "Y") { %> Disetujui <% } else if
                   (org.status === "P") { %> Pending <% } else if (org.status ===

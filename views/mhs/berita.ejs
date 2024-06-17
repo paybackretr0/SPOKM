@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<html lang="en">
   <head>
     <link rel="stylesheet" href="assets/style.css" />
 
@@ -7,30 +8,35 @@
       href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
       rel="stylesheet"
     />
-    <title>Berita</title>
+    <title>Informasi</title>
   </head>
   <body>
     <%- include('../komponen/navMhs');%>
-    <div class="heading" style="background: url(/img/rommm.jpg) no-repeat">
-      <h1>Kumpulan Berita</h1>
+    <div class="heading" style="background: url(/img/fti11.jpg) no-repeat">
+      <h1>Kumpulan Informasi</h1>
     </div>
     <section class="packages">
-      <% if (beritas.length > 0) { %> <% beritas.forEach((berita, index) => { %>
-      <h1 class="heading-title">Berita</h1>
+      <% if (beritas.length > 0) { %>
       <div class="box-container">
+        <% beritas.forEach((berita, index) => { %>
         <div class="box">
           <div class="image">
             <img src="/<%= berita.userId %>/<%= berita.gambar %>" alt="" />
           </div>
           <div class="content">
+            <p>
+              <i class="bx bxs-calendar"></i> <%=
+              formatDate(berita.tanggalPublish)%>
+            </p>
             <h3><%= berita.judul %></h3>
             <p><%= berita.isi_berita %></p>
             <a href="detailNews/<%= berita.idNews%>" class="btn">Detail</a>
           </div>
         </div>
+        <% }) %>
       </div>
       <div class="load-more"><span class="btn">load more</span></div>
-      <% }) %> <% } else { %>
+      <% } else { %>
       <h1 class="heading-title">Belum Ada Informasi</h1>
       <% } %>
     </section>

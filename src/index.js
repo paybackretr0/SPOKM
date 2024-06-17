@@ -3,6 +3,7 @@ const dotenv = require("dotenv").config();
 const http = require("http");
 const router = require("../routes/page");
 const cookieParser = require("cookie-parser");
+const bodyParser = require("body-parser");
 const socketio = require("socket.io");
 const chat = require("../controller/socket");
 const jwt_decode = require("jwt-decode");

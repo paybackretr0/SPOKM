@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/assets/admorg.css" />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+      function showAccConfirm(id) {
+        Swal.fire({
+          title: "Apakah Anda yakin ingin menyetujui?",
+          icon: "question",
+          text: "Pastikan Sudah Cek Jadwal Dokter!",
+          showCancelButton: true,
+          confirmButtonText: "Ya",
+          cancelButtonText: "Tidak",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire({
+              title: "Berhasil Disetujui!",
+              text: "Jadwal Sudah Disetujui!",
+              icon: "success",
+              confirmButtonText: "OK",
+            }).then((result) => {
+              if (result.isConfirmed) {
+                window.location.href = "edit.php?id=" + id + "&status=Y";
+              }
+            });
+          }
+        });
+      }
+
+      function showXxxConfirm(id) {
+        Swal.fire({
+          title: "Apakah Anda Yakin Ingin Menolak?",
+          icon: "question",
+          showCancelButton: true,
+          confirmButtonText: "Ya",
+          cancelButtonText: "Tidak",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire({
+              title: "Berhasil Ditolak!",
+              icon: "success",
+              confirmButtonText: "OK",
+            }).then((result) => {
+              if (result.isConfirmed) {
+                window.location.href = "edit.php?id=" + id + "&status=R";
+              }
+            });
+          }
+        });
+      }
+    </script>
+
+    <title>Data Anggota - Khanny Dental</title>
+  </head>
+
+  <body>
+    <%- include('../komponen/navOrg');%>
+    <div class="heading" style="background: url(/img/fti11.jpg) no-repeat">
+      <h1>Data Anggota</h1>
+    </div>
+    <section class="anggota">
+      <h1 class="heading-title">Anggota <%= orga.namaOrga %></h1>
+      <div class="container">
+        <div class="table">
+          <div class="button-container">
+            <a href="/tambahAnggota/<%= orga.idOrga%>" class="add-button-link">
+              <button class="add-button">
+                <i class="bx bx-plus"></i>Tambah Data
+              </button></a
+            >
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Nama</th>
+                <th>NIM</th>
+                <th>Jabatan</th>
+                <th><i class="fa-brands fa-whatsapp"></i></th>
+                <th>Jenis Kelamin</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% anggota.forEach((anggota, index) => { %>
+              <tr>
+                <td><%= index + 1 %></td>
+                <td><%= anggota.nama %></td>
+                <td><%= anggota.nim %></td>
+                <td><%= anggota.jabatan %></td>
+                <td><%= anggota.noHp %></td>
+                <td>
+                  <% if (anggota.jenisKelamin === "L") { %> Laki-Laki <% } else
+                  if (anggota.jenisKelamin === "P") { %> Perempuan <% } %>
+                </td>
+                <td>
+                  <div class="action-buttons">
+                    <a
+                      href="/editAnggota/<%= anggota.idPengurus %>"
+                      class="action-button-edit"
+                      >Edit</a
+                    >
+                    <form
+                      action="/deleteanggota/<%= anggota.idPengurus %>"
+                      method="post"
+                    >
+                      <button class="action-button-hapus" type="submit">
+                        Hapus
+                      </button>
+                    </form>
+                  </div>
+                </td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

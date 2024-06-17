@@ -72,16 +72,44 @@ section {
   color: var(--hitam);
 }
 
+.heading {
+  background-size: cover !important;
+  background-position: center !important;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.heading h1 {
+  font-size: 5rem;
+  color: var(--putih);
+  text-transform: uppercase;
+  text-shadow: var(--text-shadow);
+}
+
+.heading-title {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2.5rem;
+  text-transform: uppercase;
+  color: var(--hitam);
+}
+
 .btn {
   display: inline-block;
   background: var(--hitam);
+  background: var(--hitam);
   margin-top: 1rem;
+  color: var(--putih);
   color: var(--putih);
   font-size: 1rem;
   padding: 1rem 3rem;
   border-radius: 10px;
   cursor: pointer;
   transition: 0.3s ease-in-out;
+  text-transform: capitalize;
 }
 
 .btn:hover {
@@ -265,6 +293,7 @@ section {
 }
 
 .header .navbar .sub-daftar-wrap.open-daftar {
+  max-height: 450px;
   max-height: 450px;
 }
 
@@ -455,6 +484,22 @@ section {
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
+.notification-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 300px;
+  z-index: 1000;
+}
+
+.notification {
+  background-color: #f0f8ff;
+  border: 1px solid #dcdcdc;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
 
 .body-profile {
   display: flex;
@@ -522,7 +567,6 @@ section {
 }
 
 .isi-profile .userProfile {
-  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -534,6 +578,7 @@ section {
 .isi-profile .userProfile .profile figure img {
   width: 20rem;
   height: 20rem;
+  margin-left: 2rem;
   border-radius: 50%;
 }
 
@@ -593,18 +638,22 @@ span {
 }
 
 .editProfile h1 {
+.editProfile h1 {
   text-align: center;
 }
 
+.editProfile .edit-form {
 .editProfile .edit-form {
   display: flex;
   flex-direction: column;
 }
 
 .editProfile .edit-form label {
+.editProfile .edit-form label {
   margin-top: 10px;
 }
 
+.editProfile .edit-form input {
 .editProfile .edit-form input {
   width: 100%;
   height: 100%;
@@ -679,13 +728,16 @@ span {
 }
 
 .ubah-pw h1 {
+.ubah-pw h1 {
   text-align: center;
 }
 
 .ubah-pw label {
+.ubah-pw label {
   margin-top: 10px;
 }
 
+.ubah-pw input {
 .ubah-pw input {
   width: 100%;
   height: 100%;
@@ -1287,8 +1339,9 @@ textarea:focus {
 
 .packages .box-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
-  gap: 10rem;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 2fr));
+  gap: 5rem;
+  margin-top: 2rem;
 }
 
 .packages .box-container .box {
@@ -1300,7 +1353,8 @@ textarea:focus {
 }
 
 .packages .box-container .box:nth-child(1),
-.packages .box-container .box:nth-child(2) {
+.packages .box-container .box:nth-child(2),
+.packages .box-container .box:nth-child(3) {
   display: inline-block;
 }
 
@@ -1424,6 +1478,7 @@ textarea:focus::placeholder {
   width: 100%;
   justify-content: space-between;
   margin-bottom: 1rem;
+}
 
 .detail-news .box-container {
   display: grid;

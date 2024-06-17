@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="/assets/admfti.css" />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <title>Tambah Anggota</title>
+  </head>
+  <body>
+    <section class="add-news">
+      <div class="containert">
+        <h2>Tambah Anggota</h2>
+        <form
+          action="/tambahPengurus/<%= orga.idOrga %>"
+          method="post"
+          id="beritaForm"
+        >
+          <div class="box">
+            <label for="nama">Nama</label>
+            <input
+              type="text"
+              id="nama"
+              name="nama"
+              placeholder="masukan nama pengurus"
+            />
+
+            <label for="nim">NIM</label>
+            <input id="nim" name="nim" placeholder="masukan nim pengurus " />
+
+            <label for="jabatan">Jabatan</label>
+            <input
+              type="text"
+              id="jabatan"
+              name="jabatan"
+              placeholder="masukan jabatan pengurus"
+            />
+
+            <label for="noHp">No. HP</label>
+            <input
+              type="text"
+              id="noHp"
+              name="noHp"
+              placeholder="masukan no. Hp pengurus"
+            />
+
+            <label for="jenisKelamin">Jenis Kelamin</label>
+            <select id="jenisKelamin" name="jenisKelamin">
+              <option value="" disabled selected hidden>
+                ---Pilih Jenis Kelamin---
+              </option>
+              <option value="L">Laki-Laki</option>
+              <option value="P">Perempuan</option>
+            </select>
+          </div>
+          <div class="button-containert">
+            <input type="submit" value="Simpan" />
+            <a href="/anggota/<%= orga.idOrga %>">Batal</a>
+          </div>
+        </form>
+      </div>
+    </section>
+    <script>
+      document
+        .getElementById("beritaForm")
+        .addEventListener("submit", async function (event) {
+          event.preventDefault();
+
+          const formData = new URLSearchParams(new FormData(this));
+          try {
+            const response = await fetch(this.action, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+              },
+              body: formData.toString(),
+            });
+
+            if (response.ok) {
+              alert("Informasi tersimpan");
+              window.location.href = "/anggota/<%= orga.idOrga %>";
+            } else {
+              const errorData = await response.json();
+              alert("Gagal menyimpan informasi: " + errorData.message);
+            }
+          } catch (error) {
+            console.error("Error:", error);
+            alert("Terjadi kesalahan pada server");
+          }
+        });
+    </script>
+  </body>
+</html>
