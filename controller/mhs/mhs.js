@@ -22,6 +22,11 @@ exports.home = async (req, res) => {
       mhs,
       pengguna,
     });
+    res.render("mhs/home", {
+      accessToken: req.cookies.accessToken,
+      mhs,
+      pengguna,
+    });
   } catch (error) {
     console.error(error);
     res.redirect("/login");
@@ -200,7 +205,7 @@ exports.daftarkegiatan = async (req, res) => {
   }
 };
 
-exports.daftarkgt = async (req, res) => {
+exports.daftarOrg = async (req, res) => {
   try {
     const pengguna = await User.findByPk(req.userId);
     const mhs = await Mahasiswa.findOne({ where: { nim: pengguna.nim } });
@@ -209,68 +214,85 @@ exports.daftarkgt = async (req, res) => {
     }
 
     const {
-      namaKegiatan,
+      namaOrga,
       deskripsi,
-      namaKetupel,
-      nimKetupel,
       tanggalPengajuan,
-      bidangKegiatan,
-      lingkupKegiatan,
-      tanggalMulai,
-      tanggalSelesai,
-      penyelenggara,
+      tanggalBerdiri,
+      lingkupOrganisasi,
+      namaKetua,
+      nimKetua,
+      no_wa,
+      departemen,
     } = req.body;
     const logo = req.files["logo"] ? req.files["logo"][0].filename : null;
-    const proposal = req.files["proposal"]
-      ? req.files["proposal"][0].filename
+    const profilOrg = req.files["profilOrg"]
+      ? req.files["profilOrg"][0].filename
+      : null;
+    const suratRek = req.files["suratRek"]
+      ? req.files["suratRek"][0].filename
       : null;
 
-    await Kegiatan.create({
-      idKegiatan: "K" + nanoid(7),
-      namaKegiatan: namaKegiatan,
-      namaKetupel: namaKetupel,
+    await Organisasi.create({
+      idOrga: "O" + nanoid(7),
+      namaOrga: namaOrga,
       deskripsi: deskripsi,
       tanggalPengajuan: tanggalPengajuan,
-      tanggalMulai: tanggalMulai,
-      tanggalSelesai: tanggalSelesai,
-      bidangKegiatan: bidangKegiatan,
-      lingkupKegiatan: lingkupKegiatan,
-      nimKetupel: nimKetupel,
-      penyelenggara: penyelenggara,
+      tanggalBerdiri: tanggalBerdiri,
+      lingkupOrganisasi: lingkupOrganisasi,
+      namaKetua: namaKetua,
+      nimKetua: nimKetua,
+      no_wa: no_wa,
+      departemen: departemen,
       logo: logo,
-      proposal: proposal,
+      profilOrg: profilOrg,
+      suratRek: suratRek,
       status: "P",
       userId: req.userId,
     });
 
     const newNotification = await Notifikasi.create({
       idNotif: "N" + nanoid(7),
-      judul: "Pengajuan Kegiatan",
+      judul: "Pengajuan Organisasi",
       tanggal: new Date(),
       status: "N",
-      isi: `Pengajuan Kegiatan ${namaKegiatan} oleh ${req.userId} telah diajukan`,
+      isi: `Pengajuan Organisasi ${namaOrga} oleh ${req.userId} telah diajukan`,
       userId: req.userId,
     });
 
     const io = req.app.get("io");
-    io.to("adminfti").emit("new_kegiatanMhs", {
-      message: "Pengajuan Kegiatan Baru!",
-      kegiatan: {
-        namaKegiatan,
+    io.to("adminfti").emit("new_organisasi", {
+      message: "Pengajuan Organisasi Baru!",
+      orga: {
+        namaOrga,
         nama: mhs.nama || "Mahasiswa",
       },
     });
 
-    res.status(200).json({ message: "Kegiatan berhasil didaftarkan" });
+    res.status(200).json({ message: "Organisasi berhasil didaftarkan" });
   } catch (error) {
-    console.error("Gagal mendaftarkan Kegiatan:", error);
+    console.error("Gagal mendaftarkan organisasi:", error);
     res
       .status(500)
-      .json({ message: "Terjadi kesalahan saat mendaftarkan Kegiatan" });
+      .json({ message: "Terjadi kesalahan saat mendaftarkan organisasi" });
   }
 };
 
-exports.daftarnews = async (req, res) => {
+exports.daftarkegiatan = async (req, res) => {
+  try {
+    const pengguna = await User.findByPk(req.userId);
+    const mhs = await Mahasiswa.findOne({ where: { nim: pengguna.nim } });
+    res.render("mhs/daftarkgt", {
+      accessToken: req.cookies.accessToken,
+      mhs,
+      pengguna,
+    });
+  } catch (error) {
+    console.error(error);
+    res.redirect("/login");
+  }
+};
+
+exports.room = async (req, res) => {
   try {
     const pengguna = await User.findByPk(req.userId);
     const mhs = await Mahasiswa.findOne({ where: { nim: pengguna.nim } });
