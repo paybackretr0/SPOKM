@@ -6,9 +6,18 @@ module.exports = (sequelize) => {
     static associate(models) {
       Berita.belongsTo(models.User, {
         foreignKey: "userId",
+        onDelete: "SET NULL",
+        onUpdate: "CASCADE",
       });
       Berita.belongsTo(models.Kategori, {
         foreignKey: "idKategori",
+        onDelete: "SET NULL",
+        onUpdate: "CASCADE",
+      });
+      Berita.hasMany(models.Komentar, {
+        foreignKey: "idNews",
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
       });
     }
   }

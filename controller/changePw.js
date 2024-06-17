@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 
 exports.changepassword = async (req, res) => {
   try {
-    res.render("changepw", { accessToken: req.cookies.accessToken });
+    res.render("mhs/changepw", { accessToken: req.cookies.accessToken });
   } catch (error) {
     console.error(error);
     res.redirect("/login");

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="assets/admfti.css" />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <title>Organisasi</title>
+  </head>
+  <body class="org">
+    <%- include('../komponen/sidebar');%>
+    <section class="organisasi">
+      <div class="header">
+        <div class="text">Organisasi</div>
+        <div class="notification-icon">
+          <i class="bx bx-bell"></i>
+        </div>
+      </div>
+      <div class="list-organisasi">
+        <div class="table">
+          <table>
+            <thead>
+              <tr>
+                <th>No.</th>
+                <th>Nama Organisasi</th>
+                <th>Logo</th>
+                <th>Tanggal Pengajuan</th>
+                <th>Status</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% org.forEach((org, index) => { %>
+              <tr>
+                <td><%= index + 1 %></td>
+                <td><%= org.namaOrga %></td>
+                <td>
+                  <img
+                    style="width: 100px; height: 100px"
+                    src="/<%= org.userId %>/<%= org.logo %>"
+                  />
+                </td>
+                <td><%= formatDate(org.tanggalPengajuan) || "-" %></td>
+                <td>
+                  <% if (org.status === "Y") { %> Disetujui <% } else if
+                  (org.status === "P") { %> Pending <% } else if (org.status ===
+                  "N") { %> Ditolak <% } %>
+                </td>
+                <td>
+                  <div class="action-buttons">
+                    <a href="detailOrga" class="action-button-detail">Detail</a>
+                    <% if (org.status === "P") { %>
+                    <form action="/accOrg/<%= org.idOrga %>" method="post">
+                      <button class="action-button-acc" type="submit">
+                        Setuju
+                      </button>
+                    </form>
+                    <form action="/tolakOrg/<%= org.idOrga %>" method="post">
+                      <button class="action-button-tolak" type="submit">
+                        Tolak
+                      </button>
+                    </form>
+                    <% } %>
+                  </div>
+                </td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    <div id="notification-container" class="notification-container"></div>
+    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+    <script>
+      const socket = io("http://localhost:3000");
+
+      socket.on("connect", () => {
+        console.log("Connected to Admin FTI");
+        socket.emit("joinRoom", "adminfti");
+      });
+
+      socket.on("new_kegiatan", (data) => {
+        console.log(data);
+        console.log("Notifikasi baru:", data);
+        showNotification(data, "kegiatan");
+      });
+
+      socket.on("new_kegiatanMhs", (data) => {
+        console.log(data);
+        console.log("Notifikasi baru dari Mahasiswa:", data);
+        showNotification(data, "kegiatan");
+      });
+
+      socket.on("new_organisasi", (data) => {
+        console.log(data);
+        console.log("Notifikasi baru dari Mahasiswa:", data);
+        showNotification(data, "orga");
+      });
+
+      socket.on("new_berita", (data) => {
+        console.log(data);
+        console.log("Notifikasi baru dari Mahasiswa:", data);
+        showNotification(data, "berita");
+      });
+
+      function showNotification(data, type) {
+        const notificationContainer = document.getElementById(
+          "notification-container"
+        );
+        const notification = document.createElement("div");
+        notification.className = "notification";
+        if (type === "kegiatan") {
+          notification.innerHTML = `
+      <strong>${data.message}</strong>
+      <p>${data.kegiatan.namaKegiatan} oleh ${data.kegiatan.nama}</p>
+    `;
+        } else if (type === "orga") {
+          notification.innerHTML = `
+      <strong>${data.message}</strong>
+      <p>${data.orga.namaOrga} oleh ${data.orga.nama}</p>
+    `;
+        } else if (type === "berita") {
+          notification.innerHTML = `
+      <strong>${data.message}</strong>
+      <p>${data.berita.judul} oleh ${data.berita.nama}</p>
+    `;
+        }
+        notificationContainer.appendChild(notification);
+
+        setTimeout(() => {
+          notificationContainer.removeChild(notification);
+        }, 5000);
+      }
+    </script>
+  </body>
+</html>

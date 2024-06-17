@@ -11,7 +11,12 @@
   <body class="news">
     <%- include('../komponen/sidebar');%>
     <section class="berita">
-      <div class="text">Informasi</div>
+      <div class="header">
+        <div class="text">Informasi</div>
+        <div class="notification-icon">
+          <i class="bx bx-bell"></i>
+        </div>
+      </div>
       <div class="informasi">
         <div class="table">
           <div class="button-container">
@@ -30,6 +35,7 @@
                 <th>Kategori</th>
                 <th>Tanggal Pengajuan</th>
                 <th>Penulis</th>
+                <th>Status</th>
                 <th>Aksi</th>
               </tr>
             </thead>
@@ -39,16 +45,53 @@
                 <td><%= index + 1 %></td>
                 <td><%= berita.judul %></td>
                 <td>
-                  <img src="../../src/uploads/<%= berita.gambar %>" />
+                  <img
+                    style="width: 100px; height: 100px"
+                    src="/<%= berita.userId %>/<%= berita.gambar %>"
+                  />
                 </td>
                 <td><%= berita.Kategori.namaKategori %></td>
-                <td><%= berita.tanggalPengajuan %></td>
+                <td><%= formatDate(berita.tanggalPengajuan) %></td>
                 <td><%= berita.penulis %></td>
                 <td>
+                  <% if (berita.status === "Y") { %> Disetujui <% } else if
+                  (berita.status === "P") { %> Pending <% } else if
+                  (berita.status === "N") { %> Ditolak <% } %>
+                </td>
+                <td>
                   <div class="action-buttons">
-                    <button class="action-button-edit">Edit</button>
-                    <button class="action-button-hapus">Hapus</button>
-                    <button class="action-button-detail">Detail</button>
+                    <a
+                      href="/editNews/<%= berita.idNews %>"
+                      class="action-button-edit"
+                      >Edit</a
+                    >
+                    <form
+                      action="/deletenews/<%= berita.idNews %>/delete"
+                      method="post"
+                    >
+                      <button class="action-button-hapus" type="submit">
+                        Hapus
+                      </button>
+                    </form>
+                    <% if (berita.status === "P") { %>
+                    <form
+                      action="/accBerita/<%= berita.idNews %>"
+                      method="post"
+                    >
+                      <button class="action-button-acc" type="submit">
+                        Setuju
+                      </button>
+                    </form>
+                    <form
+                      action="/tolakBerita/<%= berita.idNews %>"
+                      method="post"
+                    >
+                      <button class="action-button-tolak" type="submit">
+                        Tolak
+                      </button>
+                    </form>
+                    <% } %>
+                    <a href="detailNews" class="action-button-detail">Detail</a>
                   </div>
                 </td>
               </tr>
@@ -58,5 +101,68 @@
         </div>
       </div>
     </section>
+    <div id="notification-container" class="notification-container"></div>
+    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+    <script>
+      const socket = io("http://localhost:3000");
+
+      socket.on("connect", () => {
+        console.log("Connected to Admin FTI");
+        socket.emit("joinRoom", "adminfti");
+      });
+
+      socket.on("new_kegiatan", (data) => {
+        console.log(data);
+        console.log("Notifikasi baru:", data);
+        showNotification(data, "kegiatan");
+      });
+
+      socket.on("new_kegiatanMhs", (data) => {
+        console.log(data);
+        console.log("Notifikasi baru dari Mahasiswa:", data);
+        showNotification(data, "kegiatan");
+      });
+
+      socket.on("new_organisasi", (data) => {
+        console.log(data);
+        console.log("Notifikasi baru dari Mahasiswa:", data);
+        showNotification(data, "orga");
+      });
+
+      socket.on("new_berita", (data) => {
+        console.log(data);
+        console.log("Notifikasi baru dari Mahasiswa:", data);
+        showNotification(data, "berita");
+      });
+
+      function showNotification(data, type) {
+        const notificationContainer = document.getElementById(
+          "notification-container"
+        );
+        const notification = document.createElement("div");
+        notification.className = "notification";
+        if (type === "kegiatan") {
+          notification.innerHTML = `
+      <strong>${data.message}</strong>
+      <p>${data.kegiatan.namaKegiatan} oleh ${data.kegiatan.nama}</p>
+    `;
+        } else if (type === "orga") {
+          notification.innerHTML = `
+      <strong>${data.message}</strong>
+      <p>${data.orga.namaOrga} oleh ${data.orga.nama}</p>
+    `;
+        } else if (type === "berita") {
+          notification.innerHTML = `
+      <strong>${data.message}</strong>
+      <p>${data.berita.judul} oleh ${data.berita.nama}</p>
+    `;
+        }
+        notificationContainer.appendChild(notification);
+
+        setTimeout(() => {
+          notificationContainer.removeChild(notification);
+        }, 5000);
+      }
+    </script>
   </body>
 </html>

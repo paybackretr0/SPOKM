@@ -10,6 +10,8 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Kategori.hasMany(models.Berita, {
         foreignKey: "idKategori",
+        onDelete: "SET NULL",
+        onUpdate: "CASCADE",
       });
     }
   }

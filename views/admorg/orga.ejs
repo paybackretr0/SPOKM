@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/style.css" />
+    <title>Profile</title>
+  </head>
+  <body class="body-profile">
+    <div class="isi-profile">
+      <header>
+        <div class="brandLogo">
+          <a href="/organisasi" class="home"><</a>
+          <figure>
+            <img
+              src="../../img/ftilogo.png"
+              alt="logo"
+              width="40px"
+              height="auto"
+            />
+          </figure>
+          <span>FTIOrganizerhub</span>
+        </div>
+      </header>
+      <section class="userProfile card">
+        <div class="profile">
+          <figure>
+            <img
+              src="../../img/fti.jpg"
+              alt="profile"
+              width="200px"
+              height="200px"
+            />
+          </figure>
+          <a
+            href="editorg/<%= organisasi.idOrga %>"
+            class="btn"
+            style="margin-left: 5rem"
+            ><i class="bx bxs-edit-alt"></i> Edit Profile</a
+          >
+        </div>
+      </section>
+      <section class="userDetails card">
+        <div class="userName">
+          <div class="info-box">
+            <span>Nama Organisasi</span>
+            <h1 class="name"><%= organisasi.namaOrga %></h1>
+          </div>
+          <hr />
+          <div class="info-box">
+            <span>Ketua</span>
+            <h1 class="NIM"><%= organisasi.namaKetua %></h1>
+          </div>
+          <hr />
+          <div class="info-box">
+            <span>Tanggal Berdiri</span>
+            <h1 class="jurusan">
+              <%= formatDate(organisasi.tanggalBerdiri) %>
+            </h1>
+          </div>
+          <hr />
+          <div class="pw">
+            <a href="gantiPw" class="btn"
+              ><i class="bx bxs-key"></i> Ubah Password</a
+            >
+          </div>
+          <div class="pw">
+            <a href="anggota/<%= organisasi.idOrga %>" class="btn"
+              ><i class="bx bxs-cog"></i> Kelola Anggota</a
+            >
+          </div>
+        </div>
+      </section>
+      <div id="notification-container" class="notification-container"></div>
+      <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+      <script>
+        const socket = io("http://localhost:3000");
+        const userId = "<%= pengguna.userId %>";
+        socket.on("connect", () => {
+          console.log("Connected to server");
+          socket.emit("join", userId);
+        });
+
+        socket.on("kegiatan_setuju", (data) => {
+          console.log("Notifikasi baru:", data);
+          showNotification(data, "kegiatan");
+        });
+
+        socket.on("berita_disetujui", (data) => {
+          console.log("Notifikasi baru:", data);
+          showNotification(data, "berita");
+        });
+
+        socket.on("berita_ditolak", (data) => {
+          console.log("Notifikasi baru:", data);
+          showNotification(data, "berita");
+        });
+
+        socket.on("kegiatan_ditolak", (data) => {
+          console.log("Notifikasi baru:", data);
+          showNotification(data, "kegiatan");
+        });
+
+        function showNotification(data, type) {
+          const notificationContainer = document.getElementById(
+            "notification-container"
+          );
+          const notification = document.createElement("div");
+          notification.className = "notification";
+          if (type === "kegiatan") {
+            notification.innerHTML = `<strong>${data.message}</strong>`;
+          } else if (type === "berita") {
+            notification.innerHTML = `<strong>${data.message}</strong>`;
+          }
+
+          notificationContainer.appendChild(notification);
+
+          setTimeout(() => {
+            notification.classList.add("notification-fade-out");
+            setTimeout(() => {
+              notificationContainer.removeChild(notification);
+            }, 300);
+          }, 5000);
+        }
+      </script>
+    </div>
+  </body>
+</html>

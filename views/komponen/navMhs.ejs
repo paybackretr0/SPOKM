@@ -2,19 +2,24 @@
   <a href="/" class="logo">FTI</a>
   <nav class="navbar">
     <a href="/">Home</a>
-    <a href="berita">Berita</a>
-    <a href="org">Organisasi</a>
-    <a class="daftar" onclick="toggleMenuDaftar()">Pendaftaran</a>
+    <a href="/berita">Berita</a>
+    <a href="/org">Organisasi</a>
+    <a class="daftar" onclick="toggleMenuDaftar()">Pengajuan</a>
     <div class="sub-daftar-wrap" id="subDaftar">
       <div class="sub-daftar">
         <div class="pendaftaran">
-          <a href="daftarorg" class="sub-daftar-links"
-            ><p>Pendaftaran Organisasi</p>
+          <a href="/daftarorg" class="sub-daftar-links"
+            ><p>Pengajuan Organisasi</p>
             <span>></span></a
           >
           <hr />
-          <a href="dafkgt" class="sub-daftar-links"
-            ><p>Pendaftaran Kegiatan</p>
+          <a href="/daftarkgt" class="sub-daftar-links"
+            ><p>Pengajuan Kegiatan</p>
+            <span>></span></a
+          >
+          <hr />
+          <a href="/daftarnews" class="sub-daftar-links"
+            ><p>Pengajuan Publikasi</p>
             <span>></span></a
           >
         </div>
@@ -22,9 +27,8 @@
     </div>
   </nav>
   <nav class="add">
-    <% if(accessToken){%>
     <i class="bx bx-bell"></i>
-    <a href="room" class="chat"><i class="bx bx-chat"></i></a>
+    <a href="/room" class="chat"><i class="bx bx-chat"></i></a>
     <img src="/img/fti.jpg" class="user-pic" onclick="toggleMenu()" />
     <div class="sub-menu-wrap" id="subMenu">
       <div class="sub-menu">
@@ -32,7 +36,7 @@
           <h3>Halo, <%= mhs.nama%></h3>
         </div>
         <hr />
-        <a href="profil" class="sub-menu-links"
+        <a href="/profil" class="sub-menu-links"
           ><p>Profile</p>
           <span>></span></a
         >
@@ -44,9 +48,6 @@
         </form>
       </div>
     </div>
-    <%} else {%>
-    <a href="login">Login</a>
-    <%}%>
   </nav>
 
   <script>

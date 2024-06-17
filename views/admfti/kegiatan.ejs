@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="assets/admfti.css" />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <title>Kegiatan</title>
+  </head>
+  <body class="kgt">
+    <%- include('../komponen/sidebar');%>
+    <section class="kegiatan">
+      <div class="header">
+        <div class="text">Kegiatan</div>
+        <div class="notification-icon">
+          <i class="bx bx-bell"></i>
+        </div>
+      </div>
+      <div class="list-kegiatan">
+        <div class="table">
+          <table>
+            <thead>
+              <tr>
+                <th>No.</th>
+                <th>Nama Kegiatan</th>
+                <th>Logo</th>
+                <th>Deskripsi</th>
+                <th>Tanggal Kegiatan</th>
+                <th>Tanggal Pengajuan</th>
+                <th>Penyelenggara</th>
+                <th>Proposal</th>
+                <th>NIM Ketupel</th>
+                <th>Status</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% kegiatan.forEach((kegiatan, index) => { %>
+              <tr>
+                <td><%= index + 1 %></td>
+                <td><%= kegiatan.namaKegiatan %></td>
+                <td>
+                  <img
+                    style="width: 100px; height: 100px"
+                    src="/<%= kegiatan.userId %>/<%= kegiatan.logo %>"
+                  />
+                </td>
+                <td><%= kegiatan.deskripsi %></td>
+                <td>
+                  <%= formatDate(kegiatan.tanggalMulai) %> s/d <%=
+                  formatDate(kegiatan.tanggalSelesai) %>
+                </td>
+                <td><%= formatDate(kegiatan.tanggalPengajuan) %></td>
+                <td>
+                  <% if (kegiatan.penyelenggara === "P") { %> Pribadi <% } else
+                  if (kegiatan.penyelenggara === "O") { %> Organisasi <% } %>
+                </td>
+                <td><%= kegiatan.proposal %></td>
+                <td><%= kegiatan.nimKetupel %></td>
+                <td>
+                  <% if (kegiatan.status === "P") { %>Pending<% } else if
+                  (kegiatan.status === "Y") { %>Disetujui<% } else if
+                  (kegiatan.status === "N") { %>Ditolak<% } %>
+                </td>
+                <td>
+                  <% if (kegiatan.status === "P") { %>
+                  <div class="action-buttons">
+                    <form
+                      action="/accKeg/<%= kegiatan.idKegiatan%>"
+                      method="post"
+                    >
+                      <button class="action-button-acc" type="submit">
+                        Setuju
+                      </button>
+                    </form>
+                    <form
+                      action="/tolakKeg/<%= kegiatan.idKegiatan %>"
+                      method="post"
+                    >
+                      <button class="action-button-tolak" type="submit">
+                        Tolak
+                      </button>
+                    </form>
+                    <% } %>
+                  </div>
+                </td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    <div id="notification-container" class="notification-container"></div>
+    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+    <script>
+      const socket = io("http://localhost:3000");
+
+      socket.on("connect", () => {
+        console.log("Connected to Admin FTI");
+        socket.emit("joinRoom", "adminfti");
+      });
+
+      socket.on("new_kegiatan", (data) => {
+        console.log(data);
+        console.log("Notifikasi baru:", data);
+        showNotification(data, "kegiatan");
+      });
+
+      socket.on("new_kegiatanMhs", (data) => {
+        console.log(data);
+        console.log("Notifikasi baru dari Mahasiswa:", data);
+        showNotification(data, "kegiatan");
+      });
+
+      socket.on("new_organisasi", (data) => {
+        console.log(data);
+        console.log("Notifikasi baru dari Mahasiswa:", data);
+        showNotification(data, "orga");
+      });
+
+      socket.on("new_berita", (data) => {
+        console.log(data);
+        console.log("Notifikasi baru dari Mahasiswa:", data);
+        showNotification(data, "berita");
+      });
+
+      function showNotification(data, type) {
+        const notificationContainer = document.getElementById(
+          "notification-container"
+        );
+        const notification = document.createElement("div");
+        notification.className = "notification";
+        if (type === "kegiatan") {
+          notification.innerHTML = `
+      <strong>${data.message}</strong>
+      <p>${data.kegiatan.namaKegiatan} oleh ${data.kegiatan.nama}</p>
+    `;
+        } else if (type === "orga") {
+          notification.innerHTML = `
+      <strong>${data.message}</strong>
+      <p>${data.orga.namaOrga} oleh ${data.orga.nama}</p>
+    `;
+        } else if (type === "berita") {
+          notification.innerHTML = `
+      <strong>${data.message}</strong>
+      <p>${data.berita.judul} oleh ${data.berita.nama}</p>
+    `;
+        }
+        notificationContainer.appendChild(notification);
+
+        setTimeout(() => {
+          notificationContainer.removeChild(notification);
+        }, 5000);
+      }
+    </script>
+  </body>
+</html>

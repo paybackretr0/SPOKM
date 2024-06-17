@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="assets/admfti.css" />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <title>Tambah User</title>
+  </head>
+  <body class="login">
+    <section class="room-header">
+      <a href="/user" class="logo"><i class="bx bx-log-out-circle"></i></a>
+    </section>
+    <div class="wrapper">
+      <form action="/addUser" method="post">
+        <h1>Tambah User</h1>
+        <h2>FTI Organizer Hub</h2>
+        <div class="input-box">
+          <input type="text" name="nim" placeholder="NIM" required />
+          <i class="bx bxs-user-pin"></i>
+        </div>
+        <div class="input-box">
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            requireds
+          />
+          <i class="bx bx-lock-alt"></i>
+        </div>
+        <div class="input-box">
+          <input
+            type="password"
+            name="passwordLagi"
+            placeholder="Konfirmasi Password"
+            requireds
+          />
+          <i class="bx bx-lock-alt"></i>
+        </div>
+        <div class="input-box">
+          <select id="role" name="role" required>
+            <option value="" disabled selected hidden>
+              -------Pilih Role yang Sesuai-------
+            </option>
+            <option value="mhs">Mahasiswa</option>
+            <option value="adminorg">Admin Organisasi</option>
+          </select>
+        </div>
+        <button type="submit" name="login" class="log">Tambah</button>
+      </form>
+    </div>
+    <div id="notification-container" class="notification-container"></div>
+    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+    <script>
+      const socket = io("http://localhost:3000");
+
+      socket.on("connect", () => {
+        console.log("Connected to Admin FTI");
+        socket.emit("joinRoom", "adminfti");
+      });
+
+      socket.on("new_kegiatan", (data) => {
+        console.log(data);
+        console.log("Notifikasi baru:", data);
+        showNotification(data, "kegiatan");
+      });
+
+      socket.on("new_kegiatanMhs", (data) => {
+        console.log(data);
+        console.log("Notifikasi baru dari Mahasiswa:", data);
+        showNotification(data, "kegiatan");
+      });
+
+      socket.on("new_organisasi", (data) => {
+        console.log(data);
+        console.log("Notifikasi baru dari Mahasiswa:", data);
+        showNotification(data, "orga");
+      });
+
+      socket.on("new_berita", (data) => {
+        console.log(data);
+        console.log("Notifikasi baru dari Mahasiswa:", data);
+        showNotification(data, "berita");
+      });
+
+      function showNotification(data, type) {
+        const notificationContainer = document.getElementById(
+          "notification-container"
+        );
+        const notification = document.createElement("div");
+        notification.className = "notification";
+        if (type === "kegiatan") {
+          notification.innerHTML = `
+      <strong>${data.message}</strong>
+      <p>${data.kegiatan.namaKegiatan} oleh ${data.kegiatan.nama}</p>
+    `;
+        } else if (type === "orga") {
+          notification.innerHTML = `
+      <strong>${data.message}</strong>
+      <p>${data.orga.namaOrga} oleh ${data.orga.nama}</p>
+    `;
+        } else if (type === "berita") {
+          notification.innerHTML = `
+      <strong>${data.message}</strong>
+      <p>${data.berita.judul} oleh ${data.berita.nama}</p>
+    `;
+        }
+        notificationContainer.appendChild(notification);
+
+        setTimeout(() => {
+          notificationContainer.removeChild(notification);
+        }, 5000);
+      }
+    </script>
+  </body>
+</html>

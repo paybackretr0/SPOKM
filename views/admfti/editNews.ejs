@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="/assets/admfti.css" />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <title>Edit Publikasi</title>
+  </head>
+  <body>
+    <section class="add-news">
+      <div class="containert">
+        <h2>Edit Publikasi</h2>
+        <form
+          action="/editBerita/<%= beritas.idNews %>"
+          method="post"
+          id="beritaForm"
+          enctype="multipart/form-data"
+        >
+          <div class="box">
+            <label for="judul">Judul</label>
+            <input
+              type="text"
+              id="judul"
+              name="judul"
+              placeholder="<%= beritas.judul %>"
+            />
+
+            <label for="kategori">Kategori</label>
+            <select id="namaKategori" name="kategori">
+              <option value="" disabled selected hidden>
+                ---Pilih Kategori Publikasi yang Sesuai---
+              </option>
+              <% kategoris.forEach(kategori => { %>
+              <option value="<%= kategori.idKategori %>">
+                <%= kategori.namaKategori %>
+              </option>
+              <% }) %>
+            </select>
+
+            <label for="isi_berita">Isi</label>
+            <textarea
+              id="isi_berita"
+              name="isi_berita"
+              placeholder="<%= beritas.isi_berita%>"
+            ></textarea>
+
+            <label for="gambar">Gambar</label>
+            <input type="file" id="gambar" name="gambar" accept="image/*" />
+
+            <label for="penulis">Penulis</label>
+            <input
+              type="text"
+              id="penulis"
+              name="penulis"
+              placeholder="<%= beritas.penulis %>"
+            />
+
+            <label for="tanggalPengajuan">Tanggal</label>
+            <input
+              type="date"
+              id="tanggalPengajuan"
+              name="tanggalPengajuan"
+              readonly
+            />
+          </div>
+          <div class="button-containert">
+            <input type="submit" value="Simpan" />
+            <a href="/news">Batal</a>
+          </div>
+        </form>
+      </div>
+    </section>
+    <script>
+      document
+        .getElementById("beritaForm")
+        .addEventListener("submit", async function (event) {
+          event.preventDefault();
+
+          const formData = new FormData(this);
+          try {
+            const response = await fetch(this.action, {
+              method: "POST",
+              body: formData,
+            });
+
+            if (response.ok) {
+              const responseData = await response.json();
+              alert("Informasi tersimpan");
+              window.location.href = "/news";
+            } else {
+              const errorData = await response.json();
+              alert("Gagal menyimpan informasi: " + errorData.message);
+            }
+          } catch (error) {
+            console.error("Error:", error);
+            alert("Terjadi kesalahan pada server");
+          }
+        });
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const dateInput = document.getElementById("tanggalPengajuan");
+
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, "0");
+
+        const formattedDate = `${yyyy}-${mm}-${dd}`;
+
+        dateInput.value = formattedDate;
+      });
+    </script>
+    <div id="notification-container" class="notification-container"></div>
+    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+    <script>
+      const socket = io("http://localhost:3000");
+
+      socket.on("connect", () => {
+        console.log("Connected to Admin FTI");
+        socket.emit("joinRoom", "adminfti");
+      });
+
+      socket.on("new_kegiatan", (data) => {
+        console.log(data);
+        console.log("Notifikasi baru:", data);
+        showNotification(data, "kegiatan");
+      });
+
+      socket.on("new_kegiatanMhs", (data) => {
+        console.log(data);
+        console.log("Notifikasi baru dari Mahasiswa:", data);
+        showNotification(data, "kegiatan");
+      });
+
+      socket.on("new_organisasi", (data) => {
+        console.log(data);
+        console.log("Notifikasi baru dari Mahasiswa:", data);
+        showNotification(data, "orga");
+      });
+
+      socket.on("new_berita", (data) => {
+        console.log(data);
+        console.log("Notifikasi baru dari Mahasiswa:", data);
+        showNotification(data, "berita");
+      });
+
+      function showNotification(data, type) {
+        const notificationContainer = document.getElementById(
+          "notification-container"
+        );
+        const notification = document.createElement("div");
+        notification.className = "notification";
+        if (type === "kegiatan") {
+          notification.innerHTML = `
+      <strong>${data.message}</strong>
+      <p>${data.kegiatan.namaKegiatan} oleh ${data.kegiatan.nama}</p>
+    `;
+        } else if (type === "orga") {
+          notification.innerHTML = `
+      <strong>${data.message}</strong>
+      <p>${data.orga.namaOrga} oleh ${data.orga.nama}</p>
+    `;
+        } else if (type === "berita") {
+          notification.innerHTML = `
+      <strong>${data.message}</strong>
+      <p>${data.berita.judul} oleh ${data.berita.nama}</p>
+    `;
+        }
+        notificationContainer.appendChild(notification);
+
+        setTimeout(() => {
+          notificationContainer.removeChild(notification);
+        }, 5000);
+      }
+    </script>
+  </body>
+</html>

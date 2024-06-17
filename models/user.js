@@ -10,17 +10,34 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       User.hasMany(models.Berita, {
         foreignKey: "userId",
+        onDelete: "SET NULL",
+        onUpdate: "CASCADE",
       });
       User.hasMany(models.Organisasi, {
         foreignKey: "userId",
+        onDelete: "SET NULL",
+        onUpdate: "CASCADE",
       });
       User.hasMany(models.Kegiatan, {
         foreignKey: "userId",
+        onDelete: "SET NULL",
+        onUpdate: "CASCADE",
       });
       User.hasMany(models.Notifikasi, {
         foreignKey: "userId",
+        onDelete: "SET NULL",
+        onUpdate: "CASCADE",
       });
-      User.belongsTo(models.Mahasiswa, { foreignKey: "nim" });
+      User.belongsTo(models.Mahasiswa, {
+        foreignKey: "nim",
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
+      });
+      User.hasMany(models.Komentar, {
+        foreignKey: "userId",
+        onDelete: "SET NULL",
+        onUpdate: "CASCADE",
+      });
     }
   }
   User.init(

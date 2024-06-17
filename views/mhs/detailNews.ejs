@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="/assets/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
+
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <title>Berita</title>
+  </head>
+  <body>
+    <%- include('../komponen/navMhs');%>
+    <section class="packages">
+      <!-- <h1 class="heading-title">Berita</h1> -->
+      <div class="box-container">
+        <div class="box">
+          <p><%= beritas.Kategori.namaKategori %></p>
+          <h3><%= beritas.judul %></h3>
+          <p><%= formatDate(beritas.tanggalPublish) %></p>
+          <div class="image">
+            <img src="/<%= beritas.userId %>/<%= beritas.gambar %>" alt="" />
+          </div>
+          <div class="content">
+            <p><%= beritas.isi_berita %></p>
+          </div>
+          <div class="content">
+            <p>Penulis: <%= beritas.penulis %></p>
+          </div>
+          <% komentar.forEach((komentar) => { %>
+          <div class="komentar">
+            <p><%= mhs.nama %></p>
+            <p><%= komentar.komentar %></p>
+          </div>
+          <%})%>
+        </div>
+      </div>
+      <div class="comment">
+        <form action="/komentar/<%= beritas.idNews%>" method="post">
+          <div class="box-komen">
+            <label for="komentar">Komentar</label>
+            <input type="text" id="komentar" name="komentar" required />
+            <label for="namaPengirim">Nama</label>
+            <input
+              type="text"
+              id="namaPengirim"
+              name="namaPengirim"
+              value="<%= mhs.nama%>"
+              readonly
+            />
+          </div>
+          <div class="button-container">
+            <input type="submit" value="Simpan" />
+          </div>
+        </form>
+      </div>
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="/js/script.js"></script>
+  </body>
+</html>

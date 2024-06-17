@@ -1,13 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <link rel="stylesheet" href="assets/style.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
       rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     />
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
-
+    <link rel="stylesheet" href="/assets/style.css" />
+    <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
     <link
       href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
       rel="stylesheet"
@@ -16,10 +17,214 @@
   </head>
 
   <body>
-    <div class="content">
-      <h2>Pendaftaran Organisasi</h2>
-      <!-- Tambahkan konten formulir atau informasi lainnya di sini -->
+    <%- include('../komponen/navMhs');%>
+    <div class="heading" style="background: url(/img/rommm.jpg) no-repeat">
+      <h1>Pendaftaran Organisasi</h1>
     </div>
+    <section class="daforg">
+      <h1 class="heading-title">Daftarkan Organisasimu!!</h1>
+      <form
+        action="/daftarOrg"
+        method="post"
+        class="daforg-form"
+        id="daftarorg"
+        enctype="multipart/form-data"
+      >
+        <div class="flex">
+          <div class="inputbox">
+            <h4 class="data">Data Ketua</h4>
+            <span>Nama Ketua </span>
+            <input
+              type="text"
+              placeholder="masukan nama ketua"
+              name="namaKetua"
+              required
+            />
+          </div>
+          <div class="inputbox">
+            <h4 class="data">Data Organisasi</h4>
+            <span>Nama Organisasi</span>
+            <input
+              type="text"
+              placeholder="masukan nama organisasi"
+              name="namaOrga"
+              required
+            />
+          </div>
+          <div class="inputbox">
+            <span>NIM Ketua </span>
+            <input
+              type="text"
+              placeholder="masukan NIM Ketua"
+              name="nimKetua"
+              required
+            />
+          </div>
+          <div class="inputbox">
+            <span>Deskripsi Organisasi</span>
+            <textarea
+              type="text"
+              name="deskripsi"
+              placeholder="Masukan Deskripsi Organisasi"
+              required
+            ></textarea>
+          </div>
+          <div class="inputbox"></div>
+          <div class="inputbox">
+            <span>Lingkup Organisasi</span>
+            <input
+              type="text"
+              placeholder="masukan lingkup organisasi"
+              name="lingkupOrganisasi"
+              required
+            />
+          </div>
+          <div class="inputbox"></div>
+          <div class="inputbox">
+            <span>Tanggal Pengajuan</span>
+            <input
+              type="date"
+              name="tanggalPengajuan"
+              id="tanggalPengajuan"
+              readonly
+            />
+          </div>
+        </div>
+        <h4 class="dokumen">Dokumen</h4>
+        <div class="doc">
+          <div class="box">
+            <span>Profil Organisasi (.pdf)</span>
+            <input type="file" name="profilOrg" accept=".pdf" required />
+          </div>
+          <div class="box">
+            <span>Surat Rekomendasi dari Pihak di Lingkup Kampus (.pdf)</span>
+            <input type="file" name="suratRek" accept=".pdf" required />
+          </div>
+          <div class="box">
+            <span>Logo Organisasi (.png/.jpg/.jpeg)</span>
+            <input type="file" name="logo" accept="image/*" required />
+          </div>
+          <div class="box"></div>
+        </div>
+        <label
+          ><input type="checkbox" required />Informasi di atas sudah
+          benar</label
+        >
+        <div class="tombol">
+          <input
+            type="submit"
+            name="send"
+            value="submit"
+            class="btn"
+            id="btn"
+            style="width: 100%"
+          />
+        </div>
+        <script>
+          document
+            .getElementById("daftarorg")
+            .addEventListener("submit", async function (event) {
+              event.preventDefault();
+
+              const formData = new FormData(this);
+              try {
+                const response = await fetch("/daftarOrg", {
+                  method: "POST",
+                  body: formData,
+                });
+
+                if (response.ok) {
+                  alert("Informasi tersimpan");
+                  window.location.href = "daftarorg";
+                } else {
+                  const errorData = await response.json();
+                  alert("Gagal menyimpan informasi: " + errorData.message);
+                }
+              } catch (error) {
+                console.error("Error:", error);
+                alert("Terjadi kesalahan pada server");
+              }
+            });
+        </script>
+        <script>
+          document.addEventListener("DOMContentLoaded", function () {
+            const dateInput = document.getElementById("tanggalPengajuan");
+
+            const today = new Date();
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, "0");
+            const dd = String(today.getDate()).padStart(2, "0");
+
+            const formattedDate = `${yyyy}-${mm}-${dd}`;
+
+            dateInput.value = formattedDate;
+          });
+        </script>
+      </form>
+    </section>
+    <div id="notification-container" class="notification-container"></div>
+    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+    <script>
+      const socket = io("http://localhost:3000");
+      const userId = "<%= pengguna.userId %>";
+      socket.on("connect", () => {
+        console.log("Connected to server");
+        socket.emit("join", userId);
+      });
+
+      socket.on("kegiatan_setuju", (data) => {
+        console.log("Notifikasi baru:", data);
+        showNotification(data, "kegiatan");
+      });
+
+      socket.on("berita_disetujui", (data) => {
+        console.log("Notifikasi baru:", data);
+        showNotification(data, "berita");
+      });
+
+      socket.on("berita_ditolak", (data) => {
+        console.log("Notifikasi baru:", data);
+        showNotification(data, "berita");
+      });
+
+      socket.on("kegiatan_ditolak", (data) => {
+        console.log("Notifikasi baru:", data);
+        showNotification(data, "kegiatan");
+      });
+
+      socket.on("organisasi_setuju", (data) => {
+        console.log("Notifikasi baru:", data);
+        showNotification(data, "organisasi");
+      });
+
+      socket.on("organisasi_ditolak", (data) => {
+        console.log("Notifikasi baru:", data);
+        showNotification(data, "organisasi");
+      });
+
+      function showNotification(data, type) {
+        const notificationContainer = document.getElementById(
+          "notification-container"
+        );
+        const notification = document.createElement("div");
+        notification.className = "notification";
+        if (type === "kegiatan") {
+          notification.innerHTML = `<strong>${data.message}</strong>`;
+        } else if (type === "berita") {
+          notification.innerHTML = `<strong>${data.message}</strong>`;
+        } else if (type === "organisasi") {
+          notification.innerHTML = `<strong>${data.message}</strong>`;
+        }
+
+        notificationContainer.appendChild(notification);
+
+        setTimeout(() => {
+          notification.classList.add("notification-fade-out");
+          setTimeout(() => {
+            notificationContainer.removeChild(notification);
+          }, 300);
+        }, 5000);
+      }
+    </script>
   </body>
-  </html>
-  
+</html>

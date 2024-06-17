@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link rel="stylesheet" href="assets/admorg.css" />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <title>Pendaftaran Kegiatan</title>
+  </head>
+
+  <body>
+    <%- include('../komponen/navOrg');%>
+
+    <div class="heading" style="background: url(/img/fti11.jpg) no-repeat">
+      <h1>Pengajuan Kegiatan</h1>
+    </div>
+
+    <section class="booking">
+      <h1 class="heading-title">Daftarkan Kegiatanmu!</h1>
+      <form
+        action="/dafkgt"
+        method="post"
+        class="book-form"
+        id="daftarkgt"
+        enctype="multipart/form-data"
+      >
+        <div class="flex">
+          <div class="inputbox">
+            <h4 class="data">Data Ketua Pelaksana</h4>
+            <span>nama ketua pelaksana</span>
+            <input
+              type="text"
+              placeholder="masukan nama ketupel"
+              name="namaKetupel"
+              required
+            />
+          </div>
+          <div class="inputbox">
+            <h4 class="data">Data Kegiatan</h4>
+            <span>nama kegiatan</span>
+            <input
+              type="text"
+              placeholder="masukan nama kegiatan"
+              name="namaKegiatan"
+              required
+            />
+          </div>
+          <div class="inputbox">
+            <span>NIM Ketua Pelaksana</span>
+            <input
+              type="text"
+              placeholder="masukan NIM ketupel"
+              name="nimKetupel"
+              required
+            />
+          </div>
+          <div class="inputbox">
+            <span>bidang kegiatan</span>
+            <input
+              type="text"
+              placeholder="masukan bidang kegiatan"
+              name="bidangKegiatan"
+              required
+            />
+          </div>
+          <div class="inputbox"></div>
+          <div class="inputbox">
+            <span>lingkup kegiatan</span>
+            <input
+              type="text"
+              placeholder="masukan lingkup kegiatan"
+              name="lingkupKegiatan"
+              required
+            />
+          </div>
+          <div class="inputbox"></div>
+          <div class="inputbox">
+            <span>deskripsi singkat kegiatan</span>
+            <textarea
+              type="text"
+              name="deskripsi"
+              placeholder="masukan deskripsi"
+              required
+            ></textarea>
+          </div>
+          <div class="inputbox"></div>
+          <div class="inputbox">
+            <span>Tanggal Mulai</span>
+            <input
+              type="date"
+              name="tanggalMulai"
+              min="<%= new Date().toISOString().split('T')[0] %>"
+              required
+            />
+          </div>
+          <div class="inputbox"></div>
+          <div class="inputbox">
+            <span>Tanggal Selesai</span>
+            <input
+              type="date"
+              name="tanggalSelesai"
+              min="<%= new Date().toISOString().split('T')[0] %>"
+              required
+            />
+          </div>
+          <div class="inputbox"></div>
+          <div class="inputbox">
+            <span>Tanggal Pengajuan</span>
+            <input
+              type="date"
+              name="tanggalPengajuan"
+              id="tanggalPengajuan"
+              readonly
+            />
+          </div>
+          <div class="inputbox"></div>
+          <div class="inputbox">
+            <span>Penyelenggara</span>
+            <select id="penyelenggara" name="penyelenggara" required>
+              <option value="" disabled selected hidden>
+                ---Pilih Penyelenggara yang Sesuai---
+              </option>
+              <option value="P">Pribadi</option>
+              <option value="O">Organisasi</option>
+            </select>
+          </div>
+        </div>
+        <h4 class="dokumen">Dokumen</h4>
+        <div class="doc">
+          <div class="box">
+            <span>proposal kegiatan (.pdf)</span>
+            <input
+              type="file"
+              placeholder="pilih file proposal"
+              name="proposal"
+              accept=".pdf"
+              required
+            />
+          </div>
+          <div class="box">
+            <span>logo kegiatan (.png/.jpg/.jpeg)</span>
+            <input
+              type="file"
+              placeholder="pilih file logo"
+              name="logo"
+              accept="image/*"
+              required
+            />
+          </div>
+        </div>
+        <label
+          ><input type="checkbox" required />Informasi di atas sudah
+          benar</label
+        >
+        <div class="tombol">
+          <input
+            type="submit"
+            name="send"
+            value="submit"
+            class="btn"
+            id="btn"
+            style="width: 100%"
+          />
+        </div>
+        <script>
+          document
+            .getElementById("daftarkgt")
+            .addEventListener("submit", async function (event) {
+              event.preventDefault();
+
+              const formData = new FormData(this);
+              try {
+                const response = await fetch("/dafkgt", {
+                  method: "POST",
+                  body: formData,
+                });
+
+                if (response.ok) {
+                  alert("Informasi tersimpan");
+                  window.location.href = "dafkgt";
+                } else {
+                  const errorData = await response.json();
+                  alert("Gagal menyimpan informasi: " + errorData.message);
+                }
+              } catch (error) {
+                console.error("Error:", error);
+                alert("Terjadi kesalahan pada server");
+              }
+            });
+        </script>
+        <script>
+          document.addEventListener("DOMContentLoaded", function () {
+            const dateInput = document.getElementById("tanggalPengajuan");
+
+            const today = new Date();
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, "0");
+            const dd = String(today.getDate()).padStart(2, "0");
+
+            const formattedDate = `${yyyy}-${mm}-${dd}`;
+
+            dateInput.value = formattedDate;
+          });
+        </script>
+      </form>
+    </section>
+    <div id="notification-container" class="notification-container"></div>
+    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+    <script>
+      const socket = io("http://localhost:3000");
+      const userId = "<%= pengguna.userId %>";
+      socket.on("connect", () => {
+        console.log("Connected to server");
+        socket.emit("join", userId);
+      });
+
+      socket.on("kegiatan_setuju", (data) => {
+        console.log("Notifikasi baru:", data);
+        showNotification(data, "kegiatan");
+      });
+
+      socket.on("berita_disetujui", (data) => {
+        console.log("Notifikasi baru:", data);
+        showNotification(data, "berita");
+      });
+
+      socket.on("berita_ditolak", (data) => {
+        console.log("Notifikasi baru:", data);
+        showNotification(data, "berita");
+      });
+
+      socket.on("kegiatan_ditolak", (data) => {
+        console.log("Notifikasi baru:", data);
+        showNotification(data, "kegiatan");
+      });
+
+      function showNotification(data, type) {
+        const notificationContainer = document.getElementById(
+          "notification-container"
+        );
+        const notification = document.createElement("div");
+        notification.className = "notification";
+        if (type === "kegiatan") {
+          notification.innerHTML = `<strong>${data.message}</strong>`;
+        } else if (type === "berita") {
+          notification.innerHTML = `<strong>${data.message}</strong>`;
+        }
+
+        notificationContainer.appendChild(notification);
+
+        setTimeout(() => {
+          notification.classList.add("notification-fade-out");
+          setTimeout(() => {
+            notificationContainer.removeChild(notification);
+          }, 300);
+        }, 5000);
+      }
+    </script>
+  </body>
+</html>

@@ -31,6 +31,11 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date(),
         },
+        {
+          nim: "2211521020",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
       ],
       {}
     );

@@ -47,23 +47,48 @@ section {
   }
 }
 
+.heading {
+  background-size: cover !important;
+  background-position: center !important;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.heading h1 {
+  font-size: 5rem;
+  color: var(--putih);
+  text-transform: uppercase;
+  text-shadow: var(--text-shadow);
+}
+
+.heading-title {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2.5rem;
+  text-transform: uppercase;
+  color: var(--hitam);
+}
+
 .btn {
   display: inline-block;
-  background: var(--putih);
+  background: var(--hitam);
   margin-top: 1rem;
-  color: var(--hitam);
+  color: var(--putih);
   font-size: 1rem;
   padding: 1rem 3rem;
   border-radius: 10px;
   cursor: pointer;
   transition: 0.3s ease-in-out;
+  text-transform: capitalize;
 }
 
 .btn:hover {
   background: var(--warna);
 }
 
-/* Login */
 .login {
   display: flex;
   justify-content: center;
@@ -157,7 +182,6 @@ section {
   color: black;
 }
 
-/* Home Mhs*/
 .header {
   position: sticky;
   top: 0;
@@ -242,7 +266,7 @@ section {
 }
 
 .header .navbar .sub-daftar-wrap.open-daftar {
-  max-height: 200px;
+  max-height: 450px;
 }
 
 .header .add .sub-menu-wrap.open-menu {
@@ -416,7 +440,22 @@ section {
   font-size: 2rem;
 }
 
-/* Profile */
+.notification-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 300px;
+  z-index: 1000;
+}
+
+.notification {
+  background-color: #f0f8ff;
+  border: 1px solid #dcdcdc;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
 
 .body-profile {
   display: flex;
@@ -484,7 +523,6 @@ section {
 }
 
 .isi-profile .userProfile {
-  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -496,6 +534,7 @@ section {
 .isi-profile .userProfile .profile figure img {
   width: 20rem;
   height: 20rem;
+  margin-left: 2rem;
   border-radius: 50%;
 }
 
@@ -535,8 +574,6 @@ span {
   text-align: justify;
 }
 
-/* Edit Profile */
-
 .editprofil {
   background: url("./img/fti7.jpg") no-repeat;
   background-size: cover;
@@ -556,20 +593,20 @@ span {
   background-color: var(--dark-bg);
 }
 
-h1 {
+.editProfile h1 {
   text-align: center;
 }
 
-.edit-form {
+.editProfile .edit-form {
   display: flex;
   flex-direction: column;
 }
 
-label {
+.editProfile .edit-form label {
   margin-top: 10px;
 }
 
-input {
+.editProfile .edit-form input {
   width: 100%;
   height: 100%;
   background: transparent;
@@ -623,7 +660,6 @@ input {
   background-color: #c73659;
 }
 
-/* Ubah Password */
 .edit-pw {
   background: url("/img/fti10.jpg");
   background-size: cover;
@@ -643,20 +679,15 @@ input {
   padding: 50px;
 }
 
-h1 {
+.ubah-pw h1 {
   text-align: center;
 }
 
-.booking-form {
-  display: flex;
-  flex-direction: column;
-}
-
-label {
+.ubah-pw label {
   margin-top: 10px;
 }
 
-input {
+.ubah-pw input {
   width: 100%;
   height: 100%;
   background: transparent;
@@ -917,8 +948,6 @@ input {
   font-weight: 600;
 }
 
-/* Join Page */
-
 .room-header {
   position: absolute;
   top: 0;
@@ -1008,12 +1037,450 @@ input {
   color: black;
 }
 
-@media (max-width: 700px) {
-  .chat-main {
-    display: block;
-  }
+.dafkgt .dafkgt-form {
+  padding: 2rem;
+  background: var(--light-bg);
+  border-radius: 10px;
+}
 
-  .chat-sidebar {
-    display: none;
-  }
+.dafkgt .dafkgt-form .flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.dafkgt .dafkgt-form .flex .inputbox {
+  flex: 1 1 30rem;
+}
+
+.dafkgt .dafkgt-form .flex .inputbox .data {
+  margin-bottom: 2rem;
+  font-size: 1.5rem;
+}
+
+.dafkgt .dafkgt-form .flex .inputbox input,
+select,
+textarea {
+  width: 100%;
+  padding: 1.2rem 1.2rem;
+  font-size: 1rem;
+  color: var(--hitam);
+  text-transform: none;
+  margin-top: 1rem;
+  outline: none;
+}
+
+.dafkgt .dafkgt-form .flex .inputbox textarea {
+  height: 150px;
+  resize: vertical;
+}
+
+.dafkgt .dafkgt-form .flex .inputbox input:focus,
+select:focus,
+textarea:focus {
+  background: var(--putih);
+  color: var(--hitam);
+  outline: none;
+}
+
+.dafkgt .dafkgt-form .flex .inputbox input::placeholder {
+  text-transform: capitalize;
+}
+
+.dafkgt .dafkgt-form .flex .inputbox input:focus::placeholder {
+  color: var(--light-black);
+}
+
+.dafkgt .dafkgt-form .flex .inputbox span {
+  font-size: 1rem;
+  color: var(--hitam);
+}
+
+.dafkgt .dafkgt-form .dokumen {
+  display: flex;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.dafkgt .dafkgt-form .doc {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.dafkgt .dafkgt-form .doc .box {
+  flex: 1 1 30rem;
+}
+
+.dafkgt .dafkgt-form .doc .box input {
+  width: 100%;
+  padding: 1.2rem 1.2rem;
+  font-size: 1rem;
+  color: var(--hitam);
+  background: var(--light-bg);
+  text-transform: none;
+  margin-top: 1rem;
+  outline: none;
+  border: var(--border);
+}
+
+.dafkgt .dafkgt-form .doc .box input:focus {
+  background: var(--putih);
+  color: var(--hitam);
+  outline: none;
+}
+
+.dafkgt .dafkgt-form .doc .box input::placeholder {
+  text-transform: capitalize;
+}
+
+.dafkgt .dafkgt-form .doc .box input:focus::placeholder {
+  color: var(--light-black);
+}
+
+.dafkgt .dafkgt-form .doc .box span {
+  font-size: 1rem;
+  color: var(--hitam);
+  text-transform: capitalize;
+}
+
+.dafkgt .dafkgt-form label {
+  display: inline-block;
+  font-size: 1rem;
+  margin-top: 1rem;
+  text-transform: none;
+}
+
+.dafkgt .dafkgt-form label input {
+  accent-color: var(--putih);
+  margin-right: 0.5rem;
+}
+
+.dafkgt .dafkgt-form .tombol {
+  display: flex;
+  text-align: right;
+  width: 100%;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.daforg .daforg-form {
+  padding: 2rem;
+  background: var(--light-bg);
+  border-radius: 10px;
+}
+
+.daforg .daforg-form .flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.daforg .daforg-form .flex .inputbox {
+  flex: 1 1 30rem;
+}
+
+.daforg .daforg-form .flex .inputbox .data {
+  margin-bottom: 2rem;
+  font-size: 1.5rem;
+}
+
+.daforg .daforg-form .flex .inputbox input,
+select,
+textarea {
+  width: 100%;
+  padding: 1.2rem 1.2rem;
+  font-size: 1rem;
+  color: var(--hitam);
+  text-transform: none;
+  margin-top: 1rem;
+  outline: none;
+}
+
+.daforg .daforg-form .flex .inputbox textarea {
+  height: 150px;
+  resize: vertical;
+}
+
+.daforg .daforg-form .flex .inputbox input:focus,
+select:focus,
+textarea:focus {
+  background: var(--putih);
+  color: var(--hitam);
+  outline: none;
+}
+
+.daforg .daforg-form .flex .inputbox input::placeholder {
+  text-transform: capitalize;
+}
+
+.daforg .daforg-form .flex .inputbox input:focus::placeholder {
+  color: var(--light-black);
+}
+
+.daforg .daforg-form .flex .inputbox span {
+  font-size: 1rem;
+  color: var(--hitam);
+}
+
+.daforg .daforg-form .dokumen {
+  display: flex;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.daforg .daforg-form .doc {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.daforg .daforg-form .doc .box {
+  flex: 1 1 30rem;
+}
+
+.daforg .daforg-form .doc .box input {
+  width: 100%;
+  padding: 1.2rem 1.2rem;
+  font-size: 1rem;
+  color: var(--hitam);
+  background: var(--light-bg);
+  text-transform: none;
+  margin-top: 1rem;
+  outline: none;
+  border: var(--border);
+}
+
+.daforg .daforg-form .doc .box input:focus {
+  background: var(--putih);
+  color: var(--hitam);
+  outline: none;
+}
+
+.daforg .daforg-form .doc .box input::placeholder {
+  text-transform: capitalize;
+}
+
+.daforg .daforg-form .doc .box input:focus::placeholder {
+  color: var(--light-black);
+}
+
+.daforg .daforg-form .doc .box span {
+  font-size: 1rem;
+  color: var(--hitam);
+}
+
+.daforg .daforg-form label {
+  display: inline-block;
+  font-size: 1rem;
+  margin-top: 1rem;
+  text-transform: none;
+}
+
+.daforg .daforg-form label input {
+  accent-color: var(--putih);
+  margin-right: 0.5rem;
+}
+
+.packages .box-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 2fr));
+  gap: 5rem;
+  margin-top: 2rem;
+}
+
+.packages .box-container .box {
+  box-shadow: var(--box-shadow);
+  border-color: var(--light-black);
+  background: var(--putih);
+  border-radius: 10px;
+  display: none;
+}
+
+.packages .box-container .box:nth-child(1),
+.packages .box-container .box:nth-child(2),
+.packages .box-container .box:nth-child(3) {
+  display: inline-block;
+}
+
+.packages .box-container .box .image {
+  height: 15rem;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.packages .box-container .box .image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: 0.2s linear;
+}
+
+.packages .box-container .box .content {
+  padding: 2rem;
+  text-align: center;
+}
+
+.packages .box-container .box .content h3 {
+  font-size: 1.5rem;
+  text-transform: capitalize;
+}
+
+.packages .box-container .box .content p {
+  font-size: 1rem;
+  color: var(--hitam);
+  line-height: 2;
+  padding: 1rem 0;
+  text-transform: none;
+}
+
+.packages .load-more {
+  text-align: center;
+  margin-top: 2rem;
+  text-transform: capitalize;
+}
+
+.dafnews .dafnews-form {
+  padding: 2rem;
+  background: var(--light-bg);
+  border-radius: 10px;
+}
+
+.dafnews .dafnews-form .flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.dafnews .dafnews-form .flex .inputbox {
+  flex: 1 1 30rem;
+}
+
+.dafnews .dafnews-form .flex .inputbox .data {
+  margin-bottom: 2rem;
+  font-size: 1.5rem;
+}
+
+.dafnews .dafnews-form .flex .inputbox input,
+select,
+textarea {
+  width: 100%;
+  padding: 1.2rem 1.2rem;
+  font-size: 1rem;
+  color: var(--hitam);
+  text-transform: none;
+  margin-top: 1rem;
+  outline: none;
+}
+
+.dafnews .dafnews-form .flex .inputbox input[type="file"] {
+  border: var(--border);
+}
+
+.dafnews .dafnews-form .flex .inputbox textarea {
+  height: 150px;
+  resize: vertical;
+}
+
+.dafnews .dafnews-form .flex .inputbox input:focus,
+select:focus,
+textarea:focus {
+  background: var(--putih);
+  color: var(--hitam);
+  border: var(--border);
+}
+
+.dafnews .dafnews-form .flex .inputbox input::placeholder,
+textarea::placeholder {
+  text-transform: capitalize;
+}
+
+.dafnews .dafnews-form .flex .inputbox input:focus::placeholder,
+textarea:focus::placeholder {
+  color: var(--light-black);
+}
+
+.dafnews .dafnews-form .flex .inputbox span {
+  font-size: 1rem;
+  color: var(--hitam);
+}
+
+.dafnews .dafnews-form label {
+  display: inline-block;
+  font-size: 1rem;
+  margin-top: 1rem;
+  text-transform: none;
+}
+
+.dafnews .dafnews-form label input {
+  accent-color: var(--putih);
+  margin-right: 0.5rem;
+}
+
+.dafnews .dafnews-form .tombol {
+  display: flex;
+  text-align: right;
+  width: 100%;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.detail-news .box-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  gap: 10rem;
+}
+
+.detail-news .box-container .box {
+  box-shadow: var(--box-shadow);
+  border-color: var(--light-black);
+  background: var(--putih);
+  border-radius: 10px;
+  display: none;
+}
+
+.detail-news .box-container .box:nth-child(1),
+.detail-news .box-container .box:nth-child(2) {
+  display: inline-block;
+}
+
+.detail-news .box-container .box .image {
+  height: 15rem;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.detail-news .box-container .box .image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: 0.2s linear;
+}
+
+.detail-news .box-container .box .content {
+  padding: 2rem;
+  text-align: center;
+}
+
+.detail-news .box-container .box .content h3 {
+  font-size: 1.5rem;
+  text-transform: capitalize;
+}
+
+.detail-news .box-container .box .content p {
+  font-size: 1rem;
+  color: var(--hitam);
+  line-height: 2;
+  padding: 1rem 0;
+  text-transform: none;
+}
+
+.detail-news .load-more {
+  text-align: center;
+  margin-top: 2rem;
+  text-transform: capitalize;
 }

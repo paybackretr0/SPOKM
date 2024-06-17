@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="assets/admfti.css" />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <title>Pengguna</title>
+  </head>
+  <body class="user">
+    <%- include('../komponen/sidebar');%>
+    <section class="pengguna">
+      <div class="header">
+        <div class="text">Pengguna</div>
+        <div class="notification-icon">
+          <i class="bx bx-bell"></i>
+        </div>
+      </div>
+      <div class="list-pengguna">
+        <div class="table">
+          <div class="button-container">
+            <a href="tambahUser" class="add-button-link">
+              <button class="add-button">
+                <i class="bx bx-plus"></i>Tambah
+              </button></a
+            >
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>No.</th>
+                <th>Username/NIM</th>
+                <th>Nama</th>
+                <th>Departemen</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% users.forEach((user, index) => { %>
+              <tr>
+                <td><%= index + 1 %></td>
+                <td><%= user.nim %></td>
+                <td><%= user.Mahasiswa.nama %></td>
+                <td><%= user.Mahasiswa.jurusan %></td>
+                <td><%= user.Mahasiswa.email %></td>
+                <td>
+                  <% if (user.role === "mhs") { %> Mahasiswa <% } else if
+                  (user.role === "adminorg") { %> Admin Organisasi <% } else if
+                  (user.role === "adminfti") { %> Admin Fakultas <% } %>
+                </td>
+                <td>
+                  <div class="action-buttons">
+                    <form action="/deleteuser/<%= user.userId %>" method="post">
+                      <button class="action-button-hapus" type="submit">
+                        Hapus
+                      </button>
+                    </form>
+                  </div>
+                </td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    <div id="notification-container" class="notification-container"></div>
+    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+    <script>
+      const socket = io("http://localhost:3000");
+
+      socket.on("connect", () => {
+        console.log("Connected to Admin FTI");
+        socket.emit("joinRoom", "adminfti");
+      });
+
+      socket.on("new_kegiatan", (data) => {
+        console.log(data);
+        console.log("Notifikasi baru:", data);
+        showNotification(data, "kegiatan");
+      });
+
+      socket.on("new_kegiatanMhs", (data) => {
+        console.log(data);
+        console.log("Notifikasi baru dari Mahasiswa:", data);
+        showNotification(data, "kegiatan");
+      });
+
+      socket.on("new_organisasi", (data) => {
+        console.log(data);
+        console.log("Notifikasi baru dari Mahasiswa:", data);
+        showNotification(data, "orga");
+      });
+
+      socket.on("new_berita", (data) => {
+        console.log(data);
+        console.log("Notifikasi baru dari Mahasiswa:", data);
+        showNotification(data, "berita");
+      });
+
+      function showNotification(data, type) {
+        const notificationContainer = document.getElementById(
+          "notification-container"
+        );
+        const notification = document.createElement("div");
+        notification.className = "notification";
+        if (type === "kegiatan") {
+          notification.innerHTML = `
+      <strong>${data.message}</strong>
+      <p>${data.kegiatan.namaKegiatan} oleh ${data.kegiatan.nama}</p>
+    `;
+        } else if (type === "orga") {
+          notification.innerHTML = `
+      <strong>${data.message}</strong>
+      <p>${data.orga.namaOrga} oleh ${data.orga.nama}</p>
+    `;
+        } else if (type === "berita") {
+          notification.innerHTML = `
+      <strong>${data.message}</strong>
+      <p>${data.berita.judul} oleh ${data.berita.nama}</p>
+    `;
+        }
+        notificationContainer.appendChild(notification);
+
+        setTimeout(() => {
+          notificationContainer.removeChild(notification);
+        }, 5000);
+      }
+    </script>
+  </body>
+</html>
