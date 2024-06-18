@@ -16,13 +16,18 @@ let nanoid;
 exports.admorg = async (req, res) => {
   try {
     const pengguna = await User.findByPk(req.userId);
-    const orga = await Organisasi.findOne({
-      where: { userId: pengguna.userId },
+    const orga = await Organisasi.findAll();
+    const kegiatan = await Kegiatan.findAll();
+    const berita = await Berita.findOne({
+      order: [["tanggalPublish", "DESC"]],
+      limit: 1,
     });
     res.render("admorg/organisasi", {
       accessToken: req.cookies.accessToken,
       pengguna,
       orga,
+      kegiatan,
+      berita,
     });
   } catch (error) {
     console.error(error);

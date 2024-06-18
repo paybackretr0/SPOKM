@@ -37,7 +37,7 @@ html::-webkit-scrollbar-thumb {
 }
 
 section {
-  padding: 2rem 5%;
+  padding: 3rem 10%;
 }
 
 @keyframes fadeIn {
@@ -72,37 +72,10 @@ section {
   color: var(--hitam);
 }
 
-.heading {
-  background-size: cover !important;
-  background-position: center !important;
-  padding-top: 3rem;
-  padding-bottom: 3rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.heading h1 {
-  font-size: 5rem;
-  color: var(--putih);
-  text-transform: uppercase;
-  text-shadow: var(--text-shadow);
-}
-
-.heading-title {
-  text-align: center;
-  margin-bottom: 2rem;
-  font-size: 2.5rem;
-  text-transform: uppercase;
-  color: var(--hitam);
-}
-
 .btn {
   display: inline-block;
   background: var(--hitam);
-  background: var(--hitam);
   margin-top: 1rem;
-  color: var(--putih);
   color: var(--putih);
   font-size: 1rem;
   padding: 1rem 3rem;
@@ -294,7 +267,6 @@ section {
 
 .header .navbar .sub-daftar-wrap.open-daftar {
   max-height: 450px;
-  max-height: 450px;
 }
 
 .header .add .sub-menu-wrap.open-menu {
@@ -484,22 +456,6 @@ section {
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
-.notification-container {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  width: 300px;
-  z-index: 1000;
-}
-
-.notification {
-  background-color: #f0f8ff;
-  border: 1px solid #dcdcdc;
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
 
 .body-profile {
   display: flex;
@@ -638,22 +594,18 @@ span {
 }
 
 .editProfile h1 {
-.editProfile h1 {
   text-align: center;
 }
 
-.editProfile .edit-form {
 .editProfile .edit-form {
   display: flex;
   flex-direction: column;
 }
 
 .editProfile .edit-form label {
-.editProfile .edit-form label {
   margin-top: 10px;
 }
 
-.editProfile .edit-form input {
 .editProfile .edit-form input {
   width: 100%;
   height: 100%;
@@ -728,16 +680,13 @@ span {
 }
 
 .ubah-pw h1 {
-.ubah-pw h1 {
   text-align: center;
 }
 
 .ubah-pw label {
-.ubah-pw label {
   margin-top: 10px;
 }
 
-.ubah-pw input {
 .ubah-pw input {
   width: 100%;
   height: 100%;
@@ -858,7 +807,121 @@ span {
   text-transform: none;
 }
 
-.chat-container {
+.kalender {
+  display: flex;
+  justify-content: space-between;
+}
+
+.kalender #calendar {
+  flex: 1;
+  border: 0.1rem solid var(--warna);
+  border-radius: 20px;
+  padding: 2rem;
+}
+
+.kalender .image {
+  flex: 1;
+  background-image: url("/img/fti8.jpg");
+  background-size: cover;
+  background-position: center;
+  border-radius: 50%;
+  margin-left: 2rem;
+}
+
+.latest-news {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  background-color: var(--light-bg);
+}
+
+.latest-news .image {
+  flex: 1 1 35rem;
+}
+
+.latest-news .image img {
+  width: 100%;
+}
+
+.latest-news .content {
+  flex: 1 1 35rem;
+  padding: 2rem;
+  background: var(--light-bg);
+  text-align: justify;
+  border-radius: 1rem;
+}
+
+.latest-news .content h3 {
+  font-size: 2rem;
+  color: var(--hitam);
+  text-align: justify;
+  text-transform: uppercase;
+}
+
+.latest-news .content p {
+  font-size: 1rem;
+  padding: 1rem 0;
+  line-height: 2;
+  color: var(--hitam);
+  text-align: justify;
+  text-transform: none;
+}
+
+.home-offer {
+  text-align: center;
+}
+
+.home-offer .content {
+  max-width: 80rem;
+  margin: 0 auto;
+}
+
+.home-offer .content h3 {
+  font-size: 3rem;
+  color: var(--hitam);
+  text-transform: uppercase;
+}
+
+.home-offer .box {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: 2rem;
+}
+
+.home-offer .box .isian {
+  box-shadow: var(--box-shadow);
+  background: var(--light-bg);
+  border-radius: 10px;
+  padding: 2rem;
+  margin: 2rem;
+  align-items: center;
+}
+
+.home-offer .box .isian h3 {
+  font-size: 30px;
+  margin-bottom: 1rem;
+  color: var(--hitam);
+  text-align: center;
+}
+
+.home-contact {
+  text-align: center;
+  background-color: var(--light-bg);
+}
+
+.home-contact .content {
+  margin: 2rem;
+}
+
+.home-contact .content h2 {
+  text-transform: none;
+}
+
+.home-contact .content .btn {
+  padding: 1rem 2rem;
+}
+
+.home-contact .co .chat-container {
   height: 100%;
   width: 100%;
   overflow: hidden;
