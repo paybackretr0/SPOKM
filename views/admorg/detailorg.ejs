@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link rel="stylesheet" href="/assets/style.css" />
+    <link rel="stylesheet" href="/assets/admorg.css" />
     <link
       href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
       rel="stylesheet"
     />
-    <title>Berita</title>
+    <title>Organisasi</title>
   </head>
   <body>
     <%- include('../komponen/navOrg');%>
@@ -34,7 +34,7 @@
           </div>
         </div>
       </div>
-      <aside class="sidebar">
+      <aside class="sidebar-org">
         <h3>Organisasi Lainnya</h3>
         <% organisasi.forEach((organisasis) => { %>
         <div class="related-item">
@@ -58,5 +58,57 @@
       </aside>
     </section>
     <script src="/js/script.js"></script>
+    <div id="notification-container" class="notification-container"></div>
+    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+    <script>
+      const socket = io("http://localhost:3000");
+      const userId = "<%= pengguna.userId %>";
+      socket.on("connect", () => {
+        console.log("Connected to server");
+        socket.emit("join", userId);
+      });
+
+      socket.on("kegiatan_setuju", (data) => {
+        console.log("Notifikasi baru:", data);
+        showNotification(data, "kegiatan");
+      });
+
+      socket.on("berita_disetujui", (data) => {
+        console.log("Notifikasi baru:", data);
+        showNotification(data, "berita");
+      });
+
+      socket.on("berita_ditolak", (data) => {
+        console.log("Notifikasi baru:", data);
+        showNotification(data, "berita");
+      });
+
+      socket.on("kegiatan_ditolak", (data) => {
+        console.log("Notifikasi baru:", data);
+        showNotification(data, "kegiatan");
+      });
+
+      function showNotification(data, type) {
+        const notificationContainer = document.getElementById(
+          "notification-container"
+        );
+        const notification = document.createElement("div");
+        notification.className = "notification";
+        if (type === "kegiatan") {
+          notification.innerHTML = `<strong>${data.message}</strong>`;
+        } else if (type === "berita") {
+          notification.innerHTML = `<strong>${data.message}</strong>`;
+        }
+
+        notificationContainer.appendChild(notification);
+
+        setTimeout(() => {
+          notification.classList.add("notification-fade-out");
+          setTimeout(() => {
+            notificationContainer.removeChild(notification);
+          }, 300);
+        }, 5000);
+      }
+    </script>
   </body>
 </html>

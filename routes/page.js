@@ -168,6 +168,12 @@ router.get(
   verif.verifyToken,
   org.detailBerita
 );
+router.get(
+  "/detailorg/:idOrga",
+  checkRole("adminorg"),
+  verif.verifyToken,
+  org.detailOrg
+);
 
 router.get("/dashboard", checkRole("adminfti"), verif.verifyToken, fti.admfti);
 router.get("/news", checkRole("adminfti"), verif.verifyToken, fti.informasi);

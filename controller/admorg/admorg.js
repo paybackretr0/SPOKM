@@ -689,3 +689,42 @@ exports.detailBerita = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+exports.detailOrg = async (req, res) => {
+  try {
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      const day = String(date.getDate()).padStart(2, "0");
+      const monthNames = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ];
+      const month = monthNames[date.getMonth()];
+      const year = date.getFullYear();
+
+      return day + " " + month + " " + year;
+    }
+    const userId = req.userId;
+    const orga = await Organisasi.findOne({ where: { userId: userId } });
+    const organisasi = await Organisasi.findAll();
+    res.render("admorg/detailOrg", {
+      accessToken: req.cookies.accessToken,
+      orga,
+      organisasi,
+      formatDate,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};

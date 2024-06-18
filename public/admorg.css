@@ -738,3 +738,134 @@ th {
   font-size: 1rem;
   cursor: pointer;
 }
+
+.detail-berita {
+  display: flex;
+  justify-content: space-between;
+}
+
+.detail-berita .main-content {
+  width: 70%;
+  margin: 1rem;
+}
+
+.detail-berita .box-container {
+  background-color: var(--putih);
+  box-shadow: var(--box-shadow);
+  border-radius: 20px;
+}
+
+.detail-berita .box-container .box {
+  margin: 1rem;
+  padding: 2rem;
+}
+
+.detail-berita .box-container .box .head-detail {
+  font-size: 2rem;
+  text-transform: capitalize;
+  color: var(--hitam);
+  text-align: justify;
+}
+
+.detail-berita .box-container .box .head-detail p {
+  font-size: 1rem;
+  color: var(--hitam);
+}
+
+.detail-berita .box-container .box .head-detail .teks {
+  text-align: center;
+  width: 20%;
+  border-radius: 20px;
+  background-color: var(--light-bg);
+  padding: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+.detail-berita .box-container .box .head-detail .tanggal {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.detail-berita .box-container .box .image img {
+  width: 100%;
+  border: var(--border);
+  border-radius: 20px;
+}
+
+.detail-berita .box-container .box .content {
+  margin-top: 2rem;
+  text-align: justify;
+}
+
+.detail-berita .box-container .box .content .penulis {
+  color: var(--hitam);
+  font-weight: 600;
+  margin-top: 2rem;
+}
+
+.detail-berita .sidebar {
+  width: 20%;
+  background-color: var(--light-bg);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: var(--box-shadow);
+  margin: 3rem;
+  height: auto;
+  top: 81%;
+  right: 2%;
+  position: absolute;
+  transform: translateY(-50%);
+}
+
+.detail-berita .sidebar-org {
+  width: 20%;
+  background-color: var(--light-bg);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: var(--box-shadow);
+  margin: 3rem;
+  height: auto;
+  top: 70%;
+  right: 2%;
+  position: absolute;
+  transform: translateY(-50%);
+}
+
+.detail-berita .sidebar h3,
+.detail-berita .sidebar-org h3 {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.detail-berita .sidebar .related-item,
+.detail-berita .sidebar-org .related-item {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.detail-berita .sidebar .related-item .related-image img,
+.detail-berita .sidebar-org .related-item .related-image img {
+  width: 70px;
+  height: 70px;
+  border-radius: 10px;
+  margin-right: 10px;
+}
+
+.detail-berita .sidebar .related-info,
+.detail-berita .sidebar-org .related-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.detail-berita .sidebar .related-title,
+.detail-berita .sidebar-org .related-title {
+  font-size: 16px;
+  color: #333;
+}
+
+.detail-berita .sidebar .related-date,
+.detail-berita .sidebar-org .related-date {
+  font-size: 14px;
+  color: #888;
+  margin-top: 1.7rem;
+}
