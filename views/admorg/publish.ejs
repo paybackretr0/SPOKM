@@ -29,7 +29,7 @@
             </p>
             <h3><%= berita.judul %></h3>
             <p><%= berita.isi_berita %></p>
-            <a href="detailNews/<%= berita.idNews%>" class="btn">Detail</a>
+            <a href="detailpublish/<%= berita.idNews%>" class="btn">Detail</a>
           </div>
         </div>
         <% }) %>
@@ -71,16 +71,6 @@
         showNotification(data, "kegiatan");
       });
 
-      socket.on("organisasi_setuju", (data) => {
-        console.log("Notifikasi baru:", data);
-        showNotification(data, "organisasi");
-      });
-
-      socket.on("organisasi_ditolak", (data) => {
-        console.log("Notifikasi baru:", data);
-        showNotification(data, "organisasi");
-      });
-
       function showNotification(data, type) {
         const notificationContainer = document.getElementById(
           "notification-container"
@@ -90,8 +80,6 @@
         if (type === "kegiatan") {
           notification.innerHTML = `<strong>${data.message}</strong>`;
         } else if (type === "berita") {
-          notification.innerHTML = `<strong>${data.message}</strong>`;
-        } else if (type === "organisasi") {
           notification.innerHTML = `<strong>${data.message}</strong>`;
         }
 

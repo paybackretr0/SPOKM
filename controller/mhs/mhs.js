@@ -418,6 +418,7 @@ exports.detailBerita = async (req, res) => {
         },
       ],
     });
+    const news = await Berita.findAll();
     const komentar = await Komentar.findAll({
       where: { idNews: idNews },
     });
@@ -427,6 +428,7 @@ exports.detailBerita = async (req, res) => {
       beritas,
       formatDate,
       komentar,
+      news,
     });
   } catch (error) {
     console.error(error);

@@ -9,7 +9,7 @@
     <title>Berita</title>
   </head>
   <body>
-    <%- include('../komponen/navMhs');%>
+    <%- include('../komponen/navOrg');%>
     <section class="detail-berita">
       <div class="main-content">
         <div class="box-container">
@@ -36,7 +36,7 @@
           <% komentar.forEach((komentar) => { %>
           <div class="komentar">
             <p class="name">
-              <%= mhs.nama %> <span><%= formatDate(komentar.tanggal) %></span>
+              User <span><%= formatDate(komentar.tanggal) %></span>
             </p>
             <p class="isi-komen"><%= komentar.komentar %></p>
           </div>
@@ -52,7 +52,7 @@
                   type="text"
                   id="namaPengirim"
                   name="namaPengirim"
-                  placeholder="<%= mhs.nama || 'Mahasiswa' %>"
+                  placeholder="<%= orga.namaOrga || 'Mahasiswa' %>"
                 />
               </div>
               <div class="button-container">
@@ -67,12 +67,12 @@
         <% news.forEach((berita) => { %>
         <div class="related-item">
           <div class="related-image">
-            <a href="/detailNews/<%= berita.idNews%>">
+            <a href="/detailpublish/<%= berita.idNews%>">
               <img src="/<%= berita.userId %>/<%= berita.gambar %>" alt=""
             /></a>
           </div>
           <div class="related-info">
-            <a href="/detailNews/<%= berita.idNews%>"
+            <a href="/detailpublish/<%= berita.idNews%>"
               ><p class="related-title"><%= berita.judul %></p></a
             >
             <p class="related-date"><%= formatDate(berita.tanggalPublish) %></p>

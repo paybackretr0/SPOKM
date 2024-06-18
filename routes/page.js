@@ -162,6 +162,12 @@ router.post(
   verif.verifyToken,
   org.updateAnggota
 );
+router.get(
+  "/detailpublish/:idNews",
+  checkRole("adminorg"),
+  verif.verifyToken,
+  org.detailBerita
+);
 
 router.get("/dashboard", checkRole("adminfti"), verif.verifyToken, fti.admfti);
 router.get("/news", checkRole("adminfti"), verif.verifyToken, fti.informasi);
