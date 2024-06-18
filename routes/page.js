@@ -109,9 +109,64 @@ router.get(
 router.post(
   "/editorga/:idOrga",
   checkRole("adminorg"),
-  upload.single("logo"),
   verif.verifyToken,
+  upload.single("logo"),
   org.updateProfileOrg
+);
+router.get(
+  "/dafnews",
+  checkRole("adminorg"),
+  verif.verifyToken,
+  org.publishing
+);
+router.post(
+  "/publish-news",
+  checkRole("adminorg"),
+  verif.verifyToken,
+  upload.single("gambar"),
+  org.publikasi
+);
+router.get(
+  "/anggota/:idOrga",
+  checkRole("adminorg"),
+  verif.verifyToken,
+  org.anggota
+);
+router.get(
+  "/tambahAnggota/:idOrga",
+  checkRole("adminorg"),
+  verif.verifyToken,
+  org.halamanTambahAnggota
+);
+router.post(
+  "/tambahPengurus/:idOrga",
+  checkRole("adminorg"),
+  verif.verifyToken,
+  org.tambahPengurus
+);
+router.post(
+  "/deleteanggota/:idPengurus",
+  checkRole("adminorg"),
+  verif.verifyToken,
+  org.hapusAnggota
+);
+router.get(
+  "/editAnggota/:idPengurus",
+  checkRole("adminorg"),
+  verif.verifyToken,
+  org.editAnggota
+);
+router.post(
+  "/editPengurus/:idPengurus",
+  checkRole("adminorg"),
+  verif.verifyToken,
+  org.updateAnggota
+);
+router.get(
+  "/detailpublish/:idNews",
+  checkRole("adminorg"),
+  verif.verifyToken,
+  org.detailBerita
 );
 
 router.get("/dashboard", checkRole("adminfti"), verif.verifyToken, fti.admfti);
@@ -215,5 +270,7 @@ router.post("/ubahpw", verif.verifyToken, pw.updatepassword);
 router.post("/editP", verif.verifyToken, edit.updateProfile);
 router.post("/logout", user.logout);
 router.get("/token", token.refreshToken);
+
+router.get("/api/kegiatan", login.kegiatan);
 
 module.exports = router;

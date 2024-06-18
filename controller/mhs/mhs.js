@@ -17,10 +17,17 @@ exports.home = async (req, res) => {
   try {
     const pengguna = await User.findByPk(req.userId);
     const mhs = await Mahasiswa.findOne({ where: { nim: pengguna.nim } });
+    const berita = await Berita.findOne({
+      order: [["tanggalPublish", "DESC"]],
+      limit: 1,
+    });
+    const kegiatan = await Kegiatan.findAll();
     res.render("mhs/home", {
       accessToken: req.cookies.accessToken,
       mhs,
       pengguna,
+      berita,
+      kegiatan,
     });
   } catch (error) {
     console.error(error);
@@ -30,6 +37,28 @@ exports.home = async (req, res) => {
 
 exports.berita = async (req, res) => {
   try {
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      const day = String(date.getDate()).padStart(2, "0");
+      const monthNames = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ];
+      const month = monthNames[date.getMonth()]; // January is 0!
+      const year = date.getFullYear();
+
+      return day + " " + month + " " + year;
+    }
     const pengguna = await User.findByPk(req.userId);
     const mhs = await Mahasiswa.findOne({ where: { nim: pengguna.nim } });
     const beritas = await Berita.findAll({ where: { status: "Y" } });
@@ -38,6 +67,7 @@ exports.berita = async (req, res) => {
       pengguna,
       mhs,
       beritas,
+      formatDate,
     });
   } catch (error) {
     console.error(error);
@@ -388,6 +418,7 @@ exports.detailBerita = async (req, res) => {
         },
       ],
     });
+    const news = await Berita.findAll();
     const komentar = await Komentar.findAll({
       where: { idNews: idNews },
     });
@@ -397,6 +428,7 @@ exports.detailBerita = async (req, res) => {
       beritas,
       formatDate,
       komentar,
+      news,
     });
   } catch (error) {
     console.error(error);

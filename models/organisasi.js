@@ -13,10 +13,10 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: "SET NULL",
         onUpdate: "CASCADE",
       });
-      Organisasi.hasMany(models.Himpunan, {
+      Organisasi.hasMany(models.Anggota, {
         foreignKey: "idOrga",
-        onDelete: "SET NULL",
-        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
+        onUpdate: "SET NULL",
       });
     }
   }

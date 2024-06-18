@@ -8,10 +8,10 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Anggota.hasMany(models.Himpunan, {
-        foreignKey: "idPengurus",
-        onDelete: "SET NULL",
-        onUpdate: "CASCADE",
+      Anggota.belongsTo(models.Organisasi, {
+        foreignKey: "idOrga",
+        onDelete: "CASCADE",
+        onUpdate: "SET NULL",
       });
     }
   }
@@ -20,6 +20,10 @@ module.exports = (sequelize, DataTypes) => {
       idPengurus: {
         allowNull: false,
         primaryKey: true,
+        type: DataTypes.STRING,
+      },
+      idOrga: {
+        allowNull: false,
         type: DataTypes.STRING,
       },
       nama: {
@@ -46,6 +50,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Anggota",
+      tableName: "anggotas",
     }
   );
   return Anggota;

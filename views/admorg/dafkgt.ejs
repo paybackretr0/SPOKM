@@ -18,7 +18,7 @@
   <body>
     <%- include('../komponen/navOrg');%>
 
-    <div class="heading" style="background: url(/img/rommm.jpg) no-repeat">
+    <div class="heading" style="background: url(/img/fti11.jpg) no-repeat">
       <h1>Pengajuan Kegiatan</h1>
     </div>
 
@@ -83,7 +83,12 @@
           <div class="inputbox"></div>
           <div class="inputbox">
             <span>deskripsi singkat kegiatan</span>
-            <textarea type="text" name="deskripsi" required></textarea>
+            <textarea
+              type="text"
+              name="deskripsi"
+              placeholder="masukan deskripsi"
+              required
+            ></textarea>
           </div>
           <div class="inputbox"></div>
           <div class="inputbox">
@@ -161,6 +166,7 @@
             value="submit"
             class="btn"
             id="btn"
+            style="width: 100%"
           />
         </div>
         <script>
@@ -223,6 +229,16 @@
       socket.on("berita_disetujui", (data) => {
         console.log("Notifikasi baru:", data);
         showNotification(data, "berita");
+      });
+
+      socket.on("berita_ditolak", (data) => {
+        console.log("Notifikasi baru:", data);
+        showNotification(data, "berita");
+      });
+
+      socket.on("kegiatan_ditolak", (data) => {
+        console.log("Notifikasi baru:", data);
+        showNotification(data, "kegiatan");
       });
 
       function showNotification(data, type) {

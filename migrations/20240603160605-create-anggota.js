@@ -8,6 +8,15 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.STRING,
       },
+      idOrga: {
+        type: Sequelize.STRING,
+        references: {
+          model: "Organisasis",
+          key: "idOrga",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "SET NULL",
+      },
       nama: {
         allowNull: false,
         type: Sequelize.STRING,

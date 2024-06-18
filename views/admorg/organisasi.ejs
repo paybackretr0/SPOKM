@@ -27,7 +27,6 @@
             <div class="content">
               <span>Mewujudkan Potensi Mahasiswa FTI</span>
               <h3>Beragam Organisasi, Peluang Tak Terbatas</h3>
-              <a href="" class="btn">discover more</a>
             </div>
           </div>
           <div
@@ -37,7 +36,6 @@
             <div class="content">
               <span>Pusat Kreativitas dan Kolaborasi Mahasiswa FTI</span>
               <h3>Organisasi yang Membangun, Kegiatan yang Menginspirasi</h3>
-              <a href="" class="btn">discover more</a>
             </div>
           </div>
           <div
@@ -47,7 +45,6 @@
             <div class="content">
               <span>Inspirasi, Inovasi, Integrasi</span>
               <h3>Ayo Berkarya, Ayo Beraksi!</h3>
-              <a href="" class="btn">discover more</a>
             </div>
           </div>
         </div>
@@ -65,7 +62,7 @@
         <h3>tentang website</h3>
         <p>
           Selamat datang di Sistem Pengelolaan Organisasi dan Kegiatan Mahasiswa
-          Fakultas Teknologi Informasi (FTI)! Kami menyediakan platform yang
+          Fakultas Teknologi Informasi (FTI). Kami menyediakan platform yang
           terintegrasi untuk mempermudah manajemen dan koordinasi semua
           aktivitas dan organisasi mahasiswa di FTI. Sistem ini dirancang untuk
           membantu mahasiswa dalam mencari dan mengatur kegiatan, mengelola
@@ -130,8 +127,77 @@
       </div>
     </section>
     <section class="kalender">
-      <div class="kalender" id="calendar"></div>
+      <div class="kalendar" id="calendar"></div>
+      <div class="image"></div>
     </section>
+    <section class="latest-news">
+      <div class="content">
+        <h3>informasi terkini</h3>
+        <h2><%= berita.judul %></h2>
+        <p><%= berita.isi_berita %></p>
+        <a href="/publish" class="btn">read more</a>
+      </div>
+      <div class="image">
+        <img src="/<%= berita.userId %>/<%= berita.gambar %>" alt="" />
+      </div>
+    </section>
+    <section class="home-offer">
+      <div class="content">
+        <h3>segera ajukan publikasi dan kegiatan anda!</h3>
+      </div>
+      <div class="box">
+        <div class="isian">
+          <h3>Pengajuan Publikasi</h3>
+          <a href="/dafnews" class="btn">Ajukan Publikasi!</a>
+        </div>
+        <div class="isian">
+          <h3>Pengajuan Kegiatan</h3>
+          <a href="/dafkgt" class="btn">Ajukan Kegiatan!</a>
+        </div>
+      </div>
+    </section>
+    <section class="home-contact">
+      <div class="content">
+        <h2>Butuh Bantuan? Silakan tanyakan langsung</h2>
+        <a
+          href="mailto:ftiorganizerhub@unand.ac.id?subject=Halo%20Saya%20ingin%20bertanya%20Seputar%20Website%20FTI%20OrganizerHub"
+          style="text-transform: lowercase"
+          target="_blank"
+          class="btn"
+        >
+          <i class="bx bx-envelope"></i> Contact Us</a
+        >
+      </div>
+    </section>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", async function () {
+        const calendarEl = document.getElementById("calendar");
+        const calendar = new FullCalendar.Calendar(calendarEl, {
+          initialView: "dayGridMonth",
+          events: async function (fetchInfo, successCallback, failureCallback) {
+            try {
+              const response = await fetch("/api/kegiatan");
+              const kegiatan = await response.json();
+
+              const events = kegiatan.map((item) => ({
+                title: item.namaKegiatan,
+                start: item.tanggalMulai,
+                end: item.tanggalSelesai,
+              }));
+
+              successCallback(events);
+            } catch (error) {
+              console.error("Error fetching events:", error);
+              failureCallback(error);
+            }
+          },
+          displayEventTime: false,
+        });
+
+        calendar.render();
+      });
+    </script>
 
     <div id="notification-container" class="notification-container"></div>
     <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
@@ -145,21 +211,35 @@
 
       socket.on("kegiatan_setuju", (data) => {
         console.log("Notifikasi baru:", data);
-        showNotification(data);
+        showNotification(data, "kegiatan");
+      });
+
+      socket.on("berita_disetujui", (data) => {
+        console.log("Notifikasi baru:", data);
+        showNotification(data, "berita");
+      });
+
+      socket.on("berita_ditolak", (data) => {
+        console.log("Notifikasi baru:", data);
+        showNotification(data, "berita");
       });
 
       socket.on("kegiatan_ditolak", (data) => {
         console.log("Notifikasi baru:", data);
-        showNotification(data);
+        showNotification(data, "kegiatan");
       });
 
-      function showNotification(data) {
+      function showNotification(data, type) {
         const notificationContainer = document.getElementById(
           "notification-container"
         );
         const notification = document.createElement("div");
         notification.className = "notification";
-        notification.innerHTML = `<div class="notification-title">${data.message}</div>`;
+        if (type === "kegiatan") {
+          notification.innerHTML = `<strong>${data.message}</strong>`;
+        } else if (type === "berita") {
+          notification.innerHTML = `<strong>${data.message}</strong>`;
+        }
 
         notificationContainer.appendChild(notification);
 
