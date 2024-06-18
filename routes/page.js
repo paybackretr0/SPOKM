@@ -32,47 +32,7 @@ router.post(
   ]),
   mahasiswa.daftarOrg
 );
-router.post(
-  "/daftarOrg",
-  checkRole("mhs"),
-  verif.verifyToken,
-  upload.fields([
-    { name: "logo", maxCount: 1 },
-    { name: "profilOrg", maxCount: 1 },
-    { name: "suratRek", maxCount: 1 },
-  ]),
-  mahasiswa.daftarOrg
-);
 router.get("/room", verif.verifyToken, mahasiswa.room);
-router.get(
-  "/daftarkgt",
-  checkRole("mhs"),
-  verif.verifyToken,
-  mahasiswa.daftarkegiatan
-);
-router.post(
-  "/daftarkgt",
-  checkRole("mhs"),
-  verif.verifyToken,
-  upload.fields([
-    { name: "logo", maxCount: 1 },
-    { name: "proposal", maxCount: 1 },
-  ]),
-  mahasiswa.daftarkgt
-);
-router.get(
-  "/daftarnews",
-  checkRole("mhs"),
-  verif.verifyToken,
-  mahasiswa.daftarnews
-);
-router.post(
-  "/publishnews",
-  checkRole("mhs"),
-  verif.verifyToken,
-  upload.single("gambar"),
-  mahasiswa.daftarberita
-);
 router.get(
   "/daftarkgt",
   checkRole("mhs"),
@@ -300,91 +260,11 @@ router.post(
   fti.tambahUser
 );
 
-router.post(
-  "/deletenews/:idNews/delete",
-  checkRole("adminfti"),
-  verif.verifyToken,
-  fti.hapusBerita
-);
-router.get(
-  "/editNews/:idNews",
-  checkRole("adminfti"),
-  verif.verifyToken,
-  fti.editNews
-);
-router.post(
-  "/editBerita/:idNews",
-  checkRole("adminfti"),
-  verif.verifyToken,
-  upload.single("gambar"),
-  fti.editBerita
-);
-router.post(
-  "/accBerita/:idNews",
-  checkRole("adminfti"),
-  verif.verifyToken,
-  fti.approveBerita
-);
-router.post(
-  "/tolakBerita/:idNews",
-  checkRole("adminfti"),
-  verif.verifyToken,
-  fti.rejectBerita
-);
-router.get(
-  "/organization",
-  checkRole("adminfti"),
-  verif.verifyToken,
-  fti.organization
-);
-router.get("/kegiatan", checkRole("adminfti"), verif.verifyToken, fti.kegiatan);
-router.post(
-  "/accKeg/:idKegiatan",
-  checkRole("adminfti"),
-  verif.verifyToken,
-  fti.accKegiatan
-);
-router.post(
-  "/tolakKeg/:idKegiatan",
-  checkRole("adminfti"),
-  verif.verifyToken,
-  fti.tolakKegiatan
-);
-router.post(
-  "/accOrg/:idOrga",
-  checkRole("adminfti"),
-  verif.verifyToken,
-  fti.accOrg
-);
-router.post(
-  "/tolakOrg/:idOrga",
-  checkRole("adminfti"),
-  verif.verifyToken,
-  fti.tolakOrg
-);
-router.get("/user", checkRole("adminfti"), verif.verifyToken, fti.user);
-router.get(
-  "/tambahUser",
-  checkRole("adminfti"),
-  verif.verifyToken,
-  fti.regisUser
-);
-router.post(
-  "/deleteuser/:userId",
-  checkRole("adminfti"),
-  verif.verifyToken,
-  fti.hapusUser
-);
-router.post(
-  "/addUser",
-  checkRole("adminfti"),
-  verif.verifyToken,
-  fti.tambahUser
-);
-
 router.post("/ubahpw", verif.verifyToken, pw.updatepassword);
 router.post("/editP", verif.verifyToken, edit.updateProfile);
 router.post("/logout", user.logout);
 router.get("/token", token.refreshToken);
+
+router.get("/api/kegiatan", login.kegiatan);
 
 module.exports = router;

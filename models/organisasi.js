@@ -12,8 +12,6 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "userId",
         onDelete: "SET NULL",
         onUpdate: "CASCADE",
-        onDelete: "SET NULL",
-        onUpdate: "CASCADE",
       });
       Organisasi.hasMany(models.Anggota, {
         foreignKey: "idOrga",
@@ -51,24 +49,6 @@ module.exports = (sequelize, DataTypes) => {
       },
       tanggalBerdiri: {
         type: DataTypes.DATE,
-      },
-      lingkupOrganisasi: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      namaKetua: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      nimKetua: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      profilOrg: {
-        type: DataTypes.STRING,
-      },
-      suratRek: {
-        type: DataTypes.STRING,
       },
       lingkupOrganisasi: {
         type: DataTypes.STRING,
