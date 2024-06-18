@@ -16,9 +16,15 @@ const bcrypt = require("bcrypt");
 exports.admfti = async (req, res) => {
   try {
     const pengguna = await User.findByPk(req.userId);
+    const orga = await Organisasi.count();
+    const kegiatan = await Kegiatan.count();
+    const berita = await Berita.count();
     res.render("admfti/dashboard", {
       accessToken: req.cookies.accessToken,
       pengguna,
+      orga,
+      kegiatan,
+      berita,
     });
   } catch (error) {
     console.error(error);
@@ -424,7 +430,11 @@ exports.approveBerita = async (req, res) => {
       return res.status(404).json({ message: "Publikasi tidak ditemukan" });
     }
 
-    await berita.update({ status: "Y" });
+    await berita.update({
+      tanggalPublish: new Date(),
+      status: "Y",
+    });
+
     const userId = berita.userId;
 
     const newNotification = await Notifikasi.create({
