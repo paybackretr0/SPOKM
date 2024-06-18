@@ -160,6 +160,71 @@ exports.publikasi = async (req, res) => {
   }
 };
 
+exports.publikasi = async (req, res) => {
+  try {
+    const pengguna = await User.findByPk(req.userId);
+    const orga = await Organisasi.findOne({
+      where: { userId: req.userId },
+    });
+
+    if (!orga) {
+      return res.status(404).json({ message: "Organisasi tidak ditemukan" });
+    }
+
+    if (!pengguna) {
+      return res.status(404).json({ message: "User tidak ditemukan" });
+    }
+
+    let { penulis, kategori, judul, isi_berita, tanggalPengajuan } = req.body;
+    const gambar = req.file ? req.file.filename : null;
+
+    if (!penulis) {
+      penulis = orga.namaOrga;
+    }
+
+    if (!kategori || !judul || !isi_berita || !tanggalPengajuan || !gambar) {
+      return res.status(400).json({ message: "Semua bidang harus diisi" });
+    }
+
+    await Berita.create({
+      idNews: "B" + nanoid(7),
+      judul: judul,
+      idKategori: kategori,
+      isi_berita: isi_berita,
+      gambar: gambar,
+      penulis: penulis,
+      tanggalPengajuan: tanggalPengajuan,
+      status: "P",
+      userId: req.userId,
+    });
+
+    const newNotification = await Notifikasi.create({
+      idNotif: "N" + nanoid(7),
+      judul: "Pengajuan Publikasi",
+      tanggal: new Date(),
+      status: "N",
+      isi: `Pengajuan Publikasi dengan judul ${judul} oleh ${req.userId} telah diajukan`,
+      userId: req.userId,
+    });
+
+    const io = req.app.get("io");
+    io.to("adminfti").emit("new_berita", {
+      message: "Pengajuan Publikasi Baru!",
+      berita: {
+        judul,
+        nama: orga.namaOrga || "Admin Organisasi",
+      },
+    });
+
+    res.status(200).json({ message: "Publikasi berhasil didaftarkan" });
+  } catch (error) {
+    console.error("Gagal mendaftarkan publikasi:", error);
+    res
+      .status(500)
+      .json({ message: "Terjadi kesalahan saat mendaftarkan publikasi" });
+  }
+};
+
 exports.himp = async (req, res) => {
   try {
     function formatDate(dateString) {
@@ -396,6 +461,7 @@ exports.updateProfileOrg = async (req, res, next) => {
           ? tanggalBerdiri
           : org.tanggalBerdiri,
       logo: logo !== null ? logo : org.logo,
+      status: "Y",
       status: "Y",
     };
     await Organisasi.update(updatedOrg, { where: { idOrga: org.idOrga } });
