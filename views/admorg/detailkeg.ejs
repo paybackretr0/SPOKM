@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link rel="stylesheet" href="/assets/admorg.css" />
+    <link rel="stylesheet" href="/assets/style.css" />
     <link
       href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
       rel="stylesheet"
     />
-    <title>Organisasi</title>
+    <title>Detail Kegiatan - <%= kegiatan.namaKegiatan %></title>
   </head>
   <body>
     <%- include('../komponen/navOrg');%>
@@ -15,43 +15,41 @@
         <div class="box-container">
           <div class="box">
             <div class="head-detail">
-              <p class="teks"><%= orga.lingkupOrganisasi %></p>
-              <h3><%= orga.namaOrga %></h3>
+              <p class="teks"><%= kegiatan.lingkupKegiatan %></p>
+              <h3><%= kegiatan.namaKegiatan %></h3>
               <p class="tanggal">
                 <i class="bx bxs-calendar-alt"></i> <%=
-                formatDate(orga.tanggalBerdiri) %>
+                formatDate(kegiatan.tanggalMulai)%> s/d <%=
+                formatDate(kegiatan.tanggalSelesai)%>
               </p>
             </div>
             <div class="image">
-              <img src="/<%= orga.userId %>/<%= orga.logo %>" alt="" />
+              <img src="/<%= kegiatan.userId %>/<%= kegiatan.logo %>" alt="" />
             </div>
             <div class="content">
-              <p class="isi"><%= orga.deskripsi %></p>
-              <p class="penulis">Ketua: <%= orga.namaKetua %></p>
-              <p class="profil">Profil Organisasi:</p>
-              <p class="suratrek">Surat Rekomendasi dari Pihak Kampus:</p>
+              <p class="isi"><%= kegiatan.deskripsi %></p>
+              <p class="penulis">
+                Ketua Pelaksana: <%= kegiatan.namaKetupel %>
+              </p>
+              <p class="profil">Proposal Kegiatan:</p>
             </div>
           </div>
         </div>
       </div>
       <aside class="sidebar-org">
-        <h3>Organisasi Lainnya</h3>
-        <% organisasi.forEach((organisasis) => { %>
+        <h3>Kegiatan Lainnya</h3>
+        <% kegiatans.forEach((kegiatans) => { %>
         <div class="related-item">
           <div class="related-image">
-            <a href="/detailorg/<%= organisasis.idOrga%>">
-              <img
-                src="/<%= organisasis.userId %>/<%= organisasis.logo %>"
-                alt=""
+            <a href="/detailkgt/<%= kegiatans.idKegiatan%>">
+              <img src="/<%= kegiatans.userId %>/<%= kegiatans.logo %>" alt=""
             /></a>
           </div>
           <div class="related-info">
-            <a href="/detailorg/<%= organisasis.idOrga%>"
-              ><p class="related-title"><%= organisasis.namaOrga %></p></a
+            <a href="/detailkgt/<%= kegiatans.idKegiatan%>"
+              ><p class="related-title"><%= kegiatans.namaKegiatan %></p></a
             >
-            <p class="related-date">
-              <%= formatDate(organisasis.tanggalBerdiri) %>
-            </p>
+            <p class="related-date"><%= formatDate(kegiatan.tanggalMulai)%></p>
           </div>
         </div>
         <% }) %>

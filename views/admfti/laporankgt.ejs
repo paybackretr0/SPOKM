@@ -1,72 +1,61 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="assets/admfti.css" />
     <link
       href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
       rel="stylesheet"
     />
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <title>Dashboard Admin FTI</title>
+    <title>Laporan Kegiatan</title>
   </head>
-  <body>
+  <body class="kgt">
     <%- include('../komponen/sidebar');%>
-    <section class="home">
+    <section class="kegiatan">
       <div class="header">
-        <div class="text">Dashboard</div>
+        <div class="text">Laporan Kegiatan</div>
         <div class="notification-icon">
           <i class="bx bx-bell"></i>
         </div>
       </div>
-      <div class="content">
-        <div class="chart-container">
-          <canvas id="statsChart"></canvas>
+      <div class="list-kegiatan">
+        <div class="table">
+          <table>
+            <thead>
+              <tr>
+                <th>No.</th>
+                <th>Nama Kegiatan</th>
+                <th>Lingkup Kegiatan</th>
+                <th>Pelaksana</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% kegiatan.forEach((kegiatan, index) => { %>
+              <tr>
+                <td><%= index + 1 %></td>
+                <td><%= kegiatan.namaKegiatan %></td>
+                <td><%= kegiatan.lingkupKegiatan %></td>
+                <td>
+                  <% if (kegiatan.penyelenggara === "P") { %> Pribadi <% } else
+                  if (kegiatan.penyelenggara === "O") { %> Organisasi <% } %>
+                </td>
+                <td>
+                  <% if (!kegiatan.laporanKegiatan){%> Belum ada laporan <% }
+                  else { %>
+                  <a
+                    href="detaillaporan/<%= kegiatan.idKegiatan %>"
+                    class="action-button-detail"
+                    ><i class="bx bxs-book-alt"></i> Detail</a
+                  >
+                  <% } %>
+                </td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
         </div>
       </div>
     </section>
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const organizationsCount = <%= JSON.stringify(orgas) %>;
-        const activitiesCount = <%= JSON.stringify(kegiatans) %>;
-        const beritaCount = <%= JSON.stringify(beritas) %>;
-
-        const ctx = document.getElementById('statsChart').getContext('2d');
-        const statsChart = new Chart(ctx, {
-          type: 'bar',
-          data: {
-            labels: ['Organisasi', 'Kegiatan', 'Publikasi'],
-            datasets: [{
-              label: 'Jumlah Pengajuan Organisasi, Kegiatan, dan Publikasi Informasi',
-              data: [organizationsCount, activitiesCount, beritaCount],
-              backgroundColor: [
-                'rgba(107, 181, 255, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 151, 205, 0.2)'
-
-              ],
-              borderColor: [
-                'rgba(107, 181, 255, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 151, 205, 1)'
-              ],
-              borderWidth: 2
-            }]
-          },
-          options: {
-            indexAxis: 'y',
-            maintainAspectRatio: false,
-            scales: {
-              x: {
-                beginAtZero: true
-              }
-            }
-          }
-        });
-      });
-    </script>
     <div id="notification-container" class="notification-container"></div>
     <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
     <script>
@@ -97,7 +86,7 @@
 
       socket.on("new_berita", (data) => {
         console.log(data);
-        console.log("Notifikasi baru:", data);
+        console.log("Notifikasi baru dari Mahasiswa:", data);
         showNotification(data, "berita");
       });
 

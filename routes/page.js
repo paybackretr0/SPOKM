@@ -18,8 +18,26 @@ router.get("/login", redirectIfLoggedIn, login.page);
 router.get("/", redirectIfLoggedIn, login.page);
 router.post("/", user.login);
 router.get("/home", checkRole("mhs"), verif.verifyToken, mahasiswa.home);
-router.get("/berita", verif.verifyToken, mahasiswa.berita);
-router.get("/org", verif.verifyToken, mahasiswa.org);
+router.get("/berita", checkRole("mhs"), verif.verifyToken, mahasiswa.berita);
+router.get("/org", checkRole("mhs"), verif.verifyToken, mahasiswa.org);
+router.get(
+  "/detailorga/:idOrga",
+  checkRole("mhs"),
+  verif.verifyToken,
+  mahasiswa.detailOrg
+);
+router.get(
+  "/activity",
+  checkRole("mhs"),
+  verif.verifyToken,
+  mahasiswa.kegiatan
+);
+router.get(
+  "/detailkgt/:idKegiatan",
+  checkRole("mhs"),
+  verif.verifyToken,
+  mahasiswa.detailKgt
+);
 router.get("/daftarorg", checkRole("mhs"), verif.verifyToken, mahasiswa.daftar);
 router.post(
   "/daftarOrg",
@@ -82,6 +100,24 @@ router.post(
   checkRole("mhs"),
   verif.verifyToken,
   mahasiswa.komentar
+);
+router.get(
+  "/laporKegiatan",
+  checkRole("mhs"),
+  verif.verifyToken,
+  mahasiswa.laporKegiatan
+);
+router.post(
+  "/laporK",
+  checkRole("mhs"),
+  verif.verifyToken,
+  upload.fields([
+    { name: "laporanKegiatan", maxCount: 1 },
+    { name: "dok1", maxCount: 1 },
+    { name: "dok2", maxCount: 1 },
+    { name: "dok3", maxCount: 1 },
+  ]),
+  mahasiswa.laporkgt
 );
 
 router.get("/organisasi", checkRole("adminorg"), verif.verifyToken, org.admorg);
@@ -173,6 +209,26 @@ router.get(
   checkRole("adminorg"),
   verif.verifyToken,
   org.detailOrg
+);
+router.get("/kgt", checkRole("adminorg"), verif.verifyToken, org.kegiatan);
+router.get(
+  "/detailkeg/:idKegiatan",
+  checkRole("adminorg"),
+  verif.verifyToken,
+  org.detailKgt
+);
+router.get("/lapor", checkRole("adminorg"), verif.verifyToken, org.lapor);
+router.post(
+  "/laporkgt",
+  checkRole("adminorg"),
+  verif.verifyToken,
+  upload.fields([
+    { name: "laporanKegiatan", maxCount: 1 },
+    { name: "dok1", maxCount: 1 },
+    { name: "dok2", maxCount: 1 },
+    { name: "dok3", maxCount: 1 },
+  ]),
+  org.laporkgt
 );
 
 router.get("/dashboard", checkRole("adminfti"), verif.verifyToken, fti.admfti);
@@ -270,6 +326,18 @@ router.post(
   checkRole("adminfti"),
   verif.verifyToken,
   fti.tambahUser
+);
+router.get(
+  "/laporankgt",
+  checkRole("adminfti"),
+  verif.verifyToken,
+  fti.laporan
+);
+router.get(
+  "/detaillaporan/:idKegiatan",
+  checkRole("adminfti"),
+  verif.verifyToken,
+  fti.detailLaporan
 );
 
 router.post("/ubahpw", verif.verifyToken, pw.updatepassword);

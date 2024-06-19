@@ -7,24 +7,24 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     />
-    <link rel="stylesheet" href="assets/admorg.css" />
+    <link rel="stylesheet" href="assets/style.css" />
     <link
       href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
       rel="stylesheet"
     />
-    <title>Pengajuan Publikasi</title>
+    <title>Laporan Kegiatan</title>
   </head>
 
   <body>
     <%- include('../komponen/navOrg');%>
 
     <div class="heading" style="background: url(/img/fti12.jpg) no-repeat">
-      <h1>Pengajuan Publikasi</h1>
+      <h1>Laporan Kegiatan</h1>
     </div>
     <section class="dafnews">
-      <h1 class="heading-title">Publish Informasi & Pengumuman</h1>
+      <h1 class="heading-title">Isi laporan kegiatan</h1>
       <form
-        action="/publish-news"
+        action="/laporkgt"
         method="post"
         class="dafnews-form"
         id="dafnews"
@@ -32,67 +32,47 @@
       >
         <div class="flex">
           <div class="inputbox">
-            <h4 class="data">Data Organisasi</h4>
-            <span>Nama Organisasi</span>
-            <input
-              type="text"
-              placeholder="masukan nama organisasi atau penulis"
-              name="penulis"
-            />
-          </div>
-          <div class="inputbox">
-            <h4 class="data">Data Publikasi</h4>
-            <span>Kategori Publikasi</span>
-            <select id="namaKategori" name="kategori">
+            <h4 class="data">Data Kegiatan</h4>
+            <span>Nama Kegiatan</span>
+            <select id="namaKegiatan" name="idKegiatan">
               <option value="" disabled selected hidden>
-                ---Pilih Kategori Publikasi yang Sesuai---
+                ---Pilih Kegiatan yang Sesuai---
               </option>
-              <% kategoris.forEach(kategori => { %>
-              <option value="<%= kategori.idKategori %>">
-                <%= kategori.namaKategori %>
+              <% kegiatan.forEach(kegiatan => { %>
+              <option value="<%= kegiatan.idKegiatan %>">
+                <%= kegiatan.namaKegiatan %>
               </option>
               <% }) %>
             </select>
           </div>
-          <div class="inputbox"></div>
           <div class="inputbox">
-            <span>Judul</span>
+            <h4 class="data">Dokumen</h4>
+            <span>Laporan Pertanggung Jawaban (.pdf)</span>
+            <input type="file" name="laporanKegiatan" />
+          </div>
+          <div class="inputbox">
+            <span>Jumlah Partisipan</span>
             <input
               type="text"
-              placeholder="masukan judul publikasi"
-              name="judul"
+              name="jumlahPeserta"
+              style="appearance: none; -moz-appearance: textfield"
             />
+          </div>
+          <div class="inputbox">
+            <span>Dokumentasi 1 (.jpg/.jpeg/.png)</span>
+            <input type="file" name="dok1" />
           </div>
           <div class="inputbox"></div>
           <div class="inputbox">
-            <span>Isi</span>
-            <textarea
-              name="isi_berita"
-              placeholder="Masukan Isi Tulisan"
-            ></textarea>
+            <span>Dokumentasi 2 (.jpg/.jpeg/.png)</span>
+            <input type="file" name="dok2" />
           </div>
           <div class="inputbox"></div>
           <div class="inputbox">
-            <span>Gambar <b>(.PNG/.JPG/.JPEG)</b></span>
-            <input
-              type="file"
-              placeholder="pilih gambar"
-              name="gambar"
-              accept="image/*"
-            />
-          </div>
-          <div class="inputbox"></div>
-          <div class="inputbox">
-            <span>Tanggal Pengajuan <b>(MM/DD/YYYY)</b></span>
-            <input
-              type="date"
-              name="tanggalPengajuan"
-              id="tanggalPengajuan"
-              readonly
-            />
+            <span>Dokumentasi 3 (.jpg/.jpeg/.png)</span>
+            <input type="file" name="dok3" />
           </div>
         </div>
-        <label><input type="checkbox" />Informasi di atas sudah benar</label>
         <div class="tombol">
           <input
             type="submit"
@@ -111,14 +91,14 @@
 
               const formData = new FormData(this);
               try {
-                const response = await fetch("/publish-news", {
+                const response = await fetch("/laporkgt", {
                   method: "POST",
                   body: formData,
                 });
 
                 if (response.ok) {
                   alert("Informasi tersimpan");
-                  window.location.href = "dafnews";
+                  window.location.href = "lapor";
                 } else {
                   const errorData = await response.json();
                   alert("Gagal menyimpan informasi: " + errorData.message);
@@ -128,20 +108,6 @@
                 alert("Terjadi kesalahan pada server");
               }
             });
-        </script>
-        <script>
-          document.addEventListener("DOMContentLoaded", function () {
-            const dateInput = document.getElementById("tanggalPengajuan");
-
-            const today = new Date();
-            const yyyy = today.getFullYear();
-            const mm = String(today.getMonth() + 1).padStart(2, "0");
-            const dd = String(today.getDate()).padStart(2, "0");
-
-            const formattedDate = `${yyyy}-${mm}-${dd}`;
-
-            dateInput.value = formattedDate;
-          });
         </script>
       </form>
     </section>

@@ -1,10 +1,33 @@
 <section class="header">
-  <a href="/" class="logo">FTI</a>
+  <a href="/home" class="logo">FTI</a>
   <nav class="navbar">
-    <a href="/">Home</a>
-    <a href="/berita">Berita</a>
-    <a href="/org">Organisasi</a>
-    <a class="daftar" onclick="toggleMenuDaftar()">Pengajuan</a>
+    <a href="/home">Home</a>
+    <a class="fungs" onclick="toggleMenuMenu()"
+      >Menu<i class="bx bxs-chevron-down"></i
+    ></a>
+    <div class="sub-fungs-wrap" id="subFungs">
+      <div class="sub-fungs">
+        <div class="fungsi">
+          <a href="/berita" class="sub-fungs-links"
+            ><p>Berita</p>
+            <span>></span></a
+          >
+          <hr />
+          <a href="/org" class="sub-fungs-links"
+            ><p>Organisasi</p>
+            <span>></span></a
+          >
+          <hr />
+          <a href="/activity" class="sub-fungs-links"
+            ><p>Kegiatan</p>
+            <span>></span></a
+          >
+        </div>
+      </div>
+    </div>
+    <a class="daftar" onclick="toggleMenuDaftar()"
+      >Pengajuan<i class="bx bxs-chevron-down"></i
+    ></a>
     <div class="sub-daftar-wrap" id="subDaftar">
       <div class="sub-daftar">
         <div class="pendaftaran">
@@ -20,6 +43,11 @@
           <hr />
           <a href="/daftarnews" class="sub-daftar-links"
             ><p>Pengajuan Publikasi</p>
+            <span>></span></a
+          >
+          <hr />
+          <a href="/laporKegiatan" class="sub-daftar-links"
+            ><p>Laporan Kegiatan</p>
             <span>></span></a
           >
         </div>
@@ -58,6 +86,10 @@
     let subDaftar = document.getElementById("subDaftar");
     function toggleMenuDaftar() {
       subDaftar.classList.toggle("open-daftar");
+    }
+    let subFungs = document.getElementById("subFungs");
+    function toggleMenuMenu() {
+      subFungs.classList.toggle("open-fungs");
     }
   </script>
 </section>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link rel="stylesheet" href="/assets/admorg.css" />
+    <link rel="stylesheet" href="/assets/style.css" />
     <link
       href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
       rel="stylesheet"
@@ -9,7 +9,7 @@
     <title>Organisasi</title>
   </head>
   <body>
-    <%- include('../komponen/navOrg');%>
+    <%- include('../komponen/navMhs');%>
     <section class="detail-berita">
       <div class="main-content">
         <div class="box-container">
@@ -39,14 +39,14 @@
         <% organisasi.forEach((organisasis) => { %>
         <div class="related-item">
           <div class="related-image">
-            <a href="/detailorg/<%= organisasis.idOrga%>">
+            <a href="/detailorga/<%= organisasis.idOrga%>">
               <img
                 src="/<%= organisasis.userId %>/<%= organisasis.logo %>"
                 alt=""
             /></a>
           </div>
           <div class="related-info">
-            <a href="/detailorg/<%= organisasis.idOrga%>"
+            <a href="/detailorga/<%= organisasis.idOrga%>"
               ><p class="related-title"><%= organisasis.namaOrga %></p></a
             >
             <p class="related-date">
@@ -88,6 +88,16 @@
         showNotification(data, "kegiatan");
       });
 
+      socket.on("organisasi_setuju", (data) => {
+        console.log("Notifikasi baru:", data);
+        showNotification(data, "organisasi");
+      });
+
+      socket.on("organisasi_ditolak", (data) => {
+        console.log("Notifikasi baru:", data);
+        showNotification(data, "organisasi");
+      });
+
       function showNotification(data, type) {
         const notificationContainer = document.getElementById(
           "notification-container"
@@ -97,6 +107,8 @@
         if (type === "kegiatan") {
           notification.innerHTML = `<strong>${data.message}</strong>`;
         } else if (type === "berita") {
+          notification.innerHTML = `<strong>${data.message}</strong>`;
+        } else if (type === "organisasi") {
           notification.innerHTML = `<strong>${data.message}</strong>`;
         }
 
