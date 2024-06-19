@@ -16,15 +16,15 @@ const bcrypt = require("bcrypt");
 exports.admfti = async (req, res) => {
   try {
     const pengguna = await User.findByPk(req.userId);
-    const orga = await Organisasi.count();
-    const kegiatan = await Kegiatan.count();
-    const berita = await Berita.count();
+    const orgas = await Organisasi.count();
+    const kegiatans = await Kegiatan.count();
+    const beritas = await Berita.count();
     res.render("admfti/dashboard", {
       accessToken: req.cookies.accessToken,
       pengguna,
-      orga,
-      kegiatan,
-      berita,
+      orgas,
+      kegiatans,
+      beritas,
     });
   } catch (error) {
     console.error(error);
@@ -550,5 +550,59 @@ exports.tolakOrg = async (req, res) => {
   } catch (error) {
     console.error("Error saat acc Organisasi:", error);
     return res.status(500).json({ message: "Kesalahan Server" });
+  }
+};
+
+exports.laporan = async (req, res) => {
+  try {
+    const pengguna = await User.findByPk(req.userId);
+    const kegiatan = await Kegiatan.findAll({ where: { status: "Y" } });
+    res.render("admfti/laporankgt", {
+      accessToken: req.cookies.accessToken,
+      pengguna,
+      kegiatan,
+    });
+  } catch (error) {
+    console.error(error);
+    res.redirect("/login");
+  }
+};
+
+exports.detailLaporan = async (req, res) => {
+  try {
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      const day = String(date.getDate()).padStart(2, "0");
+      const monthNames = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ];
+      const month = monthNames[date.getMonth()];
+      const year = date.getFullYear();
+
+      return day + " " + month + " " + year;
+    }
+    const pengguna = await User.findByPk(req.userId);
+    const idKegiatan = req.params.idKegiatan;
+    const kegiatan = await Kegiatan.findByPk(idKegiatan);
+    res.render("admfti/detaillaporan", {
+      accessToken: req.cookies.accessToken,
+      pengguna,
+      kegiatan,
+      formatDate,
+    });
+  } catch (error) {
+    console.error(error);
+    res.redirect("/login");
   }
 };

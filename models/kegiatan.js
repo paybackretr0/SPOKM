@@ -77,7 +77,19 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         type: DataTypes.STRING,
       },
+      jumlahPeserta: {
+        type: DataTypes.INTEGER,
+      },
       laporanKegiatan: {
+        type: DataTypes.STRING,
+      },
+      dok1: {
+        type: DataTypes.STRING,
+      },
+      dok2: {
+        type: DataTypes.STRING,
+      },
+      dok3: {
         type: DataTypes.STRING,
       },
     },

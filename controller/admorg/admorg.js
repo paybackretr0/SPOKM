@@ -9,10 +9,21 @@ const {
   Anggota,
   Komentar,
 } = require("../../models/index");
+
 let nanoid;
 (async () => {
   nanoid = (await import("nanoid")).nanoid;
 })();
+
+function isPDF(file) {
+  const allowedExtensions = /(\.pdf)$/i;
+  return allowedExtensions.test(file.originalname);
+}
+
+function isImage(file) {
+  const allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+  return allowedExtensions.test(file.originalname);
+}
 
 exports.admorg = async (req, res) => {
   try {
@@ -61,7 +72,7 @@ exports.publish = async (req, res) => {
       return day + " " + month + " " + year;
     }
     const pengguna = await User.findByPk(req.userId);
-    const beritas = await Berita.findAll();
+    const beritas = await Berita.findAll({ where: { status: "Y" } });
     const orga = await Organisasi.findOne({
       where: { userId: pengguna.userId },
     });
@@ -160,71 +171,6 @@ exports.publikasi = async (req, res) => {
   }
 };
 
-exports.publikasi = async (req, res) => {
-  try {
-    const pengguna = await User.findByPk(req.userId);
-    const orga = await Organisasi.findOne({
-      where: { userId: req.userId },
-    });
-
-    if (!orga) {
-      return res.status(404).json({ message: "Organisasi tidak ditemukan" });
-    }
-
-    if (!pengguna) {
-      return res.status(404).json({ message: "User tidak ditemukan" });
-    }
-
-    let { penulis, kategori, judul, isi_berita, tanggalPengajuan } = req.body;
-    const gambar = req.file ? req.file.filename : null;
-
-    if (!penulis) {
-      penulis = orga.namaOrga;
-    }
-
-    if (!kategori || !judul || !isi_berita || !tanggalPengajuan || !gambar) {
-      return res.status(400).json({ message: "Semua bidang harus diisi" });
-    }
-
-    await Berita.create({
-      idNews: "B" + nanoid(7),
-      judul: judul,
-      idKategori: kategori,
-      isi_berita: isi_berita,
-      gambar: gambar,
-      penulis: penulis,
-      tanggalPengajuan: tanggalPengajuan,
-      status: "P",
-      userId: req.userId,
-    });
-
-    const newNotification = await Notifikasi.create({
-      idNotif: "N" + nanoid(7),
-      judul: "Pengajuan Publikasi",
-      tanggal: new Date(),
-      status: "N",
-      isi: `Pengajuan Publikasi dengan judul ${judul} oleh ${req.userId} telah diajukan`,
-      userId: req.userId,
-    });
-
-    const io = req.app.get("io");
-    io.to("adminfti").emit("new_berita", {
-      message: "Pengajuan Publikasi Baru!",
-      berita: {
-        judul,
-        nama: orga.namaOrga || "Admin Organisasi",
-      },
-    });
-
-    res.status(200).json({ message: "Publikasi berhasil didaftarkan" });
-  } catch (error) {
-    console.error("Gagal mendaftarkan publikasi:", error);
-    res
-      .status(500)
-      .json({ message: "Terjadi kesalahan saat mendaftarkan publikasi" });
-  }
-};
-
 exports.himp = async (req, res) => {
   try {
     function formatDate(dateString) {
@@ -244,7 +190,7 @@ exports.himp = async (req, res) => {
         "Nov",
         "Dec",
       ];
-      const month = monthNames[date.getMonth()]; // January is 0!
+      const month = monthNames[date.getMonth()];
       const year = date.getFullYear();
 
       return day + " " + month + " " + year;
@@ -661,6 +607,7 @@ exports.detailBerita = async (req, res) => {
     }
     const userId = req.userId;
     const orga = await Organisasi.findOne({ where: { userId: userId } });
+    const pengguna = await User.findByPk(userId);
     const idNews = req.params.idNews;
     const beritas = await Berita.findOne({
       where: { idNews: idNews },
@@ -680,6 +627,7 @@ exports.detailBerita = async (req, res) => {
       accessToken: req.cookies.accessToken,
       orga,
       beritas,
+      pengguna,
       formatDate,
       komentar,
       news,
@@ -714,17 +662,196 @@ exports.detailOrg = async (req, res) => {
 
       return day + " " + month + " " + year;
     }
-    const userId = req.userId;
-    const orga = await Organisasi.findOne({ where: { userId: userId } });
+    const idOrga = req.params.idOrga;
+    const orga = await Organisasi.findOne({ where: { idOrga: idOrga } });
+    const pengguna = await User.findByPk(req.userId);
     const organisasi = await Organisasi.findAll();
-    res.render("admorg/detailOrg", {
+    res.render("admorg/detailorg", {
       accessToken: req.cookies.accessToken,
       orga,
       organisasi,
+      pengguna,
       formatDate,
     });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+exports.kegiatan = async (req, res) => {
+  try {
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      const day = String(date.getDate()).padStart(2, "0");
+      const monthNames = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ];
+      const month = monthNames[date.getMonth()];
+      const year = date.getFullYear();
+
+      return day + " " + month + " " + year;
+    }
+    const pengguna = await User.findByPk(req.userId);
+    const orga = await Organisasi.findOne({ where: { userId: req.userId } });
+    const kegiatans = await Kegiatan.findAll({
+      where: { userId: req.userId, status: "Y" },
+    });
+    res.render("admorg/kgt", {
+      accessToken: req.cookies.accessToken,
+      pengguna,
+      orga,
+      formatDate,
+      kegiatans,
+    });
+  } catch (error) {
+    console.error(error);
+    res.redirect("/login");
+  }
+};
+
+exports.detailKgt = async (req, res) => {
+  try {
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      const day = String(date.getDate()).padStart(2, "0");
+      const monthNames = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ];
+      const month = monthNames[date.getMonth()];
+      const year = date.getFullYear();
+
+      return day + " " + month + " " + year;
+    }
+    const userId = req.userId;
+    const orga = await Organisasi.findOne({ where: { userId: userId } });
+    const pengguna = await User.findByPk(userId);
+    const idKegiatan = req.params.idKegiatan;
+    const kegiatan = await Kegiatan.findOne({
+      where: { idKegiatan: idKegiatan },
+    });
+    const kegiatans = await Kegiatan.findAll({
+      where: { userId: userId, status: "Y" },
+    });
+    res.render("admorg/detailkeg", {
+      accessToken: req.cookies.accessToken,
+      orga,
+      kegiatans,
+      pengguna,
+      formatDate,
+      kegiatan,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+exports.lapor = async (req, res) => {
+  try {
+    const pengguna = await User.findByPk(req.userId);
+    const kegiatan = await Kegiatan.findAll({
+      where: { userId: req.userId, status: "Y" },
+    });
+    res.render("admorg/lapor", {
+      accessToken: req.cookies.accessToken,
+      pengguna,
+      kegiatan,
+    });
+  } catch (error) {
+    console.error(error);
+    res.redirect("/login");
+  }
+};
+
+exports.laporkgt = async (req, res) => {
+  try {
+    const idKegiatan = req.body.idKegiatan;
+    if (!idKegiatan) {
+      return res.status(400).json({ message: "idKegiatan is required" });
+    }
+    const kegiatan = await Kegiatan.findOne({
+      where: { idKegiatan: idKegiatan },
+    });
+
+    if (!kegiatan) {
+      return res.status(404).json({ message: "Kegiatan not found" });
+    }
+
+    const jumlahPeserta = parseInt(req.body.jumlahPeserta);
+
+    if (isNaN(jumlahPeserta)) {
+      return res
+        .status(400)
+        .json({ message: "Jumlah Peserta must be a number" });
+    }
+
+    const laporanKegiatan =
+      req.files["laporanKegiatan"] && isPDF(req.files["laporanKegiatan"][0])
+        ? req.files["laporanKegiatan"][0].filename
+        : null;
+    if (!laporanKegiatan) {
+      return res
+        .status(400)
+        .json({ message: "Laporan Kegiatan harus berupa file PDF" });
+    }
+
+    const dok1 =
+      req.files["dok1"] && isImage(req.files["dok1"][0])
+        ? req.files["dok1"][0].filename
+        : null;
+    const dok2 =
+      req.files["dok2"] && isImage(req.files["dok2"][0])
+        ? req.files["dok2"][0].filename
+        : null;
+    const dok3 =
+      req.files["dok3"] && isImage(req.files["dok3"][0])
+        ? req.files["dok3"][0].filename
+        : null;
+
+    if (!dok1 || !dok2 || !dok3) {
+      return res
+        .status(400)
+        .json({ message: "Dokumentasi harus berupa file gambar" });
+    }
+    await Kegiatan.update(
+      {
+        laporanKegiatan: laporanKegiatan,
+        dok1: dok1,
+        dok2: dok2,
+        dok3: dok3,
+        jumlahPeserta: jumlahPeserta,
+      },
+      { where: { idKegiatan: idKegiatan } }
+    );
+
+    res.status(200).json({ message: "Laporan Kegiatan berhasil diinput" });
+  } catch (error) {
+    console.error("Gagal mengajukan laporan kegiatan:", error);
+    res
+      .status(500)
+      .json({ message: "Terjadi kesalahan saat mengajukan laporan kegiatan" });
   }
 };

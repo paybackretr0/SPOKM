@@ -176,7 +176,8 @@ body.dark .sidebar header .toggle {
   margin-top: 40px;
 }
 
-.sidebar li a {
+.sidebar li a,
+.sidebar li form {
   list-style: none;
   height: 100%;
   background-color: transparent;
@@ -377,7 +378,8 @@ body.dark .switch::before {
 .sidebar.close ~ .berita,
 .sidebar.close ~ .kegiatan,
 .sidebar.close ~ .organisasi,
-.sidebar.close ~ .pengguna {
+.sidebar.close ~ .pengguna,
+.sidebar.close ~ .detail-laporan {
   left: 78px;
   height: 100vh;
   width: calc(100% - 78px);
@@ -387,14 +389,16 @@ body.dark .home,
 body.dark .berita,
 body.dark .kegiatan,
 body.dark .organisasi,
-body.dark .pengguna {
+body.dark .pengguna,
+body.dark .detail-laporan {
   color: var(--text-color);
 }
 
 body.dark .berita .informasi table,
 body.dark .kegiatan .list-kegiatan table,
 body.dark .organisasi .list-organisasi table,
-body.dark .pengguna .list-pengguna table {
+body.dark .pengguna .list-pengguna table,
+body.dark .detail-laporan .containert {
   background: var(--putih);
   color: var(--hitam);
 }
@@ -545,6 +549,10 @@ th {
   transition: var(--tran-05);
   display: flex;
   flex-wrap: wrap;
+}
+
+.add-news .judul {
+  margin: 2rem;
 }
 
 .add-news .containert {
@@ -1034,4 +1042,65 @@ select#role option:checked {
 .log a {
   text-decoration: none;
   color: black;
+}
+
+.detail-laporan {
+  position: absolute;
+  top: 0;
+  left: 250px;
+  height: 100vh;
+  width: calc(100% - 250px);
+  background-color: var(--body-color);
+  transition: var(--tran-05);
+  display: flex;
+  flex-direction: column;
+}
+
+.detail-laporan .judul {
+  margin: 2rem 3rem 0;
+  font-size: 2rem;
+}
+
+.detail-laporan .containert {
+  border: var(--border);
+  box-shadow: var(--box-shadow);
+  background-color: var(--light-white);
+  border-radius: 10px;
+  color: var(--hitam);
+  padding: 1rem;
+  margin: 1rem 2rem;
+}
+
+.detail-laporan .containert .box {
+  margin: 1rem;
+}
+
+.detail-laporan .containert .box label {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--hitam);
+}
+
+.detail-laporan .containert .box span {
+  display: flex;
+  font-size: 1rem;
+  background-color: var(--light-bg);
+  font-weight: 400;
+  color: var(--hitam);
+  padding: 0.5rem;
+}
+
+.detail-laporan .containert .box span button {
+  background-color: var(--warna);
+  color: var(--putih);
+  border: none;
+  padding: 5px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.detail-laporan .containert .box span img {
+  display: flex;
+  border: var(--border);
+  width: 40%;
 }

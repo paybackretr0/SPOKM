@@ -135,6 +135,7 @@
       <div class="kalendar" id="calendar"></div>
       <div class="image"></div>
     </section>
+    <% if (berita) { %>
     <section class="latest-news">
       <div class="content">
         <h3>informasi terkini</h3>
@@ -146,6 +147,7 @@
         <img src="/<%= berita.userId %>/<%= berita.gambar %>" alt="" />
       </div>
     </section>
+    <% } %>
     <section class="home-offer">
       <div class="content">
         <h3 style="font-size: 2.2rem">

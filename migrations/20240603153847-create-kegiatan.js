@@ -68,7 +68,19 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
+      jumlahPeserta: {
+        type: Sequelize.INTEGER,
+      },
       laporanKegiatan: {
+        type: Sequelize.STRING,
+      },
+      dok1: {
+        type: Sequelize.STRING,
+      },
+      dok2: {
+        type: Sequelize.STRING,
+      },
+      dok3: {
         type: Sequelize.STRING,
       },
       createdAt: {

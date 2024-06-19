@@ -50,13 +50,17 @@ exports.login = async (req, res) => {
         order: [["tanggalPublish", "DESC"]],
         limit: 1,
       });
+      const orgas = await Organisasi.count();
+      const kegiatans = await Kegiatan.count();
+      const beritas = await Berita.count();
       switch (role) {
         case "adminfti":
           res.render("admfti/dashboard", {
             accessToken,
             pengguna,
-            orga,
-            kegiatan,
+            orgas,
+            kegiatans,
+            beritas,
           });
           break;
         case "adminorg":
