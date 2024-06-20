@@ -11,7 +11,7 @@
   </head>
   <body>
     <%- include('../komponen/navMhs');%>
-    <div class="heading" style="background: url(/img/fti11.jpg) no-repeat">
+    <div class="heading" style="background: url(/img/fti15.jpg) no-repeat">
       <h1>Kumpulan Kegiatan</h1>
     </div>
     <section class="packages">
@@ -29,14 +29,15 @@
               formatDate(kegiatan.tanggalSelesai)%>
             </p>
             <h3><%= kegiatan.namaKegiatan %></h3>
-            <p><%= kegiatan.deskripsi %></p>
+            <p class="deskripsi"><%= kegiatan.deskripsi %></p>
             <a href="detailkgt/<%= kegiatan.idKegiatan%>" class="btn">Detail</a>
           </div>
         </div>
         <% }) %>
       </div>
+      <% if (kegiatan.length > 3) { %>
       <div class="load-more"><span class="btn">load more</span></div>
-      <% } else { %>
+      <%}%> <% } else { %>
       <h1 class="heading-title">Belum Ada Informasi</h1>
       <% } %>
     </section>

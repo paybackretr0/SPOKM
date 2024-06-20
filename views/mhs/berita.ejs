@@ -11,7 +11,7 @@
   </head>
   <body>
     <%- include('../komponen/navMhs');%>
-    <div class="heading" style="background: url(/img/fti11.jpg) no-repeat">
+    <div class="heading" style="background: url(/img/fti15.jpg) no-repeat">
       <h1>Kumpulan Informasi</h1>
     </div>
     <section class="packages">
@@ -28,14 +28,15 @@
               formatDate(berita.tanggalPublish)%>
             </p>
             <h3><%= berita.judul %></h3>
-            <p><%= berita.isi_berita %></p>
+            <p class="deskripsi"><%= berita.isi_berita %></p>
             <a href="detailNews/<%= berita.idNews%>" class="btn">Detail</a>
           </div>
         </div>
         <% }) %>
       </div>
+      <% if (beritas.length > 3) { %>
       <div class="load-more"><span class="btn">load more</span></div>
-      <% } else { %>
+      <%}%> <% } else { %>
       <h1 class="heading-title">Belum Ada Informasi</h1>
       <% } %>
     </section>

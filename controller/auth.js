@@ -8,6 +8,7 @@ const {
   Organisasi,
   Kegiatan,
   Berita,
+  Notifikasi,
 } = require("../models/index");
 
 exports.login = async (req, res) => {
@@ -43,9 +44,33 @@ exports.login = async (req, res) => {
         maxAge: 24 * 60 * 60 * 1000,
       });
 
+      function formatDate(dateString) {
+        const date = new Date(dateString);
+        const day = String(date.getDate()).padStart(2, "0");
+        const monthNames = [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec",
+        ];
+        const month = monthNames[date.getMonth()];
+        const year = date.getFullYear();
+
+        return day + " " + month + " " + year;
+      }
       const mhs = await Mahasiswa.findOne({ where: { nim: pengguna.nim } });
       const orga = await Organisasi.findAll();
       const kegiatan = await Kegiatan.findAll();
+      const brt = await Berita.findAll();
+      const user = await User.findAll();
       const berita = await Berita.findOne({
         order: [["tanggalPublish", "DESC"]],
         limit: 1,
@@ -53,12 +78,43 @@ exports.login = async (req, res) => {
       const orgas = await Organisasi.count();
       const kegiatans = await Kegiatan.count();
       const beritas = await Berita.count();
+      const notif = await Notifikasi.findAll({
+        where: { penerima: "adminfti" },
+        attributes: ["judul", "tanggal", "isi"],
+        order: [["createdAt", "DESC"]],
+      });
+      const notifs = await Notifikasi.findAll({
+        where: { penerima: pengguna.userId },
+        attributes: ["judul", "tanggal", "isi"],
+        order: [["createdAt", "DESC"]],
+      });
+      const notify = await Notifikasi.findAll({
+        where: { penerima: pengguna.userId },
+        attributes: ["judul", "tanggal", "isi"],
+        order: [["createdAt", "DESC"]],
+      });
+      const org = await Organisasi.findAll({
+        where: { status: "Y" },
+        limit: 2,
+        order: [["createdAt", "DESC"]],
+      });
+      const kgt = await Kegiatan.findAll({
+        where: { status: "Y" },
+        limit: 2,
+        order: [["createdAt", "DESC"]],
+      });
       switch (role) {
         case "adminfti":
           res.render("admfti/dashboard", {
             accessToken,
             pengguna,
             orgas,
+            orga,
+            kegiatan,
+            user,
+            notif,
+            brt,
+            formatDate,
             kegiatans,
             beritas,
           });
@@ -70,6 +126,8 @@ exports.login = async (req, res) => {
             orga,
             kegiatan,
             berita,
+            formatDate,
+            notifs,
           });
           break;
         case "mhs":
@@ -80,6 +138,10 @@ exports.login = async (req, res) => {
             orga,
             kegiatan,
             berita,
+            formatDate,
+            notify,
+            org,
+            kgt,
           });
           break;
         default:

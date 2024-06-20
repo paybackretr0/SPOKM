@@ -1,3 +1,5 @@
+const { where } = require("sequelize");
+const bcrypt = require("bcrypt");
 const {
   User,
   Mahasiswa,
@@ -23,13 +25,51 @@ function isImage(file) {
   return allowedExtensions.test(file.originalname);
 }
 
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  const day = String(date.getDate()).padStart(2, "0");
+  const monthNames = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  const month = monthNames[date.getMonth()];
+  const year = date.getFullYear();
+
+  return day + " " + month + " " + year;
+}
+
 exports.home = async (req, res) => {
   try {
     const pengguna = await User.findByPk(req.userId);
     const mhs = await Mahasiswa.findOne({ where: { nim: pengguna.nim } });
     const berita = await Berita.findOne({
-      order: [["tanggalPublish", "DESC"]],
+      order: [["createdAt", "DESC"]],
       limit: 1,
+    });
+    const notify = await Notifikasi.findAll({
+      where: { penerima: pengguna.userId },
+      attributes: ["judul", "tanggal", "isi"],
+      order: [["createdAt", "DESC"]],
+    });
+    const org = await Organisasi.findAll({
+      where: { status: "Y" },
+      limit: 2,
+      order: [["createdAt", "DESC"]],
+    });
+    const kgt = await Kegiatan.findAll({
+      where: { status: "Y" },
+      limit: 2,
+      order: [["createdAt", "DESC"]],
     });
     const kegiatan = await Kegiatan.findAll();
     res.render("mhs/home", {
@@ -37,7 +77,11 @@ exports.home = async (req, res) => {
       mhs,
       pengguna,
       berita,
+      org,
       kegiatan,
+      formatDate,
+      notify,
+      kgt,
     });
   } catch (error) {
     console.error(error);
@@ -45,39 +89,116 @@ exports.home = async (req, res) => {
   }
 };
 
-exports.berita = async (req, res) => {
+exports.editProfile = async (req, res) => {
   try {
-    function formatDate(dateString) {
-      const date = new Date(dateString);
-      const day = String(date.getDate()).padStart(2, "0");
-      const monthNames = [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ];
-      const month = monthNames[date.getMonth()];
-      const year = date.getFullYear();
-
-      return day + " " + month + " " + year;
-    }
     const pengguna = await User.findByPk(req.userId);
     const mhs = await Mahasiswa.findOne({ where: { nim: pengguna.nim } });
-    const beritas = await Berita.findAll({ where: { status: "Y" } });
+    res.render("mhs/editProfile", {
+      accessToken: req.cookies.accessToken,
+      mhs,
+      pengguna,
+    });
+  } catch (error) {
+    console.error(error);
+    res.redirect("/login");
+  }
+};
+
+exports.updateProfile = async (req, res, next) => {
+  try {
+    const { nama, email, jurusan } = req.body;
+    const pengguna = await User.findByPk(req.userId);
+    console.log(pengguna);
+    if (!User) {
+      return res.status(404).json({ message: "Pengguna tidak ditemukan" });
+    }
+    const mhs = await Mahasiswa.findOne({ where: { nim: pengguna.nim } });
+    if (!mhs) {
+      return res.status(404).json({ message: "Mahasiswa tidak ditemukan" });
+    }
+    const updatedUser = {
+      nama: nama !== undefined && nama !== "" ? nama : pengguna.nama,
+      email: email !== undefined && email !== "" ? email : pengguna.email,
+      jurusan:
+        jurusan !== undefined && jurusan !== "" ? jurusan : pengguna.jurusan,
+    };
+    await Mahasiswa.update(updatedUser, { where: { nim: mhs.nim } });
+    return res.status(200).json({ message: "Data berhasil diupdate" });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Terjadi kesalahan server" });
+  }
+};
+
+exports.changepassword = async (req, res) => {
+  try {
+    const pengguna = await User.findByPk(req.userId);
+    res.render("mhs/changepw", {
+      accessToken: req.cookies.accessToken,
+      pengguna,
+    });
+  } catch (error) {
+    console.error(error);
+    res.redirect("/login");
+  }
+};
+
+exports.updatepassword = async (req, res, next) => {
+  try {
+    const { oldPassword, newPassword, confirmPassword } = req.body;
+
+    // Cari pengguna berdasarkan userId
+    const users = await User.findByPk(req.userId);
+    console.log(users);
+    if (!users) {
+      return res.status(404).json({ message: "Pengguna tidak ditemukan" });
+    }
+
+    if (newPassword !== confirmPassword) {
+      return res
+        .status(400)
+        .json({ message: "New password and confirm password do not match" });
+    }
+
+    // Periksa apakah password saat ini cocok
+    const isPasswordValid = await bcrypt.compare(oldPassword, users.password);
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: "Password saat ini salah" });
+    }
+
+    // Enkripsi password baru
+    const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+
+    // Perbarui password pengguna di database
+    await users.update({ password: hashedNewPassword });
+
+    return res.status(200).json({ message: "Password berhasil diubah" });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Terjadi kesalahan server" });
+  }
+};
+
+exports.berita = async (req, res) => {
+  try {
+    const pengguna = await User.findByPk(req.userId);
+    const mhs = await Mahasiswa.findOne({ where: { nim: pengguna.nim } });
+    const beritas = await Berita.findAll({
+      where: { status: "Y" },
+      order: [["createdAt", "DESC"]],
+    });
+    const notify = await Notifikasi.findAll({
+      where: { penerima: pengguna.userId },
+      attributes: ["judul", "tanggal", "isi"],
+      order: [["createdAt", "DESC"]],
+    });
     res.render("mhs/berita", {
       accessToken: req.cookies.accessToken,
       pengguna,
       mhs,
       beritas,
       formatDate,
+      notify,
     });
   } catch (error) {
     console.error(error);
@@ -87,37 +208,24 @@ exports.berita = async (req, res) => {
 
 exports.org = async (req, res) => {
   try {
-    function formatDate(dateString) {
-      const date = new Date(dateString);
-      const day = String(date.getDate()).padStart(2, "0");
-      const monthNames = [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ];
-      const month = monthNames[date.getMonth()];
-      const year = date.getFullYear();
-
-      return day + " " + month + " " + year;
-    }
     const pengguna = await User.findByPk(req.userId);
     const mhs = await Mahasiswa.findOne({ where: { nim: pengguna.nim } });
-    const orga = await Organisasi.findAll({ where: { status: "Y" } });
+    const orga = await Organisasi.findAll({
+      where: { status: "Y" },
+      order: [["createdAt", "DESC"]],
+    });
+    const notify = await Notifikasi.findAll({
+      where: { penerima: pengguna.userId },
+      attributes: ["judul", "tanggal", "isi"],
+      order: [["createdAt", "DESC"]],
+    });
     res.render("mhs/org", {
       accessToken: req.cookies.accessToken,
       pengguna,
       orga,
       mhs,
       formatDate,
+      notify,
     });
   } catch (error) {
     console.error(error);
@@ -127,34 +235,17 @@ exports.org = async (req, res) => {
 
 exports.detailOrg = async (req, res) => {
   try {
-    function formatDate(dateString) {
-      const date = new Date(dateString);
-      const day = String(date.getDate()).padStart(2, "0");
-      const monthNames = [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ];
-      const month = monthNames[date.getMonth()];
-      const year = date.getFullYear();
-
-      return day + " " + month + " " + year;
-    }
     const userId = req.userId;
     const pengguna = await User.findOne({ where: { userId: userId } });
     const mhs = await Mahasiswa.findOne({ where: { nim: pengguna.nim } });
     const idOrga = req.params.idOrga;
     const orga = await Organisasi.findOne({ where: { idOrga: idOrga } });
-    const organisasi = await Organisasi.findAll();
+    const organisasi = await Organisasi.findAll({ where: { status: "Y" } });
+    const notify = await Notifikasi.findAll({
+      where: { penerima: pengguna.userId },
+      attributes: ["judul", "tanggal", "isi"],
+      order: [["createdAt", "DESC"]],
+    });
     res.render("mhs/detailorga", {
       accessToken: req.cookies.accessToken,
       mhs,
@@ -162,6 +253,7 @@ exports.detailOrg = async (req, res) => {
       pengguna,
       formatDate,
       organisasi,
+      notify,
     });
   } catch (error) {
     console.error(error);
@@ -188,10 +280,17 @@ exports.daftar = async (req, res) => {
   try {
     const pengguna = await User.findByPk(req.userId);
     const mhs = await Mahasiswa.findOne({ where: { nim: pengguna.nim } });
+    const notify = await Notifikasi.findAll({
+      where: { penerima: pengguna.userId },
+      attributes: ["judul", "tanggal", "isi"],
+      order: [["createdAt", "DESC"]],
+    });
     res.render("mhs/daftarorg", {
       accessToken: req.cookies.accessToken,
       pengguna,
       mhs,
+      formatDate,
+      notify,
     });
   } catch (error) {
     console.error(error);
@@ -249,8 +348,11 @@ exports.daftarOrg = async (req, res) => {
       judul: "Pengajuan Organisasi",
       tanggal: new Date(),
       status: "N",
-      isi: `Pengajuan Organisasi ${namaOrga} oleh ${req.userId} telah diajukan`,
-      userId: req.userId,
+      isi: `Pengajuan Organisasi bernama "${namaOrga}" oleh ${
+        mhs.nama || "Mahasiswa"
+      } telah diajukan`,
+      pengirim: pengguna.userId,
+      penerima: "adminfti",
     });
 
     const io = req.app.get("io");
@@ -275,10 +377,17 @@ exports.daftarkegiatan = async (req, res) => {
   try {
     const pengguna = await User.findByPk(req.userId);
     const mhs = await Mahasiswa.findOne({ where: { nim: pengguna.nim } });
+    const notify = await Notifikasi.findAll({
+      where: { penerima: pengguna.userId },
+      attributes: ["judul", "tanggal", "isi"],
+      order: [["createdAt", "DESC"]],
+    });
     res.render("mhs/daftarkgt", {
       accessToken: req.cookies.accessToken,
       mhs,
       pengguna,
+      notify,
+      formatDate,
     });
   } catch (error) {
     console.error(error);
@@ -334,8 +443,11 @@ exports.daftarkgt = async (req, res) => {
       judul: "Pengajuan Kegiatan",
       tanggal: new Date(),
       status: "N",
-      isi: `Pengajuan Kegiatan ${namaKegiatan} oleh ${req.userId} telah diajukan`,
-      userId: req.userId,
+      isi: `Pengajuan Kegiatan bernama "${namaKegiatan}" oleh ${
+        mhs.nama || "Mahasiswa"
+      } telah diajukan`,
+      pengirim: pengguna.userId,
+      penerima: "adminfti",
     });
 
     const io = req.app.get("io");
@@ -361,12 +473,18 @@ exports.daftarnews = async (req, res) => {
     const pengguna = await User.findByPk(req.userId);
     const mhs = await Mahasiswa.findOne({ where: { nim: pengguna.nim } });
     const kategoris = await Kategori.findAll();
-
+    const notify = await Notifikasi.findAll({
+      where: { penerima: pengguna.userId },
+      attributes: ["judul", "tanggal", "isi"],
+      order: [["createdAt", "DESC"]],
+    });
     res.render("mhs/daftarnews", {
       accessToken: req.cookies.accessToken,
       mhs,
       pengguna,
       kategoris,
+      formatDate,
+      notify,
     });
   } catch (error) {
     console.error(error);
@@ -414,7 +532,8 @@ exports.daftarberita = async (req, res) => {
       tanggal: new Date(),
       status: "N",
       isi: `Pengajuan Publikasi dengan judul ${judul} oleh ${req.userId} telah diajukan`,
-      userId: req.userId,
+      pengirim: pengguna.userId,
+      penerima: "adminfti",
     });
 
     const io = req.app.get("io");
@@ -462,28 +581,6 @@ exports.profil = async (req, res) => {
 
 exports.detailBerita = async (req, res) => {
   try {
-    function formatDate(dateString) {
-      const date = new Date(dateString);
-      const day = String(date.getDate()).padStart(2, "0");
-      const monthNames = [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ];
-      const month = monthNames[date.getMonth()]; // January is 0!
-      const year = date.getFullYear();
-
-      return day + " " + month + " " + year;
-    }
     const userId = req.userId;
     const pengguna = await User.findOne({ where: { userId: userId } });
     const mhs = await Mahasiswa.findOne({ where: { nim: pengguna.nim } });
@@ -497,9 +594,14 @@ exports.detailBerita = async (req, res) => {
         },
       ],
     });
-    const news = await Berita.findAll();
+    const news = await Berita.findAll({ where: { status: "Y" } });
     const komentar = await Komentar.findAll({
       where: { idNews: idNews },
+    });
+    const notify = await Notifikasi.findAll({
+      where: { penerima: pengguna.userId },
+      attributes: ["judul", "tanggal", "isi"],
+      order: [["createdAt", "DESC"]],
     });
     res.render("mhs/detailNews", {
       accessToken: req.cookies.accessToken,
@@ -508,6 +610,8 @@ exports.detailBerita = async (req, res) => {
       formatDate,
       komentar,
       news,
+      notify,
+      formatDate,
     });
   } catch (error) {
     console.error(error);
@@ -553,11 +657,18 @@ exports.laporKegiatan = async (req, res) => {
         .status(404)
         .json({ message: "Anda belum pernah mengajukan Kegiatan" });
     }
+    const notify = await Notifikasi.findAll({
+      where: { penerima: pengguna.userId },
+      attributes: ["judul", "tanggal", "isi"],
+      order: [["createdAt", "DESC"]],
+    });
     res.render("mhs/laporKegiatan", {
       accessToken: req.cookies.accessToken,
       pengguna,
       kegiatan,
       mhs,
+      formatDate,
+      notify,
     });
   } catch (error) {
     console.error(error);
@@ -637,38 +748,22 @@ exports.laporkgt = async (req, res) => {
 
 exports.kegiatan = async (req, res) => {
   try {
-    function formatDate(dateString) {
-      const date = new Date(dateString);
-      const day = String(date.getDate()).padStart(2, "0");
-      const monthNames = [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ];
-      const month = monthNames[date.getMonth()];
-      const year = date.getFullYear();
-
-      return day + " " + month + " " + year;
-    }
     const userId = req.userId;
     const pengguna = await User.findOne({ where: { userId: userId } });
     const mhs = await Mahasiswa.findOne({ where: { nim: pengguna.nim } });
     const kegiatan = await Kegiatan.findAll({ where: { status: "Y" } });
+    const notify = await Notifikasi.findAll({
+      where: { penerima: pengguna.userId },
+      attributes: ["judul", "tanggal", "isi"],
+      order: [["createdAt", "DESC"]],
+    });
     res.render("mhs/activity", {
       accessToken: req.cookies.accessToken,
       pengguna,
       kegiatan,
       mhs,
       formatDate,
+      notify,
     });
   } catch (error) {
     console.error(error);
@@ -678,28 +773,6 @@ exports.kegiatan = async (req, res) => {
 
 exports.detailKgt = async (req, res) => {
   try {
-    function formatDate(dateString) {
-      const date = new Date(dateString);
-      const day = String(date.getDate()).padStart(2, "0");
-      const monthNames = [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ];
-      const month = monthNames[date.getMonth()];
-      const year = date.getFullYear();
-
-      return day + " " + month + " " + year;
-    }
     const userId = req.userId;
     const pengguna = await User.findOne({ where: { userId: userId } });
     const mhs = await Mahasiswa.findOne({ where: { nim: pengguna.nim } });
@@ -708,6 +781,11 @@ exports.detailKgt = async (req, res) => {
       where: { idKegiatan: idKegiatan },
     });
     const kegiatans = await Kegiatan.findAll();
+    const notify = await Notifikasi.findAll({
+      where: { penerima: pengguna.userId },
+      attributes: ["judul", "tanggal", "isi"],
+      order: [["createdAt", "DESC"]],
+    });
     res.render("mhs/detailkgt", {
       accessToken: req.cookies.accessToken,
       mhs,
@@ -715,6 +793,7 @@ exports.detailKgt = async (req, res) => {
       pengguna,
       formatDate,
       kegiatans,
+      notify,
     });
   } catch (error) {
     console.error(error);

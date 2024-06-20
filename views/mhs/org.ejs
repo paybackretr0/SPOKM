@@ -11,7 +11,7 @@
   </head>
   <body>
     <%- include('../komponen/navMhs');%>
-    <div class="heading" style="background: url(/img/fti11.jpg) no-repeat">
+    <div class="heading" style="background: url(/img/fti15.jpg) no-repeat">
       <h1>Organisasi di FTI</h1>
     </div>
     <section class="packages">
@@ -24,21 +24,25 @@
           </div>
           <div class="content">
             <p>
-              <i class="bx bxs-calendar"></i> <%=
-              formatDate(orga.tanggalBerdiri)%>
+              <i class="bx bxs-calendar" alt="tanggalBerdiri"></i> <%
+              if(!orga.tanggalBerdiri) { %> Belum Diatur <% } else { %> <%=
+              formatDate(orga.tanggalBerdiri) %> <% } %>
             </p>
             <h3><%= orga.namaOrga %></h3>
-            <p><%= orga.deskripsi %></p>
+            <p class="deskripsi"><%= orga.deskripsi %></p>
             <a href="detailorga/<%= orga.idOrga%>" class="btn">Detail</a>
           </div>
         </div>
         <% }) %>
       </div>
+      <% if (orga.length > 3) { %>
       <div class="load-more"><span class="btn">load more</span></div>
-      <% } else { %>
+      <% } %> <% } else { %>
       <h1 class="heading-title">Belum Ada Informasi</h1>
       <% } %>
     </section>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="/js/script.js"></script>
     <div id="notification-container" class="notification-container"></div>
     <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
     <script>

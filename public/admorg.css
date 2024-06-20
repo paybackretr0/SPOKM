@@ -134,6 +134,75 @@ section {
   cursor: pointer;
 }
 
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 10%;
+  cursor: default;
+  background-color: var(--light-bg);
+  width: 400px;
+  box-shadow: var(--box-shadow);
+  z-index: 1;
+  max-height: calc(90vh - 50px);
+  overflow-y: auto;
+  border-radius: 20px;
+  padding: 10px;
+}
+
+.dropdown-content .isian:hover {
+  background-color: var(--putihdikit);
+  cursor: pointer;
+}
+
+.dropdown-content h1 {
+  color: var(--hitam);
+  font-weight: 400;
+  padding: 10px;
+  font-size: 1.2rem;
+  text-align: justify;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content .isian .judul {
+  color: var(--hitam);
+  margin: 5px 0;
+  padding: 10px;
+  font-size: 1rem;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content span {
+  color: var(--light-black);
+  padding: 10px;
+  margin-left: 50px;
+  font-size: 0.7rem;
+  text-decoration: none;
+}
+
+.dropdown-content .isi {
+  color: var(--hitam);
+  padding: 10px;
+  font-size: 0.9rem;
+  text-decoration: none;
+  display: block;
+  text-align: justify;
+}
+
+.dropdown-content p {
+  color: var(--hitam);
+  margin: 5px 0;
+  padding: 10px;
+  font-size: 1rem;
+  text-decoration: none;
+  display: block;
+}
+
+.show {
+  display: block;
+}
+
 .header .add .user-pic {
   width: 50px;
   height: 50px;

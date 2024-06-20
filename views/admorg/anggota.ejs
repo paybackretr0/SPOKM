@@ -13,55 +13,8 @@
       rel="stylesheet"
     />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-      function showAccConfirm(id) {
-        Swal.fire({
-          title: "Apakah Anda yakin ingin menyetujui?",
-          icon: "question",
-          text: "Pastikan Sudah Cek Jadwal Dokter!",
-          showCancelButton: true,
-          confirmButtonText: "Ya",
-          cancelButtonText: "Tidak",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            Swal.fire({
-              title: "Berhasil Disetujui!",
-              text: "Jadwal Sudah Disetujui!",
-              icon: "success",
-              confirmButtonText: "OK",
-            }).then((result) => {
-              if (result.isConfirmed) {
-                window.location.href = "edit.php?id=" + id + "&status=Y";
-              }
-            });
-          }
-        });
-      }
 
-      function showXxxConfirm(id) {
-        Swal.fire({
-          title: "Apakah Anda Yakin Ingin Menolak?",
-          icon: "question",
-          showCancelButton: true,
-          confirmButtonText: "Ya",
-          cancelButtonText: "Tidak",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            Swal.fire({
-              title: "Berhasil Ditolak!",
-              icon: "success",
-              confirmButtonText: "OK",
-            }).then((result) => {
-              if (result.isConfirmed) {
-                window.location.href = "edit.php?id=" + id + "&status=R";
-              }
-            });
-          }
-        });
-      }
-    </script>
-
-    <title>Data Anggota - Khanny Dental</title>
+    <title>Data Anggota - <%= orga.namaOrga%></title>
   </head>
 
   <body>
@@ -128,6 +81,7 @@
         </div>
       </div>
     </section>
+
     <div id="notification-container" class="notification-container"></div>
     <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
     <script>

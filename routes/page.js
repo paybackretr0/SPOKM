@@ -5,14 +5,12 @@ const user = require("../controller/auth");
 const mahasiswa = require("../controller/mhs/mhs");
 const org = require("../controller/admorg/admorg");
 const fti = require("../controller/admfti/admfti");
-const pw = require("../controller/changePw");
 const verif = require("../middleware/verifyToken");
 const token = require("../controller/refreshToken");
 const login = require("../controller/login");
 const redirectIfLoggedIn = require("../middleware/loggedIn");
 const checkRole = require("../middleware/checkRole");
-const edit = require("../controller/editProfile");
-const upload = require("../middleware/uploadgambar");
+const upload = require("../middleware/uploadFile");
 
 router.get("/login", redirectIfLoggedIn, login.page);
 router.get("/", redirectIfLoggedIn, login.page);
@@ -81,13 +79,30 @@ router.post(
   mahasiswa.daftarberita
 );
 router.get("/chat", verif.verifyToken, mahasiswa.chat);
-router.get("/profil", verif.verifyToken, mahasiswa.profil);
-router.get("/changepassword", verif.verifyToken, pw.changepassword);
+router.get("/profil", checkRole("mhs"), verif.verifyToken, mahasiswa.profil);
+router.get(
+  "/changepassword",
+  checkRole("mhs"),
+  verif.verifyToken,
+  mahasiswa.changepassword
+);
+router.post(
+  "/ubahpw",
+  checkRole("mhs"),
+  verif.verifyToken,
+  mahasiswa.updatepassword
+);
+router.post(
+  "/editP",
+  checkRole("mhs"),
+  verif.verifyToken,
+  mahasiswa.updateProfile
+);
 router.get(
   "/editprofile",
   checkRole("mhs"),
   verif.verifyToken,
-  edit.editProfile
+  mahasiswa.editProfile
 );
 router.get(
   "/detailNews/:idNews",
@@ -339,9 +354,19 @@ router.get(
   verif.verifyToken,
   fti.detailLaporan
 );
+router.get(
+  "/detailorganisasi/:idOrga",
+  checkRole("adminfti"),
+  verif.verifyToken,
+  fti.detailOrg
+);
+router.get(
+  "/detailberita/:idNews",
+  checkRole("adminfti"),
+  verif.verifyToken,
+  fti.detailBerita
+);
 
-router.post("/ubahpw", verif.verifyToken, pw.updatepassword);
-router.post("/editP", verif.verifyToken, edit.updateProfile);
 router.post("/logout", user.logout);
 router.get("/token", token.refreshToken);
 
