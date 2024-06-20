@@ -6,9 +6,8 @@ function redirectIfLoggedIn(req, res, next) {
   if (token) {
     try {
       const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-      const role = decoded.role; // Extract role from JWT payload
+      const role = decoded.role;
 
-      // Redirect based on role
       switch (role) {
         case "adminfti":
           res.redirect("/dashboard");

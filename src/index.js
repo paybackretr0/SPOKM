@@ -12,7 +12,7 @@ const path = require("path");
 const port = 3000;
 const server = http.createServer(app);
 const io = socketio(server);
-const upload = require("../middleware/uploadgambar");
+const upload = require("../middleware/uploadFile");
 
 app.set("view engine", "ejs");
 

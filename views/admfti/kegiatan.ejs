@@ -14,7 +14,22 @@
       <div class="header">
         <div class="text">Kegiatan</div>
         <div class="notification-icon">
-          <i class="bx bx-bell"></i>
+          <i class="bx bx-bell" onclick="toggleDropdown()"></i>
+          <div id="notificationDropdown" class="dropdown-content">
+            <h1>Notifikasi</h1>
+            <hr />
+            <% if (notif.length > 0 ) { %> <% notif.forEach((notif) => { %>
+            <div class="isian">
+              <h3 class="judul">
+                <%= notif.judul %> <span><%= formatDate(notif.tanggal) %></span>
+              </h3>
+              <p class="isi"><%= notif.isi %></p>
+              <hr />
+            </div>
+            <% }) %> <% } else { %>
+            <p>Tidak ada notifikasi</p>
+            <% } %>
+          </div>
         </div>
       </div>
       <div class="list-kegiatan">
@@ -56,7 +71,14 @@
                   <% if (kegiatan.penyelenggara === "P") { %> Pribadi <% } else
                   if (kegiatan.penyelenggara === "O") { %> Organisasi <% } %>
                 </td>
-                <td><%= kegiatan.proposal %></td>
+                <td>
+                  <a
+                    href="/<%= kegiatan.userId %>/<%= kegiatan.proposal %>"
+                    target="_blank"
+                  >
+                    <button class="proposal-btn">Proposal</button></a
+                  >
+                </td>
                 <td><%= kegiatan.nimKetupel %></td>
                 <td>
                   <% if (kegiatan.status === "P") { %>Pending<% } else if
@@ -92,6 +114,29 @@
         </div>
       </div>
     </section>
+    <script>
+      function toggleDropdown() {
+        const dropdown = document.getElementById("notificationDropdown");
+        if (dropdown) {
+          console.log("Dropdown found, toggling visibility");
+          dropdown.classList.toggle("show");
+        } else {
+          console.log("Dropdown not found");
+        }
+      }
+
+      window.onclick = function (event) {
+        if (!event.target.matches(".bx-bell")) {
+          const dropdowns = document.getElementsByClassName("dropdown-content");
+          for (let i = 0; i < dropdowns.length; i++) {
+            const openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains("show")) {
+              openDropdown.classList.remove("show");
+            }
+          }
+        }
+      };
+    </script>
     <div id="notification-container" class="notification-container"></div>
     <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
     <script>

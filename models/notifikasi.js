@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Notifikasi.belongsTo(models.User, {
-        foreignKey: "userId",
+        foreignKey: "pengirim",
         onDelete: "SET NULL",
         onUpdate: "CASCADE",
       });
@@ -38,8 +38,10 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         type: DataTypes.TEXT,
       },
-      userId: {
-        allowNull: false,
+      pengirim: {
+        type: DataTypes.STRING,
+      },
+      penerima: {
         type: DataTypes.STRING,
       },
     },

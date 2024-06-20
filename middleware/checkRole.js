@@ -10,12 +10,10 @@ function checkRole(role) {
       }
 
       const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-      const userRole = decoded.role; // Extract role from JWT payload
+      const userRole = decoded.role;
 
       if (userRole !== role) {
-        return res
-          .status(403)
-          .send("You do not have the necessary role to access this");
+        return res.redirect("/");
       }
       next();
     } catch (err) {

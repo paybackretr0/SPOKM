@@ -24,7 +24,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.TEXT,
       },
-      userId: {
+      pengirim: {
         type: Sequelize.STRING,
         references: {
           model: "Users",
@@ -32,6 +32,9 @@ module.exports = {
         },
         onUpdate: "CASCADE",
         onDelete: "SET NULL",
+      },
+      penerima: {
+        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,

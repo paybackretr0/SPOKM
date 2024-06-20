@@ -1,3 +1,4 @@
+const { Op } = require("sequelize");
 const {
   User,
   Berita,
@@ -13,9 +14,47 @@ let nanoid;
 })();
 const bcrypt = require("bcrypt");
 
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  const day = String(date.getDate()).padStart(2, "0");
+  const monthNames = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  const month = monthNames[date.getMonth()];
+  const year = date.getFullYear();
+
+  return day + " " + month + " " + year;
+}
+
 exports.admfti = async (req, res) => {
   try {
     const pengguna = await User.findByPk(req.userId);
+    const orga = await Organisasi.findAll();
+    const kegiatan = await Kegiatan.findAll();
+    const brt = await Berita.findAll();
+    const notif = await Notifikasi.findAll({
+      where: { penerima: "adminfti" },
+      attributes: ["judul", "tanggal", "isi"],
+      order: [["createdAt", "DESC"]],
+    });
+    const user = await User.findAll({
+      where: {
+        role: {
+          [Op.not]: "adminfti",
+        },
+      },
+    });
     const orgas = await Organisasi.count();
     const kegiatans = await Kegiatan.count();
     const beritas = await Berita.count();
@@ -23,8 +62,14 @@ exports.admfti = async (req, res) => {
       accessToken: req.cookies.accessToken,
       pengguna,
       orgas,
+      kegiatan,
       kegiatans,
+      orga,
+      formatDate,
+      brt,
       beritas,
+      user,
+      notif,
     });
   } catch (error) {
     console.error(error);
@@ -34,29 +79,12 @@ exports.admfti = async (req, res) => {
 
 exports.informasi = async (req, res) => {
   try {
-    function formatDate(dateString) {
-      const date = new Date(dateString);
-      const day = String(date.getDate()).padStart(2, "0");
-      const monthNames = [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ];
-      const month = monthNames[date.getMonth()]; // January is 0!
-      const year = date.getFullYear();
-
-      return day + " " + month + " " + year;
-    }
     const pengguna = await User.findByPk(req.userId);
+    const notif = await Notifikasi.findAll({
+      where: { penerima: "adminfti" },
+      attributes: ["judul", "tanggal", "isi"],
+      order: [["createdAt", "DESC"]],
+    });
     const beritas = await Berita.findAll({
       include: [
         {
@@ -70,6 +98,7 @@ exports.informasi = async (req, res) => {
       pengguna,
       beritas,
       formatDate,
+      notif,
     });
   } catch (error) {
     console.error(error);
@@ -142,12 +171,17 @@ exports.editNews = async (req, res) => {
   try {
     const users = await User.findByPk(req.userId);
     const beritas = await Berita.findByPk(req.params.idNews);
+    const notif = await Notifikasi.findAll({
+      where: { penerima: "adminfti" },
+      attributes: ["judul", "tanggal", "isi"],
+    });
     const kategoris = await Kategori.findAll();
     res.render("admfti/editNews", {
       accessToken: req.cookies.accessToken,
       users,
       beritas,
       kategoris,
+      notif,
     });
   } catch (error) {
     console.error(error);
@@ -213,35 +247,19 @@ exports.editBerita = async (req, res) => {
 
 exports.organization = async (req, res) => {
   try {
-    function formatDate(dateString) {
-      const date = new Date(dateString);
-      const day = String(date.getDate()).padStart(2, "0");
-      const monthNames = [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ];
-      const month = monthNames[date.getMonth()]; // January is 0!
-      const year = date.getFullYear();
-
-      return day + " " + month + " " + year;
-    }
     const pengguna = await User.findByPk(req.userId);
     const org = await Organisasi.findAll();
+    const notif = await Notifikasi.findAll({
+      where: { penerima: "adminfti" },
+      attributes: ["judul", "tanggal", "isi"],
+      order: [["createdAt", "DESC"]],
+    });
     res.render("admfti/organization", {
       accessToken: req.cookies.accessToken,
       pengguna,
       org,
       formatDate,
+      notif,
     });
   } catch (error) {
     console.error(error);
@@ -251,35 +269,18 @@ exports.organization = async (req, res) => {
 
 exports.kegiatan = async (req, res) => {
   try {
-    function formatDate(dateString) {
-      const date = new Date(dateString);
-      const day = String(date.getDate()).padStart(2, "0");
-      const monthNames = [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ];
-      const month = monthNames[date.getMonth()];
-      const year = date.getFullYear();
-
-      return day + " " + month + " " + year;
-    }
     const pengguna = await User.findByPk(req.userId);
     const kegiatan = await Kegiatan.findAll();
+    const notif = await Notifikasi.findAll({
+      where: { penerima: "adminfti" },
+      attributes: ["judul", "tanggal", "isi"],
+    });
     res.render("admfti/kegiatan", {
       accessToken: req.cookies.accessToken,
       pengguna,
       kegiatan,
       formatDate,
+      notif,
     });
   } catch (error) {
     console.error(error);
@@ -296,9 +297,18 @@ exports.user = async (req, res) => {
         },
       ],
     });
+    const orga = await Organisasi.findAll({ where: { userId: users.userId } });
+    const notif = await Notifikasi.findAll({
+      where: { penerima: "adminfti" },
+      attributes: ["judul", "tanggal", "isi"],
+      order: [["createdAt", "DESC"]],
+    });
     res.render("admfti/user", {
       accessToken: req.cookies.accessToken,
       users,
+      notif,
+      formatDate,
+      orga,
     });
   } catch (error) {
     console.error(error);
@@ -362,6 +372,7 @@ exports.tambahUser = async (req, res) => {
 exports.accKegiatan = async (req, res) => {
   try {
     const idKegiatan = req.params.idKegiatan;
+    const pengguna = await User.findByPk(req.userId);
     const kegiatan = await Kegiatan.findOne({ where: { idKegiatan } });
     if (!kegiatan) {
       return res.status(404).json({ message: "Kegiatan tidak ditemukan" });
@@ -375,7 +386,8 @@ exports.accKegiatan = async (req, res) => {
       tanggal: new Date(),
       status: "N",
       isi: `Pengajuan Kegiatan ${kegiatan.namaKegiatan} telah disetujui`,
-      userId: userId,
+      pengirim: pengguna.userId,
+      penerima: userId,
     });
 
     const io = req.app.get("io");
@@ -393,6 +405,7 @@ exports.accKegiatan = async (req, res) => {
 exports.tolakKegiatan = async (req, res) => {
   try {
     const idKegiatan = req.params.idKegiatan;
+    const pengguna = await User.findByPk(req.userId);
     const kegiatan = await Kegiatan.findOne({ where: { idKegiatan } });
     if (!kegiatan) {
       return res.status(404).json({ message: "Kegiatan tidak ditemukan" });
@@ -406,7 +419,8 @@ exports.tolakKegiatan = async (req, res) => {
       tanggal: new Date(),
       status: "N",
       isi: `Pengajuan Kegiatan ${kegiatan.namaKegiatan} ditolak`,
-      userId: userId,
+      pengirim: pengguna.userId,
+      penerima: userId,
     });
 
     const io = req.app.get("io");
@@ -425,6 +439,7 @@ exports.approveBerita = async (req, res) => {
   try {
     const beritaId = req.params.idNews;
     const berita = await Berita.findByPk(beritaId);
+    const pengguna = await User.findByPk(req.userId);
 
     if (!berita) {
       return res.status(404).json({ message: "Publikasi tidak ditemukan" });
@@ -439,11 +454,12 @@ exports.approveBerita = async (req, res) => {
 
     const newNotification = await Notifikasi.create({
       idNotif: "N" + nanoid(7),
-      judul: "Pengajuan disetujui!",
+      judul: "Pengajuan Publikasi Disetujui!",
       tanggal: new Date(),
       status: "N",
-      isi: `Pengajuan berita ${berita.namaberita} disetujui`,
-      userId: userId,
+      isi: `Pengajuan publikasi dengan judul "${berita.namaberita}" disetujui`,
+      pengirim: pengguna.userId,
+      penerima: userId,
     });
 
     const io = req.app.get("io");
@@ -462,6 +478,7 @@ exports.rejectBerita = async (req, res) => {
   try {
     const beritaId = req.params.idNews;
     const berita = await Berita.findByPk(beritaId);
+    const pengguna = await User.findByPk(req.userId);
 
     if (!berita) {
       return res.status(404).json({ message: "Publikasi tidak ditemukan" });
@@ -476,7 +493,8 @@ exports.rejectBerita = async (req, res) => {
       tanggal: new Date(),
       status: "N",
       isi: `Pengajuan publikasi dengan judul "${berita.judul}" ditolak`,
-      userId: userId,
+      pengirim: pengguna.userId,
+      penerima: userId,
     });
 
     const io = req.app.get("io");
@@ -494,6 +512,7 @@ exports.rejectBerita = async (req, res) => {
 exports.accOrg = async (req, res) => {
   try {
     const idOrga = req.params.idOrga;
+    const pengguna = await User.findByPk(req.userId);
     const org = await Organisasi.findByPk(idOrga);
     if (!org) {
       return res.status(404).json({ message: "Organisasi tidak ditemukan" });
@@ -507,7 +526,8 @@ exports.accOrg = async (req, res) => {
       tanggal: new Date(),
       status: "N",
       isi: `Pengajuan Organisasi ${org.namaOrga} telah disetujui`,
-      userId: userId,
+      pengirim: pengguna.userId,
+      penerima: userId,
     });
 
     const io = req.app.get("io");
@@ -525,6 +545,7 @@ exports.accOrg = async (req, res) => {
 exports.tolakOrg = async (req, res) => {
   try {
     const idOrga = req.params.idOrga;
+    const pengguna = await User.findByPk(req.userId);
     const org = await Organisasi.findByPk(idOrga);
     if (!org) {
       return res.status(404).json({ message: "Organisasi tidak ditemukan" });
@@ -538,7 +559,8 @@ exports.tolakOrg = async (req, res) => {
       tanggal: new Date(),
       status: "N",
       isi: `Pengajuan Organisasi ${org.namaOrga} ditolak`,
-      userId: userId,
+      pengirim: pengguna.userId,
+      penerima: userId,
     });
 
     const io = req.app.get("io");
@@ -557,10 +579,17 @@ exports.laporan = async (req, res) => {
   try {
     const pengguna = await User.findByPk(req.userId);
     const kegiatan = await Kegiatan.findAll({ where: { status: "Y" } });
+    const notif = await Notifikasi.findAll({
+      where: { penerima: "adminfti" },
+      attributes: ["judul", "tanggal", "isi"],
+      order: [["createdAt", "DESC"]],
+    });
     res.render("admfti/laporankgt", {
       accessToken: req.cookies.accessToken,
       pengguna,
       kegiatan,
+      formatDate,
+      notif,
     });
   } catch (error) {
     console.error(error);
@@ -570,28 +599,6 @@ exports.laporan = async (req, res) => {
 
 exports.detailLaporan = async (req, res) => {
   try {
-    function formatDate(dateString) {
-      const date = new Date(dateString);
-      const day = String(date.getDate()).padStart(2, "0");
-      const monthNames = [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ];
-      const month = monthNames[date.getMonth()];
-      const year = date.getFullYear();
-
-      return day + " " + month + " " + year;
-    }
     const pengguna = await User.findByPk(req.userId);
     const idKegiatan = req.params.idKegiatan;
     const kegiatan = await Kegiatan.findByPk(idKegiatan);
@@ -599,6 +606,49 @@ exports.detailLaporan = async (req, res) => {
       accessToken: req.cookies.accessToken,
       pengguna,
       kegiatan,
+      formatDate,
+    });
+  } catch (error) {
+    console.error(error);
+    res.redirect("/login");
+  }
+};
+
+exports.detailOrg = async (req, res) => {
+  try {
+    const pengguna = await User.findByPk(req.userId);
+    const idOrga = req.params.idOrga;
+    const orga = await Organisasi.findByPk(idOrga);
+
+    res.render("admfti/detailorganisasi", {
+      accessToken: req.cookies.accessToken,
+      pengguna,
+      orga,
+      formatDate,
+    });
+  } catch (error) {
+    console.error(error);
+    res.redirect("/login");
+  }
+};
+
+exports.detailBerita = async (req, res) => {
+  try {
+    const pengguna = await User.findByPk(req.userId);
+    const idNews = req.params.idNews;
+    const berita = await Berita.findByPk(idNews, {
+      include: [
+        {
+          model: Kategori,
+          attributes: ["namaKategori"],
+        },
+      ],
+    });
+
+    res.render("admfti/detailberita", {
+      accessToken: req.cookies.accessToken,
+      pengguna,
+      berita,
       formatDate,
     });
   } catch (error) {

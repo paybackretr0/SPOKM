@@ -55,8 +55,29 @@
     </div>
   </nav>
   <nav class="add">
-    <i class="bx bx-bell"></i>
-    <a href="/room" class="chat"><i class="bx bx-chat"></i></a>
+    <div class="notification-icon">
+      <i class="bx bx-bell" onclick="toggleDropdown()"></i>
+      <div id="notificationDropdown" class="dropdown-content">
+        <h1>Notifikasi</h1>
+        <hr />
+        <% if (notify.length > 0 ) { %> <% notify.forEach((notify) => { %>
+        <div class="isian">
+          <h3 class="judul">
+            <%= notify.judul %> <span><%= formatDate(notify.tanggal) %></span>
+          </h3>
+          <p class="isi"><%= notify.isi %></p>
+          <hr />
+        </div>
+        <% }) %> <% } else { %>
+        <p>Tidak ada notifikasi</p>
+        <% } %>
+      </div>
+    </div>
+    <% if (!mhs.nama) { %><a href="/home" class="chat"
+      ><i class="bx bx-chat"></i
+    ></a>
+    <% } else { %><a href="/room" class="chat"><i class="bx bx-chat"></i></a>
+    <% } %>
     <img src="/img/fti.jpg" class="user-pic" onclick="toggleMenu()" />
     <div class="sub-menu-wrap" id="subMenu">
       <div class="sub-menu">
@@ -91,5 +112,29 @@
     function toggleMenuMenu() {
       subFungs.classList.toggle("open-fungs");
     }
+  </script>
+
+  <script>
+    function toggleDropdown() {
+      const dropdown = document.getElementById("notificationDropdown");
+      if (dropdown) {
+        console.log("Dropdown found, toggling visibility");
+        dropdown.classList.toggle("show");
+      } else {
+        console.log("Dropdown not found");
+      }
+    }
+
+    window.onclick = function (event) {
+      if (!event.target.matches(".bx-bell")) {
+        const dropdowns = document.getElementsByClassName("dropdown-content");
+        for (let i = 0; i < dropdowns.length; i++) {
+          const openDropdown = dropdowns[i];
+          if (openDropdown.classList.contains("show")) {
+            openDropdown.classList.remove("show");
+          }
+        }
+      }
+    };
   </script>
 </section>

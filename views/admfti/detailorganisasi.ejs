@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="/assets/admfti.css" />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <title>Detail Organisasi - <%= orga.namaOrga %></title>
+  </head>
+  <body>
+    <%- include('../komponen/sidebar');%>
+    <section class="detail-laporan">
+      <h2 class="judul">Detail Organisasi</h2>
+
+      <div class="containert">
+        <div class="logo">
+          <img src="/<%= orga.userId %>/<%= orga.logo %>" />
+        </div>
+        <div class="box">
+          <label for="namaOrga"
+            >Nama Organisasi: <span><%= orga.namaOrga %></span></label
+          >
+          <label for="deskripsi"
+            >Deskripsi: <span><%= orga.deskripsi %></span></label
+          >
+          <label for="tanggalBerdiri"
+            >Tanggal Berdiri:
+            <span
+              ><% if(!orga.tanggalBerdiri) { %> Organisasi Tidak Disetujui <% }
+              else { %> <%= formatDate(orga.tanggalBerdiri) %> <% } %></span
+            ></label
+          >
+          <label for="profilOrg"
+            >Profil Organisasi:
+            <span
+              ><% if (!orga.profilOrg) { %> Belum Diunggah <% } else { %>
+              <a
+                href="/<%= orga.userId %>/<%= orga.profilOrg %>"
+                target="_blank"
+              >
+                <button>Profil Organisasi</button>
+              </a>
+              <% } %></span
+            ></label
+          >
+          <label for="suratRek"
+            >Surat Rekomendasi:
+            <span
+              ><% if (!orga.suratRek) { %> Belum Diunggah <% } else { %>
+              <a
+                href="/<%= orga.userId %>/<%= orga.suratRek %>"
+                target="_blank"
+              >
+                <button>Surat Rekomendasi</button>
+              </a>
+              <% } %></span
+            ></label
+          >
+        </div>
+      </div>
+    </section>
+    <div id="notification-container" class="notification-container"></div>
+    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+    <script>
+      const socket = io("http://localhost:3000");
+
+      socket.on("connect", () => {
+        console.log("Connected to Admin FTI");
+        socket.emit("joinRoom", "adminfti");
+      });
+
+      socket.on("new_kegiatan", (data) => {
+        console.log(data);
+        console.log("Notifikasi baru:", data);
+        showNotification(data, "kegiatan");
+      });
+
+      socket.on("new_kegiatanMhs", (data) => {
+        console.log(data);
+        console.log("Notifikasi baru dari Mahasiswa:", data);
+        showNotification(data, "kegiatan");
+      });
+
+      socket.on("new_organisasi", (data) => {
+        console.log(data);
+        console.log("Notifikasi baru dari Mahasiswa:", data);
+        showNotification(data, "orga");
+      });
+
+      socket.on("new_berita", (data) => {
+        console.log(data);
+        console.log("Notifikasi baru dari Mahasiswa:", data);
+        showNotification(data, "berita");
+      });
+
+      function showNotification(data, type) {
+        const notificationContainer = document.getElementById(
+          "notification-container"
+        );
+        const notification = document.createElement("div");
+        notification.className = "notification";
+        if (type === "kegiatan") {
+          notification.innerHTML = `
+      <strong>${data.message}</strong>
+      <p>${data.kegiatan.namaKegiatan} oleh ${data.kegiatan.nama}</p>
+    `;
+        } else if (type === "orga") {
+          notification.innerHTML = `
+      <strong>${data.message}</strong>
+      <p>${data.orga.namaOrga} oleh ${data.orga.nama}</p>
+    `;
+        } else if (type === "berita") {
+          notification.innerHTML = `
+      <strong>${data.message}</strong>
+      <p>${data.berita.judul} oleh ${data.berita.nama}</p>
+    `;
+        }
+        notificationContainer.appendChild(notification);
+
+        setTimeout(() => {
+          notificationContainer.removeChild(notification);
+        }, 5000);
+      }
+    </script>
+  </body>
+</html>

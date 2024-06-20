@@ -18,15 +18,147 @@
       <div class="header">
         <div class="text">Dashboard</div>
         <div class="notification-icon">
-          <i class="bx bx-bell"></i>
+          <i class="bx bx-bell" onclick="toggleDropdown()"></i>
+          <div id="notificationDropdown" class="dropdown-content">
+            <h1>Notifikasi</h1>
+            <hr />
+            <% if (notif.length > 0 ) { %> <% notif.forEach((notif) => { %>
+            <div class="isian">
+              <h3 class="judul">
+                <%= notif.judul %> <span><%= formatDate(notif.tanggal) %></span>
+              </h3>
+              <p class="isi"><%= notif.isi %></p>
+              <hr />
+            </div>
+            <% }) %> <% } else { %>
+            <p>Tidak ada notifikasi</p>
+            <% } %>
+          </div>
+        </div>
+      </div>
+      <div class="box-container">
+        <div class="box">
+          <div class="isian">
+            <h3>Pengajuan Organisasi</h3>
+            <canvas id="organisasiChart"></canvas>
+          </div>
+        </div>
+        <div class="box">
+          <div class="isian">
+            <h3>Pengajuan Kegiatan</h3>
+            <canvas id="kegiatanChart"></canvas>
+          </div>
+        </div>
+        <div class="box">
+          <div class="isian">
+            <h3>Pengajuan Publikasi</h3>
+            <canvas id="publikasiChart"></canvas>
+          </div>
+        </div>
+        <div class="box">
+          <div class="isian">
+            <h3>Jumlah Pengguna</h3>
+            <canvas id="penggunaChart"></canvas>
+          </div>
         </div>
       </div>
       <div class="content">
         <div class="chart-container">
+          <h3>Grafik Perbandingan Jumlah Pengajuan</h3>
           <canvas id="statsChart"></canvas>
         </div>
       </div>
     </section>
+    <script>
+      function toggleDropdown() {
+        const dropdown = document.getElementById("notificationDropdown");
+        if (dropdown) {
+          console.log("Dropdown found, toggling visibility");
+          dropdown.classList.toggle("show");
+        } else {
+          console.log("Dropdown not found");
+        }
+      }
+
+      window.onclick = function (event) {
+        if (!event.target.matches(".bx-bell")) {
+          const dropdowns = document.getElementsByClassName("dropdown-content");
+          for (let i = 0; i < dropdowns.length; i++) {
+            const openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains("show")) {
+              openDropdown.classList.remove("show");
+            }
+          }
+        }
+      };
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        var ctxOrg = document.getElementById('organisasiChart').getContext('2d');
+        var organisasiChart = new Chart(ctxOrg, {
+          type: 'pie',
+          data: {
+            labels: ['Disetujui', 'Ditolak'],
+            datasets: [{
+              label: 'Pengajuan Organisasi',
+              data: [<%= orga.filter(org => org.status === 'Y').length %>, <%= orga.filter(org => org.status === 'N').length %>],
+              backgroundColor: ['#36a2eb', '#ff6384'],
+            }]
+          },
+          options: {
+            responsive: true,
+          }
+        });
+
+        var ctxKgt = document.getElementById('kegiatanChart').getContext('2d');
+        var kegiatanChart = new Chart(ctxKgt, {
+          type: 'pie',
+          data: {
+            labels: ['Disetujui', 'Ditolak'],
+            datasets: [{
+              label: 'Pengajuan Kegiatan',
+              data: [<%= kegiatan.filter(keg => keg.status === 'Y').length %>, <%= kegiatan.filter(keg => keg.status === 'N').length %>],
+              backgroundColor: ['#36a2eb', '#ff6384'],
+            }]
+          },
+          options: {
+            responsive: true,
+          }
+        });
+
+        var ctxPub = document.getElementById('publikasiChart').getContext('2d');
+        var publikasiChart = new Chart(ctxPub, {
+          type: 'pie',
+          data: {
+            labels: ['Disetujui', 'Ditolak'],
+            datasets: [{
+              label: 'Pengajuan Publikasi',
+              data: [<%= brt.filter(brta => brta.status === 'Y').length %>, <%= brt.filter(brta => brta.status === 'N').length %>],
+              backgroundColor: ['#36a2eb', '#ff6384'],
+            }]
+          },
+          options: {
+            responsive: true,
+          }
+        });
+
+        var ctxUsr = document.getElementById('penggunaChart').getContext('2d');
+        var penggunaChart = new Chart(ctxUsr, {
+          type: 'pie',
+          data: {
+            labels: ['Mahasiswa', 'Admin Organisasi'],
+            datasets: [{
+              label: 'Jumlah Pengguna',
+              data: [<%= user.filter(users => users.role === 'mhs').length %>, <%= user.filter(users => users.role === 'adminorg').length %>],
+              backgroundColor: ['#36a2eb', '#ff6384'],
+            }]
+          },
+          options: {
+            responsive: true,
+          }
+        });
+      });
+    </script>
     <script>
       document.addEventListener('DOMContentLoaded', function() {
         const organizationsCount = <%= JSON.stringify(orgas) %>;

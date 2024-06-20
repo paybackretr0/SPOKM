@@ -18,8 +18,9 @@
               <p class="teks"><%= orga.lingkupOrganisasi %></p>
               <h3><%= orga.namaOrga %></h3>
               <p class="tanggal">
-                <i class="bx bxs-calendar-alt"></i> <%=
-                formatDate(orga.tanggalBerdiri) %>
+                <i class="bx bxs-calendar-alt"></i> <% if(!orga.tanggalBerdiri)
+                { %> Belum Diatur <% } else { %> <%=
+                formatDate(orga.tanggalBerdiri) %> <% } %>
               </p>
             </div>
             <div class="image">
@@ -28,8 +29,32 @@
             <div class="content">
               <p class="isi"><%= orga.deskripsi %></p>
               <p class="penulis">Ketua: <%= orga.namaKetua %></p>
-              <p class="profil">Profil Organisasi:</p>
-              <p class="suratrek">Surat Rekomendasi dari Pihak Kampus:</p>
+              <p class="profil">
+                Profil Organisasi:
+                <span
+                  ><% if (!orga.profilOrg) { %> Belum Diunggah <% } else { %>
+                  <a
+                    href="/<%= orga.userId %>/<%= orga.profilOrg %>"
+                    target="_blank"
+                  >
+                    <button>Profil Organisasi</button>
+                  </a>
+                  <% } %></span
+                >
+              </p>
+              <p class="suratrek">
+                Surat Rekomendasi dari Pihak Kampus:
+                <span
+                  ><% if (!orga.suratRek) { %> Belum Diunggah <% } else { %>
+                  <a
+                    href="/<%= orga.userId %>/<%= orga.suratRek %>"
+                    target="_blank"
+                  >
+                    <button>Surat Rekomendasi</button>
+                  </a>
+                  <% } %></span
+                >
+              </p>
             </div>
           </div>
         </div>
