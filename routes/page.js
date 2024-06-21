@@ -86,12 +86,7 @@ router.get(
   verif.verifyToken,
   mahasiswa.changepassword
 );
-router.post(
-  "/ubahpw",
-  checkRole("mhs"),
-  verif.verifyToken,
-  mahasiswa.updatepassword
-);
+router.post("/ubahpw", verif.verifyToken, mahasiswa.updatepassword);
 router.post(
   "/editP",
   checkRole("mhs"),

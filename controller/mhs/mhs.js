@@ -108,8 +108,7 @@ exports.updateProfile = async (req, res, next) => {
   try {
     const { nama, email, jurusan } = req.body;
     const pengguna = await User.findByPk(req.userId);
-    console.log(pengguna);
-    if (!User) {
+    if (!pengguna) {
       return res.status(404).json({ message: "Pengguna tidak ditemukan" });
     }
     const mhs = await Mahasiswa.findOne({ where: { nim: pengguna.nim } });
@@ -145,33 +144,30 @@ exports.changepassword = async (req, res) => {
 
 exports.updatepassword = async (req, res, next) => {
   try {
-    const { oldPassword, newPassword, confirmPassword } = req.body;
-
-    // Cari pengguna berdasarkan userId
     const users = await User.findByPk(req.userId);
-    console.log(users);
+
     if (!users) {
       return res.status(404).json({ message: "Pengguna tidak ditemukan" });
     }
 
-    if (newPassword !== confirmPassword) {
-      return res
-        .status(400)
-        .json({ message: "New password and confirm password do not match" });
+    const { oldPassword, newPassword, confirmPassword } = req.body;
+    if (!oldPassword || !newPassword || !confirmPassword) {
+      return res.status(400).json({ message: "Semua data harus diisi" });
     }
 
-    // Periksa apakah password saat ini cocok
     const isPasswordValid = await bcrypt.compare(oldPassword, users.password);
     if (!isPasswordValid) {
       return res.status(401).json({ message: "Password saat ini salah" });
     }
 
-    // Enkripsi password baru
+    if (newPassword !== confirmPassword) {
+      return res
+        .status(400)
+        .json({ message: "Password Baru dan Konfirmasi Password tidak sama" });
+    }
+
     const hashedNewPassword = await bcrypt.hash(newPassword, 10);
-
-    // Perbarui password pengguna di database
     await users.update({ password: hashedNewPassword });
-
     return res.status(200).json({ message: "Password berhasil diubah" });
   } catch (error) {
     console.log(error);
@@ -310,32 +306,81 @@ exports.daftarOrg = async (req, res) => {
       namaOrga,
       deskripsi,
       tanggalPengajuan,
-      tanggalBerdiri,
       lingkupOrganisasi,
       namaKetua,
       nimKetua,
-      no_wa,
-      departemen,
     } = req.body;
-    const logo = req.files["logo"] ? req.files["logo"][0].filename : null;
-    const profilOrg = req.files["profilOrg"]
-      ? req.files["profilOrg"][0].filename
-      : null;
-    const suratRek = req.files["suratRek"]
-      ? req.files["suratRek"][0].filename
-      : null;
+
+    const logo =
+      req.files && req.files["logo"] && isImage(req.files["logo"][0])
+        ? req.files["logo"][0].filename
+        : null;
+    const profilOrg =
+      req.files && req.files["profilOrg"] && isPDF(req.files["profilOrg"][0])
+        ? req.files["profilOrg"][0].filename
+        : null;
+    const suratRek =
+      req.files && req.files["suratRek"] && isPDF(req.files["suratRek"][0])
+        ? req.files["suratRek"][0].filename
+        : null;
+
+    if (
+      !namaOrga ||
+      !deskripsi ||
+      !tanggalPengajuan ||
+      !lingkupOrganisasi ||
+      !namaKetua ||
+      !nimKetua ||
+      !logo ||
+      !profilOrg ||
+      !suratRek
+    ) {
+      return res.status(400).json({ message: "Data tidak boleh kosong" });
+    }
+
+    if (
+      typeof namaOrga !== "string" ||
+      typeof deskripsi !== "string" ||
+      typeof lingkupOrganisasi !== "string" ||
+      typeof namaKetua !== "string" ||
+      !isNaN(namaOrga) ||
+      !isNaN(deskripsi) ||
+      !isNaN(lingkupOrganisasi) ||
+      !isNaN(namaKetua)
+    ) {
+      return res.status(400).json({ message: " Data Tidak Valid" });
+    }
+
+    if (isNaN(nimKetua)) {
+      return res.status(400).json({ message: "NIM Ketua harus berupa angka" });
+    }
+
+    if (!logo) {
+      return res
+        .status(400)
+        .json({ message: "Logo harus berupa file .png/.jpg/.jpeg" });
+    }
+
+    if (!profilOrg) {
+      return res
+        .status(400)
+        .json({ message: "Profil Organisasi harus berupa file PDF" });
+    }
+
+    if (!suratRek) {
+      return res
+        .status(400)
+        .json({ message: "Surat Rekomendasi harus berupa file PDF" });
+    }
 
     await Organisasi.create({
       idOrga: "O" + nanoid(7),
       namaOrga: namaOrga,
       deskripsi: deskripsi,
       tanggalPengajuan: tanggalPengajuan,
-      tanggalBerdiri: tanggalBerdiri,
       lingkupOrganisasi: lingkupOrganisasi,
       namaKetua: namaKetua,
       nimKetua: nimKetua,
-      no_wa: no_wa,
-      departemen: departemen,
       logo: logo,
       profilOrg: profilOrg,
       suratRek: suratRek,
@@ -402,7 +447,6 @@ exports.daftarkgt = async (req, res) => {
     if (!pengguna) {
       return res.status(404).json({ message: "User tidak ditemukan" });
     }
-
     const {
       namaKegiatan,
       deskripsi,
@@ -415,10 +459,60 @@ exports.daftarkgt = async (req, res) => {
       tanggalSelesai,
       penyelenggara,
     } = req.body;
-    const logo = req.files["logo"] ? req.files["logo"][0].filename : null;
-    const proposal = req.files["proposal"]
-      ? req.files["proposal"][0].filename
-      : null;
+    const logo =
+      req.files && req.files["logo"] && isImage(req.files["logo"][0])
+        ? req.files["logo"][0].filename
+        : null;
+    const proposal =
+      req.files && req.files["proposal"] && isPDF(req.files["proposal"][0])
+        ? req.files["proposal"][0].filename
+        : null;
+
+    if (
+      !namaKegiatan ||
+      !deskripsi ||
+      !namaKetupel ||
+      !nimKetupel ||
+      !tanggalPengajuan ||
+      !bidangKegiatan ||
+      !lingkupKegiatan ||
+      !tanggalMulai ||
+      !tanggalSelesai ||
+      !penyelenggara
+    ) {
+      return res.status(400).json({ message: "Data tidak boleh kosong" });
+    }
+
+    if (
+      typeof namaKegiatan !== "string" ||
+      typeof deskripsi !== "string" ||
+      typeof namaKetupel !== "string" ||
+      typeof bidangKegiatan !== "string" ||
+      typeof lingkupKegiatan !== "string" ||
+      !isNaN(namaKegiatan) ||
+      !isNaN(deskripsi) ||
+      !isNaN(namaKetupel) ||
+      !isNaN(bidangKegiatan) ||
+      !isNaN(lingkupKegiatan)
+    ) {
+      return res.status(400).json({ message: " Data Tidak Valid" });
+    }
+
+    if (isNaN(nimKetupel)) {
+      return res.status(400).json({ message: "NIM Ketupel harus angka" });
+    }
+
+    if (!logo) {
+      return res
+        .status(400)
+        .json({ message: "logo harus berupa file .png/.jpg/.jpeg" });
+    }
+
+    if (!proposal) {
+      return res
+        .status(400)
+        .json({ message: "proposal harus berupa file PDF" });
+    }
 
     await Kegiatan.create({
       idKegiatan: "K" + nanoid(7),
@@ -501,17 +595,27 @@ exports.daftarberita = async (req, res) => {
     }
 
     const { penulis, kategori, judul, isi_berita, tanggalPengajuan } = req.body;
-    const gambar = req.file ? req.file.filename : null;
+    const gambar = req.file && isImage(req.file) ? req.file.filename : null;
+
+    if (!penulis || !kategori || !judul || !isi_berita || !tanggalPengajuan) {
+      return res.status(400).json({ message: "Semua bidang harus diisi" });
+    }
 
     if (
-      !penulis ||
-      !kategori ||
-      !judul ||
-      !isi_berita ||
-      !tanggalPengajuan ||
-      !gambar
+      typeof penulis !== "string" ||
+      typeof judul !== "string" ||
+      typeof isi_berita !== "string" ||
+      !isNaN(penulis) ||
+      !isNaN(judul) ||
+      !isNaN(isi_berita)
     ) {
-      return res.status(400).json({ message: "Semua bidang harus diisi" });
+      return res.status(400).json({ message: " Data Tidak Valid" });
+    }
+
+    if (!gambar) {
+      return res
+        .status(400)
+        .json({ message: "gambar harus berupa file .png/.jpg/.jpeg" });
     }
 
     await Berita.create({
@@ -531,7 +635,9 @@ exports.daftarberita = async (req, res) => {
       judul: "Pengajuan Publikasi",
       tanggal: new Date(),
       status: "N",
-      isi: `Pengajuan Publikasi dengan judul ${judul} oleh ${req.userId} telah diajukan`,
+      isi: `Pengajuan Publikasi dengan judul "${judul}" oleh ${
+        mhs.nama || "Mahasiswa"
+      } telah diajukan`,
       pengirim: pengguna.userId,
       penerima: "adminfti",
     });
@@ -611,7 +717,7 @@ exports.detailBerita = async (req, res) => {
       komentar,
       news,
       notify,
-      formatDate,
+      pengguna,
     });
   } catch (error) {
     console.error(error);
@@ -679,35 +785,12 @@ exports.laporKegiatan = async (req, res) => {
 exports.laporkgt = async (req, res) => {
   try {
     const idKegiatan = req.body.idKegiatan;
-    if (!idKegiatan) {
-      return res.status(400).json({ message: "idKegiatan is required" });
-    }
-    const kegiatan = await Kegiatan.findOne({
-      where: { idKegiatan: idKegiatan },
-    });
-
-    if (!kegiatan) {
-      return res.status(404).json({ message: "Kegiatan not found" });
-    }
-
-    const jumlahPeserta = parseInt(req.body.jumlahPeserta);
-
-    if (isNaN(jumlahPeserta)) {
-      return res
-        .status(400)
-        .json({ message: "Jumlah Peserta must be a number" });
-    }
+    const jumlahPeserta = req.body.jumlahPeserta;
 
     const laporanKegiatan =
       req.files["laporanKegiatan"] && isPDF(req.files["laporanKegiatan"][0])
         ? req.files["laporanKegiatan"][0].filename
         : null;
-    if (!laporanKegiatan) {
-      return res
-        .status(400)
-        .json({ message: "Laporan Kegiatan harus berupa file PDF" });
-    }
-
     const dok1 =
       req.files["dok1"] && isImage(req.files["dok1"][0])
         ? req.files["dok1"][0].filename
@@ -721,11 +804,46 @@ exports.laporkgt = async (req, res) => {
         ? req.files["dok3"][0].filename
         : null;
 
+    console.log("Datanya :", idKegiatan, jumlahPeserta);
+    console.log("Uploaded Files:", req.files);
+
+    if (!laporanKegiatan) {
+      return res
+        .status(400)
+        .json({ message: "Laporan Kegiatan harus berupa file PDF" });
+    }
+
     if (!dok1 || !dok2 || !dok3) {
       return res
         .status(400)
         .json({ message: "Dokumentasi harus berupa file gambar" });
     }
+
+    if (
+      !idKegiatan ||
+      !jumlahPeserta ||
+      !laporanKegiatan ||
+      !dok1 ||
+      !dok2 ||
+      !dok3
+    ) {
+      return res.status(400).json({ message: "Semua bidang harus diisi" });
+    }
+
+    if (isNaN(jumlahPeserta)) {
+      return res
+        .status(400)
+        .json({ message: "Jumlah Peserta must be a number" });
+    }
+
+    const kegiatan = await Kegiatan.findOne({
+      where: { idKegiatan: idKegiatan },
+    });
+
+    if (!kegiatan) {
+      return res.status(404).json({ message: "Kegiatan not found" });
+    }
+
     await Kegiatan.update(
       {
         laporanKegiatan: laporanKegiatan,
@@ -780,7 +898,7 @@ exports.detailKgt = async (req, res) => {
     const kegiatan = await Kegiatan.findOne({
       where: { idKegiatan: idKegiatan },
     });
-    const kegiatans = await Kegiatan.findAll();
+    const kegiatans = await Kegiatan.findAll({ where: { status: "Y" } });
     const notify = await Notifikasi.findAll({
       where: { penerima: pengguna.userId },
       attributes: ["judul", "tanggal", "isi"],

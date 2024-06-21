@@ -27,8 +27,8 @@
           <label for="tanggalBerdiri"
             >Tanggal Berdiri:
             <span
-              ><% if(!orga.tanggalBerdiri) { %> Organisasi Tidak Disetujui <% }
-              else { %> <%= formatDate(orga.tanggalBerdiri) %> <% } %></span
+              ><% if(!orga.tanggalBerdiri) { %> - <% } else { %> <%=
+              formatDate(orga.tanggalBerdiri) %> <% } %></span
             ></label
           >
           <label for="profilOrg"

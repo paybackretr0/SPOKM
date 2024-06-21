@@ -8,7 +8,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     />
     <link rel="stylesheet" href="/assets/style.css" />
-    <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link
       href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
       rel="stylesheet"
@@ -38,7 +38,6 @@
               type="text"
               placeholder="masukan nama ketua"
               name="namaKetua"
-              required
             />
           </div>
           <div class="inputbox">
@@ -48,7 +47,6 @@
               type="text"
               placeholder="masukan nama organisasi"
               name="namaOrga"
-              required
             />
           </div>
           <div class="inputbox">
@@ -57,7 +55,6 @@
               type="text"
               placeholder="masukan NIM Ketua"
               name="nimKetua"
-              required
             />
           </div>
           <div class="inputbox">
@@ -66,7 +63,6 @@
               type="text"
               name="deskripsi"
               placeholder="Masukan Deskripsi Organisasi"
-              required
             ></textarea>
           </div>
           <div class="inputbox"></div>
@@ -76,7 +72,6 @@
               type="text"
               placeholder="masukan lingkup organisasi"
               name="lingkupOrganisasi"
-              required
             />
           </div>
           <div class="inputbox"></div>
@@ -94,22 +89,19 @@
         <div class="doc">
           <div class="box">
             <span>Profil Organisasi (.pdf)</span>
-            <input type="file" name="profilOrg" accept=".pdf" required />
+            <input type="file" name="profilOrg" accept=".pdf" />
           </div>
           <div class="box">
             <span>Surat Rekomendasi dari Pihak di Lingkup Kampus (.pdf)</span>
-            <input type="file" name="suratRek" accept=".pdf" required />
+            <input type="file" name="suratRek" accept=".pdf" />
           </div>
           <div class="box">
             <span>Logo Organisasi (.png/.jpg/.jpeg)</span>
-            <input type="file" name="logo" accept="image/*" required />
+            <input type="file" name="logo" accept="image/*" />
           </div>
           <div class="box"></div>
         </div>
-        <label
-          ><input type="checkbox" required />Informasi di atas sudah
-          benar</label
-        >
+        <label><input type="checkbox" />Informasi di atas sudah benar</label>
         <div class="tombol">
           <input
             type="submit"
@@ -134,15 +126,31 @@
                 });
 
                 if (response.ok) {
-                  alert("Informasi tersimpan");
-                  window.location.href = "daftarorg";
+                  Swal.fire({
+                    icon: "success",
+                    title: "Success",
+                    text: "Informasi tersimpan",
+                    confirmButtonText: "OK",
+                  }).then(() => {
+                    window.location.href = "/daftarorg";
+                  });
                 } else {
                   const errorData = await response.json();
-                  alert("Gagal menyimpan informasi: " + errorData.message);
+                  Swal.fire({
+                    icon: "error",
+                    title: "Invalid Data",
+                    text: errorData.message,
+                    confirmButtonText: "OK",
+                  });
                 }
               } catch (error) {
                 console.error("Error:", error);
-                alert("Terjadi kesalahan pada server");
+                Swal.fire({
+                  icon: "error",
+                  title: "Error",
+                  text: "Terjadi kesalahan pada server",
+                  confirmButtonText: "OK",
+                });
               }
             });
         </script>
@@ -162,6 +170,7 @@
         </script>
       </form>
     </section>
+
     <div id="notification-container" class="notification-container"></div>
     <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
     <script>

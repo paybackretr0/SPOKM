@@ -4,12 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="assets/style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Edit Profile</title>
   </head>
   <body class="editprofil">
     <div class="editProfile">
       <h1>Edit Profile</h1>
-      <form action="/editP" method="POST" class="edit-form">
+      <form action="/editP" method="POST" class="edit-form" id="editP">
         <label for="nama">Nama</label>
         <input type="text" id="nama" name="nama" placeholder="<%= mhs.nama%>" />
 
@@ -43,6 +44,48 @@
         </div>
       </form>
     </div>
+    <script>
+      document
+        .getElementById("editP")
+        .addEventListener("submit", async function (event) {
+          event.preventDefault();
+
+          const formData = new FormData(this);
+          try {
+            const response = await fetch("/editP", {
+              method: "POST",
+              body: formData,
+            });
+
+            if (response.ok) {
+              Swal.fire({
+                icon: "success",
+                title: "Success",
+                text: "Informasi tersimpan",
+                confirmButtonText: "OK",
+              }).then(() => {
+                window.location.href = "/profil";
+              });
+            } else {
+              const errorData = await response.json();
+              Swal.fire({
+                icon: "error",
+                title: "Invalid Data",
+                text: errorData.message,
+                confirmButtonText: "OK",
+              });
+            }
+          } catch (error) {
+            console.error("Error:", error);
+            Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: "Terjadi kesalahan pada server",
+              confirmButtonText: "OK",
+            });
+          }
+        });
+    </script>
     <div id="notification-container" class="notification-container"></div>
     <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
     <script>

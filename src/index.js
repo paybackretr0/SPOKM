@@ -17,7 +17,7 @@ const upload = require("../middleware/uploadFile");
 app.set("view engine", "ejs");
 
 io.on("connection", (socket) => {
-  console.log("admin FTI client connected");
+  console.log("Client connected");
   socket.on("joinRoom", (role) => {
     if (role === "adminfti") {
       socket.join("adminfti");
@@ -37,6 +37,8 @@ io.on("connection", (socket) => {
 app.set("io", io);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(express.static("uploads"));
 app.use("/assets", express.static("public"));

@@ -39,7 +39,6 @@
               type="text"
               placeholder="masukan nama ketupel"
               name="namaKetupel"
-              required
             />
           </div>
           <div class="inputbox">
@@ -49,7 +48,6 @@
               type="text"
               placeholder="masukan nama kegiatan"
               name="namaKegiatan"
-              required
             />
           </div>
           <div class="inputbox">
@@ -58,7 +56,6 @@
               type="text"
               placeholder="masukan NIM ketupel"
               name="nimKetupel"
-              required
             />
           </div>
           <div class="inputbox">
@@ -67,7 +64,6 @@
               type="text"
               placeholder="masukan bidang kegiatan"
               name="bidangKegiatan"
-              required
             />
           </div>
           <div class="inputbox"></div>
@@ -77,7 +73,6 @@
               type="text"
               placeholder="masukan lingkup kegiatan"
               name="lingkupKegiatan"
-              required
             />
           </div>
           <div class="inputbox"></div>
@@ -87,7 +82,6 @@
               type="text"
               name="deskripsi"
               placeholder="masukan deskripsi"
-              required
             ></textarea>
           </div>
           <div class="inputbox"></div>
@@ -97,7 +91,6 @@
               type="date"
               name="tanggalMulai"
               min="<%= new Date().toISOString().split('T')[0] %>"
-              required
             />
           </div>
           <div class="inputbox"></div>
@@ -107,7 +100,6 @@
               type="date"
               name="tanggalSelesai"
               min="<%= new Date().toISOString().split('T')[0] %>"
-              required
             />
           </div>
           <div class="inputbox"></div>
@@ -123,7 +115,7 @@
           <div class="inputbox"></div>
           <div class="inputbox">
             <span>Penyelenggara</span>
-            <select id="penyelenggara" name="penyelenggara" required>
+            <select id="penyelenggara" name="penyelenggara">
               <option value="" disabled selected hidden>
                 ---Pilih Penyelenggara yang Sesuai---
               </option>
@@ -141,7 +133,6 @@
               placeholder="pilih file proposal"
               name="proposal"
               accept=".pdf"
-              required
             />
           </div>
           <div class="box">
@@ -151,14 +142,10 @@
               placeholder="pilih file logo"
               name="logo"
               accept="image/*"
-              required
             />
           </div>
         </div>
-        <label
-          ><input type="checkbox" required />Informasi di atas sudah
-          benar</label
-        >
+        <label><input type="checkbox" />Informasi di atas sudah benar</label>
         <div class="tombol">
           <input
             type="submit"

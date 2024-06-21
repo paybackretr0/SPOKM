@@ -267,6 +267,23 @@ exports.dafkgt = async (req, res) => {
       ? req.files["proposal"][0].filename
       : null;
 
+    if (
+      !namaKegiatan ||
+      !namaKetupel ||
+      !nimKetupel ||
+      !deskripsi ||
+      !bidangKegiatan ||
+      !tanggalMulai ||
+      !tanggalSelesai ||
+      !tanggalPengajuan ||
+      !penyelenggara ||
+      !lingkupKegiatan ||
+      !logo ||
+      !proposal
+    ) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+
     await Kegiatan.create({
       idKegiatan: "K" + nanoid(7),
       namaKegiatan: namaKegiatan,
@@ -290,7 +307,9 @@ exports.dafkgt = async (req, res) => {
       judul: "Pengajuan Kegiatan",
       tanggal: new Date(),
       status: "N",
-      isi: `Pengajuan Kegiatan ${namaKegiatan} oleh ${orga.namaOrga} telah diajukan`,
+      isi: `Pengajuan Kegiatan ${namaKegiatan} oleh ${
+        orga.namaOrga || "Admin Organisasi"
+      } telah diajukan`,
       pengirim: pengguna.userId,
       penerima: "adminfti",
     });
@@ -405,7 +424,6 @@ exports.updateProfileOrg = async (req, res, next) => {
           ? tanggalBerdiri
           : org.tanggalBerdiri,
       logo: logo !== null ? logo : org.logo,
-      status: "Y",
       status: "Y",
     };
     await Organisasi.update(updatedOrg, { where: { idOrga: org.idOrga } });
@@ -737,7 +755,7 @@ exports.laporkgt = async (req, res) => {
   try {
     const idKegiatan = req.body.idKegiatan;
     if (!idKegiatan) {
-      return res.status(400).json({ message: "idKegiatan is required" });
+      return res.status(400).json({ message: "Belum ada Kegiatan" });
     }
     const kegiatan = await Kegiatan.findOne({
       where: { idKegiatan: idKegiatan },
