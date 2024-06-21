@@ -15,9 +15,35 @@ exports.login = async (req, res) => {
   try {
     const pengguna = await User.findOne({ where: { nim: req.body.nim } });
     if (!pengguna) {
-      res.status(404).json({ status: "error", msg: "Login failed" });
+      return res.render("login", {
+        alert: {
+          type: "error",
+          title: "Login failed",
+          text: "Username atau Password Salah",
+        },
+      });
     }
     const match = await bcrypt.compare(req.body.password, pengguna.password);
+
+    if (req.body.password === "" || req.body.nim === "") {
+      return res.render("login", {
+        alert: {
+          type: "error",
+          title: "Login failed",
+          text: "Username atau Password Salah",
+        },
+      });
+    }
+
+    if (!match) {
+      return res.render("login", {
+        alert: {
+          type: "error",
+          title: "Login failed",
+          text: "Username atau Password Salah",
+        },
+      });
+    }
     if (match) {
       const userId = pengguna.userId;
       const role = pengguna.role;
@@ -148,7 +174,7 @@ exports.login = async (req, res) => {
           res.status(401).json({ msg: "Invalid role" });
       }
     } else {
-      res.status(401).json({ status: "error", msg: "Login failed" });
+      return res.status(401).json({ status: "error", msg: "Login failed" });
     }
   } catch (error) {
     console.log(error);

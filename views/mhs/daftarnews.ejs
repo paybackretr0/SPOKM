@@ -12,6 +12,8 @@
       href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
       rel="stylesheet"
     />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <title>Pengajuan Publikasi</title>
   </head>
 
@@ -38,13 +40,12 @@
               type="text"
               placeholder="masukan nama penulis"
               name="penulis"
-              required
             />
           </div>
           <div class="inputbox">
             <h4 class="data">Data Publikasi</h4>
             <span>Kategori Publikasi</span>
-            <select id="namaKategori" name="kategori" required>
+            <select id="namaKategori" name="kategori">
               <option value="" disabled selected hidden>
                 ---Pilih Kategori Publikasi yang Sesuai---
               </option>
@@ -61,7 +62,6 @@
               type="text"
               placeholder="masukan NIM penulis"
               name="nimPenulis"
-              required
             />
           </div>
           <div class="inputbox">
@@ -70,7 +70,6 @@
               type="text"
               placeholder="masukan judul publikasi"
               name="judul"
-              required
             />
           </div>
           <div class="inputbox"></div>
@@ -89,7 +88,6 @@
               placeholder="pilih gambar"
               name="gambar"
               accept="image/*"
-              required
             />
           </div>
           <div class="inputbox"></div>
@@ -103,10 +101,7 @@
             />
           </div>
         </div>
-        <label
-          ><input type="checkbox" required />Informasi di atas sudah
-          benar</label
-        >
+        <label><input type="checkbox" />Informasi di atas sudah benar</label>
         <div class="tombol">
           <input
             type="submit"
@@ -131,15 +126,31 @@
                 });
 
                 if (response.ok) {
-                  alert("Informasi tersimpan");
-                  window.location.href = "daftarnews";
+                  Swal.fire({
+                    icon: "success",
+                    title: "Success",
+                    text: "Informasi tersimpan",
+                    confirmButtonText: "OK",
+                  }).then(() => {
+                    window.location.href = "/daftarnews";
+                  });
                 } else {
                   const errorData = await response.json();
-                  alert("Gagal menyimpan informasi: " + errorData.message);
+                  Swal.fire({
+                    icon: "error",
+                    title: "Invalid Data",
+                    text: errorData.message,
+                    confirmButtonText: "OK",
+                  });
                 }
               } catch (error) {
                 console.error("Error:", error);
-                alert("Terjadi kesalahan pada server");
+                Swal.fire({
+                  icon: "error",
+                  title: "Error",
+                  text: "Terjadi kesalahan pada server",
+                  confirmButtonText: "OK",
+                });
               }
             });
         </script>

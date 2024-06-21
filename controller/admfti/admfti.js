@@ -14,6 +14,16 @@ let nanoid;
 })();
 const bcrypt = require("bcrypt");
 
+function isPDF(file) {
+  const allowedExtensions = /(\.pdf)$/i;
+  return allowedExtensions.test(file.originalname);
+}
+
+function isImage(file) {
+  const allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+  return allowedExtensions.test(file.originalname);
+}
+
 function formatDate(dateString) {
   const date = new Date(dateString);
   const day = String(date.getDate()).padStart(2, "0");
@@ -127,9 +137,27 @@ exports.createNews = async (req, res) => {
     if (!pengguna) {
       return res.status(404).json({ message: "User tidak ditemukan" });
     }
-
+    const gambar =
+      req.files["gambar"] && isImage(req.files["gambar"][0])
+        ? req.files["gambar"][0].filename
+        : null;
+    if (!gambar) {
+      return res
+        .status(400)
+        .json({ message: "Gambar harus berupa file .png/.jpg/.jpeg" });
+    }
     const { judul, kategori, isi_berita, penulis, tanggalPengajuan } = req.body;
-    const gambar = req.file ? req.file.filename : null;
+    if (
+      !judul ||
+      !isi_berita ||
+      !kategori ||
+      !penulis ||
+      !tanggalPengajuan ||
+      !gambar
+    ) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+
     const today = new Date();
 
     await Berita.create({
@@ -171,17 +199,12 @@ exports.editNews = async (req, res) => {
   try {
     const users = await User.findByPk(req.userId);
     const beritas = await Berita.findByPk(req.params.idNews);
-    const notif = await Notifikasi.findAll({
-      where: { penerima: "adminfti" },
-      attributes: ["judul", "tanggal", "isi"],
-    });
     const kategoris = await Kategori.findAll();
     res.render("admfti/editNews", {
       accessToken: req.cookies.accessToken,
       users,
       beritas,
       kategoris,
-      notif,
     });
   } catch (error) {
     console.error(error);
@@ -294,10 +317,14 @@ exports.user = async (req, res) => {
       include: [
         {
           model: Mahasiswa,
+          role: {
+            [Op.not]: "adminfti",
+          },
         },
       ],
     });
-    const orga = await Organisasi.findAll({ where: { userId: users.userId } });
+    const userIds = users.map((user) => user.id);
+    const orga = await Organisasi.findAll({ where: { userId: userIds } });
     const notif = await Notifikasi.findAll({
       where: { penerima: "adminfti" },
       attributes: ["judul", "tanggal", "isi"],
@@ -344,9 +371,14 @@ exports.regisUser = async (req, res) => {
 
 exports.tambahUser = async (req, res) => {
   const { nim, password, passwordLagi, role } = req.body;
+  if (!nim || !password || !passwordLagi || !role) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
 
   if (password !== passwordLagi) {
-    return res.status(400).json({ msg: "Konfirmasi password tidak sesuai" });
+    return res
+      .status(400)
+      .json({ message: "Konfirmasi password tidak sesuai" });
   }
 
   try {

@@ -12,6 +12,8 @@
       href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
       rel="stylesheet"
     />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <title>Pendaftaran Kegiatan</title>
   </head>
 
@@ -38,7 +40,6 @@
               type="text"
               placeholder="masukan nama ketupel"
               name="namaKetupel"
-              required
             />
           </div>
           <div class="inputbox">
@@ -48,7 +49,6 @@
               type="text"
               placeholder="masukan nama kegiatan"
               name="namaKegiatan"
-              required
             />
           </div>
           <div class="inputbox">
@@ -57,7 +57,6 @@
               type="text"
               placeholder="masukan NIM ketupel"
               name="nimKetupel"
-              required
             />
           </div>
           <div class="inputbox">
@@ -66,7 +65,6 @@
               type="text"
               placeholder="masukan bidang kegiatan"
               name="bidangKegiatan"
-              required
             />
           </div>
           <div class="inputbox"></div>
@@ -76,23 +74,22 @@
               type="text"
               placeholder="masukan lingkup kegiatan"
               name="lingkupKegiatan"
-              required
             />
           </div>
           <div class="inputbox"></div>
           <div class="inputbox">
             <span>Deskripsi Kegiatan</span>
-            <textarea type="text" name="deskripsi" required></textarea>
+            <textarea type="text" name="deskripsi"></textarea>
           </div>
           <div class="inputbox"></div>
           <div class="inputbox">
             <span>Tanggal Mulai</span>
-            <input type="date" name="tanggalMulai" required />
+            <input type="date" name="tanggalMulai" />
           </div>
           <div class="inputbox"></div>
           <div class="inputbox">
             <span>Tanggal Selesai</span>
-            <input type="date" name="tanggalSelesai" required />
+            <input type="date" name="tanggalSelesai" />
           </div>
           <div class="inputbox"></div>
           <div class="inputbox">
@@ -107,7 +104,7 @@
           <div class="inputbox"></div>
           <div class="inputbox">
             <span>Penyelenggara</span>
-            <select id="penyelenggara" name="penyelenggara" required>
+            <select id="penyelenggara" name="penyelenggara">
               <option value="" disabled selected hidden>
                 ---Pilih Penyelenggara yang Sesuai---
               </option>
@@ -125,7 +122,6 @@
               placeholder="pilih file proposal"
               name="proposal"
               accept=".pdf"
-              required
             />
           </div>
           <div class="box">
@@ -135,14 +131,10 @@
               placeholder="pilih file logo"
               name="logo"
               accept="image/*"
-              required
             />
           </div>
         </div>
-        <label
-          ><input type="checkbox" required />Informasi di atas sudah
-          benar</label
-        >
+        <label><input type="checkbox" />Informasi di atas sudah benar</label>
         <div class="tombol">
           <input
             type="submit"
@@ -167,15 +159,31 @@
                 });
 
                 if (response.ok) {
-                  alert("Informasi tersimpan");
-                  window.location.href = "daftarkgt";
+                  Swal.fire({
+                    icon: "success",
+                    title: "Success",
+                    text: "Informasi tersimpan",
+                    confirmButtonText: "OK",
+                  }).then(() => {
+                    window.location.href = "/daftarkgt";
+                  });
                 } else {
                   const errorData = await response.json();
-                  alert("Gagal menyimpan informasi: " + errorData.message);
+                  Swal.fire({
+                    icon: "error",
+                    title: "Invalid Data",
+                    text: errorData.message,
+                    confirmButtonText: "OK",
+                  });
                 }
               } catch (error) {
                 console.error("Error:", error);
-                alert("Terjadi kesalahan pada server");
+                Swal.fire({
+                  icon: "error",
+                  title: "Error",
+                  text: "Terjadi kesalahan pada server",
+                  confirmButtonText: "OK",
+                });
               }
             });
         </script>
