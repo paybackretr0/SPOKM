@@ -12,6 +12,7 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
       rel="stylesheet"
     />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Tambah User</title>
   </head>
   <body class="login">
@@ -19,7 +20,7 @@
       <a href="/user" class="logo"><i class="bx bx-log-out-circle"></i></a>
     </section>
     <div class="wrapper">
-      <form action="/addUser" method="post">
+      <form action="/addUser" method="post" id="regis">
         <h1>Tambah User</h1>
         <h2>FTI Organizer Hub</h2>
         <div class="input-box">
@@ -50,6 +51,56 @@
         <button type="submit" name="login" class="log">Tambah</button>
       </form>
     </div>
+    <script>
+      document
+        .getElementById("regis")
+        .addEventListener("submit", async function (event) {
+          event.preventDefault();
+
+          const formData = new FormData(this);
+          const object = {};
+          formData.forEach((value, key) => (object[key] = value));
+          const json = JSON.stringify(object);
+
+          try {
+            const response = await fetch("/addUser", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: json,
+            });
+
+            if (response.ok) {
+              const data = await response.json();
+              Swal.fire({
+                icon: "success",
+                title: "Yeay!",
+                text: data.msg,
+                confirmButtonText: "OK",
+              }).then(() => {
+                window.location.href = "/user";
+              });
+            } else {
+              const errorData = await response.json();
+              Swal.fire({
+                icon: "error",
+                title: "Invalid Data",
+                text: errorData.message,
+                confirmButtonText: "OK",
+              });
+            }
+          } catch (error) {
+            console.error("Error:", error);
+            Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: "Terjadi kesalahan pada server",
+              confirmButtonText: "OK",
+            });
+          }
+        });
+    </script>
     <div id="notification-container" class="notification-container"></div>
     <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
     <script>

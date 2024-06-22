@@ -1,3 +1,4 @@
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <section class="header">
   <a href="/home" class="logo">FTI</a>
   <nav class="navbar">
@@ -73,10 +74,14 @@
         <% } %>
       </div>
     </div>
-    <% if (!mhs.nama) { %><a href="/home" class="chat"
-      ><i class="bx bx-chat"></i
-    ></a>
-    <% } else { %><a href="/room" class="chat"><i class="bx bx-chat"></i></a>
+    <% if (!mhs.nama) { %>
+    <a href="javascript:void(0);" class="chat" onclick="warnAndUpdate()">
+      <i class="bx bx-chat"></i>
+    </a>
+    <% } else { %>
+    <a href="/room" class="chat">
+      <i class="bx bx-chat"></i>
+    </a>
     <% } %>
     <img src="/img/fti.jpg" class="user-pic" onclick="toggleMenu()" />
     <div class="sub-menu-wrap" id="subMenu">
@@ -136,5 +141,20 @@
         }
       }
     };
+  </script>
+
+  <script>
+    function warnAndUpdate() {
+      Swal.fire({
+        title: "Update your data",
+        text: "Mohon lengkapi data diri anda terlebih dahulu!",
+        icon: "warning",
+        confirmButtonText: "OK",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = "/home";
+        }
+      });
+    }
   </script>
 </section>

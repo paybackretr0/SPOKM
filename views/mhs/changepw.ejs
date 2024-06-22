@@ -32,12 +32,17 @@
           event.preventDefault();
 
           const formData = new FormData(this);
-          console.log("FormData:", formData);
+          const object = {};
+          formData.forEach((value, key) => (object[key] = value));
+          const json = JSON.stringify(object);
 
           try {
             const response = await fetch("/ubahpw", {
               method: "POST",
-              body: formData,
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: json,
             });
 
             if (response.ok) {

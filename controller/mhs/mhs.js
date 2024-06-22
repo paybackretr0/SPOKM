@@ -142,7 +142,7 @@ exports.changepassword = async (req, res) => {
   }
 };
 
-exports.updatepassword = async (req, res, next) => {
+exports.updatepassword = async (req, res) => {
   try {
     const users = await User.findByPk(req.userId);
 
@@ -804,8 +804,16 @@ exports.laporkgt = async (req, res) => {
         ? req.files["dok3"][0].filename
         : null;
 
-    console.log("Datanya :", idKegiatan, jumlahPeserta);
-    console.log("Uploaded Files:", req.files);
+    if (
+      !idKegiatan ||
+      !jumlahPeserta ||
+      !laporanKegiatan ||
+      !dok1 ||
+      !dok2 ||
+      !dok3
+    ) {
+      return res.status(400).json({ message: "Semua bidang harus diisi" });
+    }
 
     if (!laporanKegiatan) {
       return res
@@ -817,17 +825,6 @@ exports.laporkgt = async (req, res) => {
       return res
         .status(400)
         .json({ message: "Dokumentasi harus berupa file gambar" });
-    }
-
-    if (
-      !idKegiatan ||
-      !jumlahPeserta ||
-      !laporanKegiatan ||
-      !dok1 ||
-      !dok2 ||
-      !dok3
-    ) {
-      return res.status(400).json({ message: "Semua bidang harus diisi" });
     }
 
     if (isNaN(jumlahPeserta)) {

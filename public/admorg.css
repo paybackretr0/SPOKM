@@ -857,6 +857,7 @@ textarea:focus {
 .booking .book-form .doc .box span {
   font-size: 1rem;
   color: var(--hitam);
+  text-transform: none;
 }
 
 .booking .book-form label {
@@ -1047,6 +1048,7 @@ textarea:focus::placeholder {
 .dafnews .dafnews-form .flex .inputbox span {
   font-size: 1rem;
   color: var(--hitam);
+  text-transform: none;
 }
 
 .dafnews .dafnews-form label {

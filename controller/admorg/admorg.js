@@ -142,16 +142,31 @@ exports.publikasi = async (req, res) => {
       return res.status(404).json({ message: "User tidak ditemukan" });
     }
 
-    let { penulis, kategori, judul, isi_berita, tanggalPengajuan } = req.body;
-    const gambar = req.file ? req.file.filename : null;
+    const { penulis, kategori, judul, isi_berita } = req.body;
+    const gambar = req.file && isImage(req.file) ? req.file.filename : null;
 
-    if (!penulis) {
-      penulis = orga.namaOrga;
-    }
-
-    if (!kategori || !judul || !isi_berita || !tanggalPengajuan || !gambar) {
+    if (!penulis || !kategori || !judul || !isi_berita) {
       return res.status(400).json({ message: "Semua bidang harus diisi" });
     }
+
+    if (
+      typeof penulis !== "string" ||
+      typeof judul !== "string" ||
+      typeof isi_berita !== "string" ||
+      !isNaN(penulis) ||
+      !isNaN(judul) ||
+      !isNaN(isi_berita)
+    ) {
+      return res.status(400).json({ message: " Data Tidak Valid" });
+    }
+
+    if (!gambar) {
+      return res
+        .status(400)
+        .json({ message: "gambar harus berupa file .png/.jpg/.jpeg" });
+    }
+
+    const tanggalPengajuan = new Date();
 
     await Berita.create({
       idNews: "B" + nanoid(7),
@@ -258,31 +273,64 @@ exports.dafkgt = async (req, res) => {
       bidangKegiatan,
       tanggalMulai,
       tanggalSelesai,
-      tanggalPengajuan,
       penyelenggara,
       lingkupKegiatan,
     } = req.body;
-    const logo = req.files["logo"] ? req.files["logo"][0].filename : null;
-    const proposal = req.files["proposal"]
-      ? req.files["proposal"][0].filename
-      : null;
+    const logo =
+      req.files && req.files["logo"] && isImage(req.files["logo"][0])
+        ? req.files["logo"][0].filename
+        : null;
+    const proposal =
+      req.files && req.files["proposal"] && isPDF(req.files["proposal"][0])
+        ? req.files["proposal"][0].filename
+        : null;
 
     if (
       !namaKegiatan ||
+      !deskripsi ||
       !namaKetupel ||
       !nimKetupel ||
-      !deskripsi ||
       !bidangKegiatan ||
+      !lingkupKegiatan ||
       !tanggalMulai ||
       !tanggalSelesai ||
-      !tanggalPengajuan ||
-      !penyelenggara ||
-      !lingkupKegiatan ||
-      !logo ||
-      !proposal
+      !penyelenggara
     ) {
-      return res.status(400).json({ message: "All fields are required" });
+      return res.status(400).json({ message: "Data tidak boleh kosong" });
     }
+
+    if (
+      typeof namaKegiatan !== "string" ||
+      typeof deskripsi !== "string" ||
+      typeof namaKetupel !== "string" ||
+      typeof bidangKegiatan !== "string" ||
+      typeof lingkupKegiatan !== "string" ||
+      !isNaN(namaKegiatan) ||
+      !isNaN(deskripsi) ||
+      !isNaN(namaKetupel) ||
+      !isNaN(bidangKegiatan) ||
+      !isNaN(lingkupKegiatan)
+    ) {
+      return res.status(400).json({ message: " Data Tidak Valid" });
+    }
+
+    if (isNaN(nimKetupel)) {
+      return res.status(400).json({ message: "NIM Ketupel harus angka" });
+    }
+
+    if (!logo) {
+      return res
+        .status(400)
+        .json({ message: "logo harus berupa file .png/.jpg/.jpeg" });
+    }
+
+    if (!proposal) {
+      return res
+        .status(400)
+        .json({ message: "proposal harus berupa file PDF" });
+    }
+
+    const tanggalPengajuan = new Date();
 
     await Kegiatan.create({
       idKegiatan: "K" + nanoid(7),
@@ -404,7 +452,9 @@ exports.updateProfileOrg = async (req, res, next) => {
       namaKetua,
       nimKetua,
     } = req.body;
-    const logo = req.file ? req.file.filename : null;
+
+    const logo =
+      req.files && req.files["logo"] && isImage(req.files["logo"][0]);
 
     const updatedOrg = {
       namaOrga:
@@ -543,8 +593,6 @@ exports.hapusAnggota = async (req, res) => {
     }
 
     await Anggota.destroy({ where: { idPengurus: idPengurus } });
-
-    res.redirect(`/anggota/${orga.idOrga}`);
   } catch (error) {
     console.error("Error saat menghapus anggota:", error);
     return res.status(500).json({ message: "Kesalahan Server" });
@@ -582,6 +630,7 @@ exports.updateAnggota = async (req, res) => {
     }
 
     const { nama, nim, jabatan, noHp, jenisKelamin } = req.body;
+
     await Anggota.update(
       {
         nama: nama !== undefined && nama !== "" ? nama : pengurus.nama,
@@ -768,9 +817,7 @@ exports.laporkgt = async (req, res) => {
     const jumlahPeserta = parseInt(req.body.jumlahPeserta);
 
     if (isNaN(jumlahPeserta)) {
-      return res
-        .status(400)
-        .json({ message: "Jumlah Peserta must be a number" });
+      return res.status(400).json({ message: "Jumlah Peserta harus angka" });
     }
 
     const laporanKegiatan =

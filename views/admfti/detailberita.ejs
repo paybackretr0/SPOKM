@@ -32,7 +32,10 @@
           >
           <label for="tanggalPublish"
             >Tanggal Publish:
-            <span><%= formatDate(berita.tanggalPublish) %></span></label
+            <span
+              ><% if ( berita.tanggalPublish === null ) { %> - <% } else { %>
+              <%= formatDate(berita.tanggalPublish) %> <% } %></span
+            ></label
           >
         </div>
       </div>

@@ -68,7 +68,10 @@
                       action="/deleteanggota/<%= anggota.idPengurus %>"
                       method="post"
                     >
-                      <button class="action-button-hapus" type="submit">
+                      <button
+                        class="action-button-hapus"
+                        onclick="confirmDelete('<%= anggota.idPengurus %>', '<%= orga.idOrga %>')"
+                      >
                         Hapus
                       </button>
                     </form>
@@ -81,7 +84,29 @@
         </div>
       </div>
     </section>
-
+    <script>
+      function confirmDelete(idPengurus, idOrga) {
+        Swal.fire({
+          title: "Apakah Anda Yakin Ingin Menghapus Anggota ini?",
+          icon: "question",
+          showCancelButton: true,
+          confirmButtonText: "Ya",
+          cancelButtonText: "Tidak",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire({
+              title: "Berhasil Dihapus!",
+              icon: "success",
+              confirmButtonText: "OK",
+            }).then((result) => {
+              if (result.isConfirmed) {
+                window.location = "/anggota/" + idOrga + "?berhasil-dihapus";
+              }
+            });
+          }
+        });
+      }
+    </script>
     <div id="notification-container" class="notification-container"></div>
     <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
     <script>

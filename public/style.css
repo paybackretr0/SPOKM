@@ -1474,7 +1474,7 @@ textarea:focus {
 .dafkgt .dafkgt-form .doc .box span {
   font-size: 1rem;
   color: var(--hitam);
-  text-transform: capitalize;
+  text-transform: none;
 }
 
 .dafkgt .dafkgt-form label {

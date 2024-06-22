@@ -12,6 +12,8 @@
       href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
       rel="stylesheet"
     />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <title>Laporan Kegiatan</title>
   </head>
 
@@ -48,29 +50,29 @@
           <div class="inputbox">
             <h4 class="data">Dokumen</h4>
             <span>Laporan Pertanggung Jawaban (.pdf)</span>
-            <input type="file" name="laporanKegiatan" />
+            <input type="file" name="laporanKegiatan" accept=".pdf" />
           </div>
           <div class="inputbox">
             <span>Jumlah Partisipan</span>
             <input
               type="text"
               name="jumlahPeserta"
-              style="appearance: none; -moz-appearance: textfield"
+              placeholder="Masukan jumlah partisipan kegiatan"
             />
           </div>
           <div class="inputbox">
             <span>Dokumentasi 1 (.jpg/.jpeg/.png)</span>
-            <input type="file" name="dok1" />
+            <input type="file" name="dok1" accept="image/*" />
           </div>
           <div class="inputbox"></div>
           <div class="inputbox">
             <span>Dokumentasi 2 (.jpg/.jpeg/.png)</span>
-            <input type="file" name="dok2" />
+            <input type="file" name="dok2" accept="image/*" />
           </div>
           <div class="inputbox"></div>
           <div class="inputbox">
             <span>Dokumentasi 3 (.jpg/.jpeg/.png)</span>
-            <input type="file" name="dok3" />
+            <input type="file" name="dok3" accept="image/*" />
           </div>
         </div>
         <div class="tombol">
@@ -97,15 +99,31 @@
                 });
 
                 if (response.ok) {
-                  alert("Informasi tersimpan");
-                  window.location.href = "lapor";
+                  Swal.fire({
+                    icon: "success",
+                    title: "Success",
+                    text: "Laporan Kegiatan berhasil diinputkan",
+                    confirmButtonText: "OK",
+                  }).then(() => {
+                    window.location.href = "/lapor";
+                  });
                 } else {
                   const errorData = await response.json();
-                  alert("Gagal menyimpan informasi: " + errorData.message);
+                  Swal.fire({
+                    icon: "error",
+                    title: "Invalid Data",
+                    text: errorData.message,
+                    confirmButtonText: "OK",
+                  });
                 }
               } catch (error) {
                 console.error("Error:", error);
-                alert("Terjadi kesalahan pada server");
+                Swal.fire({
+                  icon: "error",
+                  title: "Error",
+                  text: "Terjadi kesalahan pada server",
+                  confirmButtonText: "OK",
+                });
               }
             });
         </script>

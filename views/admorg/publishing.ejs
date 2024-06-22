@@ -12,6 +12,7 @@
       href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
       rel="stylesheet"
     />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Pengajuan Publikasi</title>
   </head>
 
@@ -82,15 +83,6 @@
             />
           </div>
           <div class="inputbox"></div>
-          <div class="inputbox">
-            <span>Tanggal Pengajuan <b>(MM/DD/YYYY)</b></span>
-            <input
-              type="date"
-              name="tanggalPengajuan"
-              id="tanggalPengajuan"
-              readonly
-            />
-          </div>
         </div>
         <label><input type="checkbox" />Informasi di atas sudah benar</label>
         <div class="tombol">
@@ -117,15 +109,31 @@
                 });
 
                 if (response.ok) {
-                  alert("Informasi tersimpan");
-                  window.location.href = "dafnews";
+                  Swal.fire({
+                    icon: "success",
+                    title: "Success",
+                    text: "Publikasi Berhasil Dijukan",
+                    confirmButtonText: "OK",
+                  }).then(() => {
+                    window.location.href = "/dafnews";
+                  });
                 } else {
                   const errorData = await response.json();
-                  alert("Gagal menyimpan informasi: " + errorData.message);
+                  Swal.fire({
+                    icon: "error",
+                    title: "Invalid Data",
+                    text: errorData.message,
+                    confirmButtonText: "OK",
+                  });
                 }
               } catch (error) {
                 console.error("Error:", error);
-                alert("Terjadi kesalahan pada server");
+                Swal.fire({
+                  icon: "error",
+                  title: "Error",
+                  text: "Terjadi kesalahan pada server",
+                  confirmButtonText: "OK",
+                });
               }
             });
         </script>
