@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/assets/admorg.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Edit Profile Organisasi</title>
   </head>
   <body class="editprofil">
@@ -13,6 +14,7 @@
         action="/editorga/<%= org.idOrga %>"
         method="POST"
         class="edit-form"
+        id="editP"
         enctype="multipart/form-data"
       >
         <label for="namaOrga">Nama Organisasi</label>
@@ -118,6 +120,48 @@
           }, 300);
         }, 5000);
       }
+    </script>
+    <script>
+      document
+        .getElementById("editP")
+        .addEventListener("submit", async function (event) {
+          event.preventDefault();
+
+          const formData = new FormData(this);
+          try {
+            const response = await fetch("/editorga/<%= org.idOrga %>", {
+              method: "POST",
+              body: formData,
+            });
+
+            if (response.ok) {
+              Swal.fire({
+                icon: "success",
+                title: "Success",
+                text: "Data berhasil diupdate",
+                confirmButtonText: "OK",
+              }).then(() => {
+                window.location.href = "/orga";
+              });
+            } else {
+              const errorData = await response.json();
+              Swal.fire({
+                icon: "error",
+                title: "Invalid Data",
+                text: errorData.message,
+                confirmButtonText: "OK",
+              });
+            }
+          } catch (error) {
+            console.error("Error:", error);
+            Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: "Terjadi kesalahan pada server",
+              confirmButtonText: "OK",
+            });
+          }
+        });
     </script>
   </body>
 </html>

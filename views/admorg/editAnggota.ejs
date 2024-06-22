@@ -6,6 +6,7 @@
       href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
       rel="stylesheet"
     />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Edit Data Pengurus</title>
   </head>
   <body>
@@ -67,26 +68,49 @@
         .addEventListener("submit", async function (event) {
           event.preventDefault();
 
-          const formData = new URLSearchParams(new FormData(this));
+          const formData = new FormData(this);
+          const object = {};
+          formData.forEach((value, key) => (object[key] = value));
+          const json = JSON.stringify(object);
           try {
-            const response = await fetch(this.action, {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-              },
-              body: formData.toString(),
-            });
+            const response = await fetch(
+              "/editPengurus/<%= anggota.idPengurus %>",
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: json,
+              }
+            );
 
             if (response.ok) {
-              alert("Informasi tersimpan");
-              window.location.href = "/anggota/<%= orga.idOrga %>";
+              const data = await response.json();
+              Swal.fire({
+                icon: "success",
+                title: "Success",
+                text: data.message,
+                confirmButtonText: "OK",
+              }).then(() => {
+                window.location.href = "/anggota/<%= orga.idOrga %>";
+              });
             } else {
               const errorData = await response.json();
-              alert("Gagal menyimpan informasi: " + errorData.message);
+              Swal.fire({
+                icon: "error",
+                title: "Invalid Data",
+                text: errorData.message,
+                confirmButtonText: "OK",
+              });
             }
           } catch (error) {
             console.error("Error:", error);
-            alert("Terjadi kesalahan pada server");
+            Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: "Terjadi kesalahan pada server",
+              confirmButtonText: "OK",
+            });
           }
         });
     </script>

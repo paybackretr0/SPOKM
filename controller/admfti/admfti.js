@@ -137,16 +137,10 @@ exports.createNews = async (req, res) => {
     if (!pengguna) {
       return res.status(404).json({ message: "User tidak ditemukan" });
     }
-    const gambar =
-      req.files["gambar"] && isImage(req.files["gambar"][0])
-        ? req.files["gambar"][0].filename
-        : null;
-    if (!gambar) {
-      return res
-        .status(400)
-        .json({ message: "Gambar harus berupa file .png/.jpg/.jpeg" });
-    }
+
     const { judul, kategori, isi_berita, penulis, tanggalPengajuan } = req.body;
+    const gambar = req.file && isImage(req.file) ? req.file.filename : null;
+
     if (
       !judul ||
       !isi_berita ||
@@ -156,6 +150,12 @@ exports.createNews = async (req, res) => {
       !gambar
     ) {
       return res.status(400).json({ message: "All fields are required" });
+    }
+
+    if (!gambar) {
+      return res
+        .status(400)
+        .json({ message: "Gambar harus berupa file .png/.jpg/.jpeg" });
     }
 
     const today = new Date();
@@ -372,7 +372,13 @@ exports.regisUser = async (req, res) => {
 exports.tambahUser = async (req, res) => {
   const { nim, password, passwordLagi, role } = req.body;
   if (!nim || !password || !passwordLagi || !role) {
-    return res.status(400).json({ message: "All fields are required" });
+    return res.status(400).json({ message: "Semua Bidang harus Diisi" });
+  }
+
+  const user = await User.findAll();
+  const cekNim = user.find((user) => user.nim === nim);
+  if (cekNim) {
+    return res.status(400).json({ message: "NIM sudah terdaftar" });
   }
 
   if (password !== passwordLagi) {
