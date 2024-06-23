@@ -6,6 +6,7 @@
       href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
       rel="stylesheet"
     />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Edit Publikasi</title>
   </head>
   <body>
@@ -56,14 +57,6 @@
               name="penulis"
               placeholder="<%= beritas.penulis %>"
             />
-
-            <label for="tanggalPengajuan">Tanggal</label>
-            <input
-              type="date"
-              id="tanggalPengajuan"
-              name="tanggalPengajuan"
-              readonly
-            />
           </div>
           <div class="button-containert">
             <input type="submit" value="Simpan" />
@@ -80,22 +73,37 @@
 
           const formData = new FormData(this);
           try {
-            const response = await fetch(this.action, {
+            const response = await fetch("/editBerita/<%= beritas.idNews %>", {
               method: "POST",
               body: formData,
             });
 
             if (response.ok) {
-              const responseData = await response.json();
-              alert("Informasi tersimpan");
-              window.location.href = "/news";
+              Swal.fire({
+                icon: "success",
+                title: "Success",
+                text: "Informasi tersimpan",
+                confirmButtonText: "OK",
+              }).then(() => {
+                window.location.href = "/news";
+              });
             } else {
               const errorData = await response.json();
-              alert("Gagal menyimpan informasi: " + errorData.message);
+              Swal.fire({
+                icon: "error",
+                title: "Invalid Data",
+                text: errorData.message,
+                confirmButtonText: "OK",
+              });
             }
           } catch (error) {
             console.error("Error:", error);
-            alert("Terjadi kesalahan pada server");
+            Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: "Terjadi kesalahan pada server",
+              confirmButtonText: "OK",
+            });
           }
         });
     </script>

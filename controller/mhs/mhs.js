@@ -735,6 +735,9 @@ exports.komentar = async (req, res) => {
       return res.status(404).json({ message: "User tidak ditemukan" });
     }
     const { komentar, namaPengirim } = req.body;
+    if (!komentar || !namaPengirim) {
+      return res.status(400).json({ message: "Semua bidang harus diisi" });
+    }
     await Komentar.create({
       idKomentar: "COM" + nanoid(5),
       idNews: req.params.idNews,

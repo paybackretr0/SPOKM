@@ -43,7 +43,11 @@
           </div>
           <%})%>
           <div class="comment">
-            <form action="/komentar/<%= beritas.idNews%>" method="post">
+            <form
+              action="/komentar/<%= beritas.idNews%>"
+              method="post"
+              id="komen"
+            >
               <h3>Beri Komentar</h3>
               <div class="box-komen">
                 <label for="komentar">Isi Komentar</label>
@@ -146,6 +150,54 @@
           }, 300);
         }, 5000);
       }
+    </script>
+    <script>
+      document
+        .getElementById("komen")
+        .addEventListener("submit", async function (event) {
+          event.preventDefault();
+
+          const formData = new FormData(this);
+          const object = {};
+          formData.forEach((value, key) => (object[key] = value));
+          const json = JSON.stringify(object);
+          try {
+            const response = await fetch("/komentar/<%= beritas.idNews%>", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: json,
+            });
+
+            if (response.ok) {
+              Swal.fire({
+                icon: "success",
+                title: "Success",
+                text: "Informasi tersimpan",
+                confirmButtonText: "OK",
+              }).then(() => {
+                window.location.href = "/detailNews/<%= beritas.idNews%>";
+              });
+            } else {
+              const errorData = await response.json();
+              Swal.fire({
+                icon: "error",
+                title: "Invalid Data",
+                text: errorData.message,
+                confirmButtonText: "OK",
+              });
+            }
+          } catch (error) {
+            console.error("Error:", error);
+            Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: "Terjadi kesalahan pada server",
+              confirmButtonText: "OK",
+            });
+          }
+        });
     </script>
   </body>
 </html>

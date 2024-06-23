@@ -74,58 +74,33 @@
           kualitas dan keterlibatan dalam kegiatan mahasiswa dengan menggunakan
           sistem ini!
         </p>
-        <a href="" class="btn">read more</a>
       </div>
     </section>
+    <% if (org || kgt) { %>
     <section class="home-latest">
       <h2>Organisasi dan Kegiatan Terbaru</h2>
       <div class="content">
         <div class="box">
+          <% org.forEach((orga) => { %>
           <div class="isian">
-            <h3>Himpunan Mahasiswa Informatika</h3>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione
-              eum laborum modi dolorum. Ea velit blanditiis animi soluta
-              repellendus aliquam pariatur, repudiandae quidem voluptas rem,
-              natus dolorum quasi debitis! Tempore.
-            </p>
-            <a href="" class="btn">read more</a>
+            <h3><%= orga.namaOrga %></h3>
+            <p><%= orga.deskripsi %></p>
+            <a href="/org" class="btn">read more</a>
           </div>
-          <div class="isian">
-            <h3>Technofest 2024</h3>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione
-              eum laborum modi dolorum. Ea velit blanditiis animi soluta
-              repellendus aliquam pariatur, repudiandae quidem voluptas rem,
-              natus dolorum quasi debitis! Tempore.
-            </p>
-            <a href="" class="btn">read more</a>
-          </div>
+          <% }) %>
         </div>
         <div class="box">
+          <% kgt.forEach((kegiatan) => { %>
           <div class="isian">
-            <h3>BAKTI FTI 2024</h3>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione
-              eum laborum modi dolorum. Ea velit blanditiis animi soluta
-              repellendus aliquam pariatur, repudiandae quidem voluptas rem,
-              natus dolorum quasi debitis! Tempore.
-            </p>
-            <a href="" class="btn">read more</a>
+            <h3><%= kegiatan.namaKegiatan %></h3>
+            <p><%= kegiatan.deskripsi %></p>
+            <a href="/activity" class="btn">read more</a>
           </div>
-          <div class="isian">
-            <h3>Rekrutmen Asisten Labor</h3>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione
-              eum laborum modi dolorum. Ea velit blanditiis animi soluta
-              repellendus aliquam pariatur, repudiandae quidem voluptas rem,
-              natus dolorum quasi debitis! Tempore.
-            </p>
-            <a href="" class="btn">read more</a>
-          </div>
+          <% }) %>
         </div>
       </div>
     </section>
+    <% } %>
     <section class="kalender">
       <div class="kalendar" id="calendar"></div>
       <div class="image"></div>

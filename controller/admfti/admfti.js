@@ -14,11 +14,6 @@ let nanoid;
 })();
 const bcrypt = require("bcrypt");
 
-function isPDF(file) {
-  const allowedExtensions = /(\.pdf)$/i;
-  return allowedExtensions.test(file.originalname);
-}
-
 function isImage(file) {
   const allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
   return allowedExtensions.test(file.originalname);
@@ -215,7 +210,7 @@ exports.editNews = async (req, res) => {
 exports.editBerita = async (req, res) => {
   try {
     const idNews = req.params.idNews;
-    const { judul, kategori, isi_berita, penulis, tanggalPengajuan } = req.body;
+    const { judul, kategori, isi_berita, penulis } = req.body;
     const gambar = req.file ? req.file.filename : null;
 
     console.log("Incoming data:", {
@@ -224,7 +219,6 @@ exports.editBerita = async (req, res) => {
       isi_berita,
       gambar,
       penulis,
-      tanggalPengajuan,
     });
     console.log("idNews from params:", idNews);
 
@@ -250,10 +244,6 @@ exports.editBerita = async (req, res) => {
           : beritas.isi_berita,
       penulis:
         penulis !== undefined && penulis !== "" ? penulis : beritas.penulis,
-      tanggalPengajuan:
-        tanggalPengajuan !== undefined && tanggalPengajuan !== ""
-          ? tanggalPengajuan
-          : beritas.tanggalPengajuan,
     };
 
     if (gambar !== null) {

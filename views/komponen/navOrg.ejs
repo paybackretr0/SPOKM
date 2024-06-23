@@ -1,3 +1,4 @@
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <section class="header">
   <a href="/" class="logo">FTI</a>
   <nav class="navbar">
@@ -80,8 +81,8 @@
           <span>></span></a
         >
         <hr />
-        <form action="/logout" method="post">
-          <button type="submit" class="logut">
+        <form action="/logout" method="post" id="logoutForm">
+          <button type="submit" id="logoutBtn" class="logut">
             <i class="bx bxs-log-out"></i> <span>Logout</span>
           </button>
         </form>
@@ -130,5 +131,33 @@
     function toggleMenuMenu() {
       subFungs.classList.toggle("open-fungs");
     }
+  </script>
+  <script>
+    document
+      .getElementById("logoutBtn")
+      .addEventListener("click", function (event) {
+        event.preventDefault();
+        Swal.fire({
+          title: "Mau Logout?",
+          text: "Kamu Yakin Mau Ninggalin Aku? 🥺",
+          icon: "question",
+          showCancelButton: true,
+          confirmButtonText: "Ya",
+          cancelButtonText: "Tidak",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire({
+              title: "Berhasil Logout!",
+              text: "Jangan Lupa Mampir Lagi ya...",
+              icon: "success",
+              confirmButtonText: "OK",
+            }).then((result) => {
+              if (result.isConfirmed) {
+                document.getElementById("logoutForm").submit();
+              }
+            });
+          }
+        });
+      });
   </script>
 </section>

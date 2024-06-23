@@ -62,6 +62,16 @@ exports.admorg = async (req, res) => {
       attributes: ["judul", "tanggal", "isi"],
       order: [["createdAt", "DESC"]],
     });
+    const org = await Organisasi.findAll({
+      where: { status: "Y" },
+      limit: 2,
+      order: [["createdAt", "DESC"]],
+    });
+    const kgt = await Kegiatan.findAll({
+      where: { status: "Y" },
+      limit: 2,
+      order: [["createdAt", "DESC"]],
+    });
     res.render("admorg/organisasi", {
       accessToken: req.cookies.accessToken,
       pengguna,
@@ -70,6 +80,8 @@ exports.admorg = async (req, res) => {
       berita,
       formatDate,
       notifs,
+      org,
+      kgt,
     });
   } catch (error) {
     console.error(error);

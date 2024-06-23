@@ -34,6 +34,8 @@ io.on("connection", (socket) => {
   });
 });
 
+chat(io);
+
 app.set("io", io);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -44,8 +46,6 @@ app.use(express.static("uploads"));
 app.use("/assets", express.static("public"));
 app.use(cookieParser());
 app.use("/", router);
-
-chat(io);
 
 server.listen(port, () => {
   console.log(`Aplikasi jalan pada port ${port}`);

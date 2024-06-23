@@ -95,8 +95,8 @@
           <span>></span></a
         >
         <hr />
-        <form action="/logout" method="post">
-          <button type="submit" class="logut">
+        <form action="/logout" method="post" id="logoutForm">
+          <button type="submit" class="logut" id="logoutBtn">
             <i class="bx bxs-log-out"></i> <span>Logout</span>
           </button>
         </form>
@@ -156,5 +156,34 @@
         }
       });
     }
+  </script>
+
+  <script>
+    document
+      .getElementById("logoutBtn")
+      .addEventListener("click", function (event) {
+        event.preventDefault();
+        Swal.fire({
+          title: "Mau Logout?",
+          text: "Kamu Yakin Mau Ninggalin Aku? 🥺",
+          icon: "question",
+          showCancelButton: true,
+          confirmButtonText: "Ya",
+          cancelButtonText: "Tidak",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire({
+              title: "Berhasil Logout!",
+              text: "Jangan Lupa Mampir Lagi ya...",
+              icon: "success",
+              confirmButtonText: "OK",
+            }).then((result) => {
+              if (result.isConfirmed) {
+                document.getElementById("logoutForm").submit();
+              }
+            });
+          }
+        });
+      });
   </script>
 </section>

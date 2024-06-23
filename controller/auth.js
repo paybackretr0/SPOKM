@@ -152,6 +152,8 @@ exports.login = async (req, res) => {
             orga,
             kegiatan,
             berita,
+            org,
+            kgt,
             formatDate,
             notifs,
           });

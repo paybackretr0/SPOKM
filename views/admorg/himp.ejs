@@ -40,7 +40,29 @@
       <h1 class="heading-title">Belum Ada Informasi</h1>
       <% } %>
     </section>
-    <script src="/js/script.js"></script>
+    <script>
+      let loadMoreBtn = document.querySelector(".packages .load-more .btn");
+      let currentItem = 3;
+
+      if (loadMoreBtn) {
+        loadMoreBtn.onclick = () => {
+          let boxes = [
+            ...document.querySelectorAll(".packages .box-container .box"),
+          ];
+          for (
+            let i = currentItem;
+            i < currentItem + 3 && i < boxes.length;
+            i++
+          ) {
+            boxes[i].style.display = "inline-block";
+          }
+          currentItem += 3;
+          if (currentItem >= boxes.length) {
+            loadMoreBtn.style.display = "none";
+          }
+        };
+      }
+    </script>
     <div id="notification-container" class="notification-container"></div>
     <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
     <script>
