@@ -6,7 +6,6 @@ const mahasiswa = require("../controller/mhs/mhs");
 const org = require("../controller/admorg/admorg");
 const fti = require("../controller/admfti/admfti");
 const verif = require("../middleware/verifyToken");
-const token = require("../controller/refreshToken");
 const login = require("../controller/login");
 const redirectIfLoggedIn = require("../middleware/loggedIn");
 const checkRole = require("../middleware/checkRole");
@@ -363,8 +362,6 @@ router.get(
 );
 
 router.post("/logout", user.logout);
-router.get("/token", token.refreshToken);
-
 router.get("/api/kegiatan", login.kegiatan);
 
 module.exports = router;
